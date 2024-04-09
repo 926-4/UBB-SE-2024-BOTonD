@@ -2,7 +2,8 @@
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
+        private static readonly List<string> TeamMembers = ["Boti", "Cipri", "Ioan", "Norby", "Victor"];
+        int index = -1;
 
         public MainPage()
         {
@@ -11,13 +12,9 @@
 
         private void OnCounterClicked(object sender, EventArgs e)
         {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
+            index++;
+            index %= TeamMembers.Count();
+            CounterBtn.Text = $"Hello {TeamMembers[index]} !";
             SemanticScreenReader.Announce(CounterBtn.Text);
         }
     }
