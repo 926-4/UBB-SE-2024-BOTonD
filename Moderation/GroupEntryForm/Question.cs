@@ -1,25 +1,33 @@
-﻿namespace Moderation.GroupEntryForm
+﻿using CoreText;
+
+namespace Moderation.GroupEntryForm
 {
-    public interface IQuestion
+    public abstract class Question
     {
-        string Text { set;  get; }
-    
-    }
-    public class TextQuestion(String text) : IQuestion
-    {
-        public string Text { get; set; } = text;
-    }
-    public class SliderQuestion(String text, int min, int max) : IQuestion
-    {
+        public string Text { get; }
+        public Guid Id { get; } = Guid.NewGuid();
 
-        public int Min { get; set; } = min;
-        public int Max { get; set; } = max;
-        public string Text { get; set; } = text;
+        public Question(string text)
+        {
+            Text = text;
+        }
     }
-    public class RadioQuestion(String text, List<string> options) : IQuestion
-    {
 
+    public class TextQuestion(string text) : Question(text)
+    {
+    }
+    public class SliderQuestion(string text, int min, int max) : Question(text)
+    {
+        public int Min { get; } = min;
+        public int Max { get; } = max;
+    }
+    public class RadioQuestion(String text, List<string> options) : Question(text)
+    {
         public List<string> Options { get; set; } = options;
-        public string Text { get; set; } = text;
+    }
+    public class QuestionRepository
+    {
+        private List<Question> data;
+
     }
 }
