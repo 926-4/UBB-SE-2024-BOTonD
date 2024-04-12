@@ -11,7 +11,13 @@ public partial class GroupEntryForm : ContentPage
     private void CreateForm()
     {
         var stackLayout = new StackLayout();
-        stackLayout.Children.Add(new Label { Text = "Welcome to the group" });
+
+        var titleLabel = new Label
+        {
+            Text = "Welcome to the group",
+        };
+
+        stackLayout.Children.Add(titleLabel);
         foreach (var question in formQuestions)
         {
             var questionControl = QuestionDisplayFactory.GetQuestionDisplay(question);

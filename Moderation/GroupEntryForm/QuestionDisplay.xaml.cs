@@ -1,31 +1,31 @@
-
-
 namespace Moderation.GroupEntryForm;
 
 public abstract partial class QuestionDisplay : ContentView
 {
-    public abstract string GetQuestion();
-    public abstract string GetResponse();
-}
-public class TextQuestionDisplay : QuestionDisplay
-{
-    private readonly TextQuestion question;
-    public TextQuestionDisplay(TextQuestion question)
+    protected Question question;
+    public QuestionDisplay(Question question)
     {
         this.question = question;
-        Content = new StackLayout();
+        Content = new StackLayout
+        {
+            Margin = new Thickness(20),
+            Spacing = 6
+        };
+        ((StackLayout)Content).Children.Add(new Label { Text = question.Text });
         CreateContent();
     }
-
-    public override string GetQuestion()
+    public string GetQuestion()
     {
         return question.Text;
     }
-    private void CreateContent()
+    public abstract string GetResponse();
+    protected abstract void CreateContent();
+}
+public class TextQuestionDisplay(TextQuestion question) : QuestionDisplay(question)
+{
+    protected override void CreateContent()
     {
-        var QuestionTextLabel = new Label { Text = question.Text };
-        var InputArea = new ScrollView { Content = new Editor() , VerticalScrollBarVisibility = ScrollBarVisibility.Always };
-        ((StackLayout)Content).Children.Add(QuestionTextLabel);
+        var InputArea = new Editor();
         ((StackLayout)Content).Children.Add(InputArea);
     }
 
@@ -33,38 +33,25 @@ public class TextQuestionDisplay : QuestionDisplay
     {
         var BoxWithTextInputIndex = 1;
         var MainComponentLayout = (StackLayout)Content;
-        var BoxWithTextInput = (ScrollView)MainComponentLayout.Children[BoxWithTextInputIndex];
-        var TextInput = (Editor)BoxWithTextInput.Content;
-        return TextInput.Text;
+        var BoxWithTextInput = (Editor)MainComponentLayout.Children[BoxWithTextInputIndex];
+        return BoxWithTextInput.Text;
     }
 }
 
-public class SliderQuestionDisplay : QuestionDisplay
+public class SliderQuestionDisplay(Question question) : QuestionDisplay(question)
 {
-    private readonly SliderQuestion question;
-    public SliderQuestionDisplay(SliderQuestion question)
+    protected override void CreateContent()
     {
-        this.question = question;
-        Content = new StackLayout();
-        CreateContent();
-    }
-    public override string GetQuestion()
-    {
-        return question.Text;
-    }
-
-    private void CreateContent()
-    {
-        var slider = new Slider { Minimum = question.Min, Maximum = question.Max };
-        var minValueLabel = new Label { Text = question.Min.ToString(), HorizontalOptions = LayoutOptions.Start };
-        var maxValueLabel = new Label { Text = question.Max.ToString(), HorizontalOptions = LayoutOptions.End };
+        var sliderQuestion = question as SliderQuestion;
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        var slider = new Slider { Minimum = sliderQuestion.Min, Maximum = sliderQuestion.Max };
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        var minValueLabel = new Label { Text = sliderQuestion.Min.ToString(), HorizontalOptions = LayoutOptions.Start };
+        var maxValueLabel = new Label { Text = sliderQuestion.Max.ToString(), HorizontalOptions = LayoutOptions.End };
 
         var grid = new Grid();
-
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = 5 });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = 5 });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto }); 
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
         grid.Children.Add(minValueLabel);
@@ -72,19 +59,16 @@ public class SliderQuestionDisplay : QuestionDisplay
         grid.Children.Add(maxValueLabel);
 
         Grid.SetColumn(minValueLabel, 0);
-        Grid.SetColumn(slider, 2);
-        Grid.SetColumn(maxValueLabel, 4);
+        Grid.SetColumn(slider, 1);
+        Grid.SetColumn(maxValueLabel, 2);
 
-        var questionText = new Label { Text = question.Text };
-
-        ((StackLayout)Content).Children.Add(questionText);
         ((StackLayout)Content).Children.Add(grid);
     }
 
     public override string GetResponse()
     {
         var GridIndexInMainLayout = 1;
-        var SliderIndex = 2;
+        var SliderIndex = 1;
         var MainComponentLayout = (StackLayout)Content;
         var Grid = (Grid)MainComponentLayout.Children[GridIndexInMainLayout];
         var Slider = (Slider)Grid.Children[SliderIndex];
