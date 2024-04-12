@@ -1,69 +1,70 @@
 
+
 namespace Moderation.GroupEntryForm;
 
-public interface IQuestionDisplay
+public abstract partial class QuestionDisplay : ContentView
 {
-    Layout Content();
-    string GetResponse();
+    public abstract string GetQuestion();
+    public abstract string GetResponse();
 }
-public class TextQuestionDisplay : IQuestionDisplay
+public class TextQuestionDisplay : QuestionDisplay
 {
     private readonly TextQuestion question;
-    private Layout content;
-    public Layout Content()
-    {
-        return content;
-    }
     public TextQuestionDisplay(TextQuestion question)
     {
         this.question = question;
-        CreateControl();
+        Content = new StackLayout();
+        CreateContent();
     }
 
-    private void CreateControl()
+    public override string GetQuestion()
     {
-        var scrollView = new ScrollView
-        {
-            Content = new Editor()
-        };
-
-        var QuestionControl = new StackLayout();
-        var QuestionText = new Label { Text = question.Text };
-        content.Children.Add(QuestionText);
-        content.Children.Add(scrollView);
+        return question.Text;
+    }
+    private void CreateContent()
+    {
+        var QuestionTextLabel = new Label { Text = question.Text };
+        var InputArea = new ScrollView { Content = new Editor() , VerticalScrollBarVisibility = ScrollBarVisibility.Always };
+        ((StackLayout)Content).Children.Add(QuestionTextLabel);
+        ((StackLayout)Content).Children.Add(InputArea);
     }
 
-    public string GetResponse()
+    public override string GetResponse()
     {
-        return "";
+        var BoxWithTextInputIndex = 1;
+        var MainComponentLayout = (StackLayout)Content;
+        var BoxWithTextInput = (ScrollView)MainComponentLayout.Children[BoxWithTextInputIndex];
+        var TextInput = (Editor)BoxWithTextInput.Content;
+        return TextInput.Text;
     }
 }
 
-public class SliderQuestionDisplay : IQuestionDisplay
+public class SliderQuestionDisplay : QuestionDisplay
 {
     private readonly SliderQuestion question;
-    public Layout content;
-
     public SliderQuestionDisplay(SliderQuestion question)
     {
         this.question = question;
-        CreateControl();
+        Content = new StackLayout();
+        CreateContent();
+    }
+    public override string GetQuestion()
+    {
+        return question.Text;
     }
 
-    private void CreateControl()
+    private void CreateContent()
     {
-        var slider = new Slider
-        {
-            Minimum = question.Min,
-            Maximum = question.Max
-        };
-
+        var slider = new Slider { Minimum = question.Min, Maximum = question.Max };
         var minValueLabel = new Label { Text = question.Min.ToString(), HorizontalOptions = LayoutOptions.Start };
         var maxValueLabel = new Label { Text = question.Max.ToString(), HorizontalOptions = LayoutOptions.End };
 
         var grid = new Grid();
+
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = 5 });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = 5 });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
         grid.Children.Add(minValueLabel);
@@ -71,23 +72,35 @@ public class SliderQuestionDisplay : IQuestionDisplay
         grid.Children.Add(maxValueLabel);
 
         Grid.SetColumn(minValueLabel, 0);
-        Grid.SetColumn(slider, 1);
-        Grid.SetColumn(maxValueLabel, 2);
+        Grid.SetColumn(slider, 2);
+        Grid.SetColumn(maxValueLabel, 4);
 
-        var QuestionControl = new StackLayout();
-        var QuestionText = new Label { Text = question.Text };
-        QuestionControl.Children.Add(QuestionText);
-        QuestionControl.Children.Add(grid);
-        this.content = QuestionControl;
+        var questionText = new Label { Text = question.Text };
+
+        ((StackLayout)Content).Children.Add(questionText);
+        ((StackLayout)Content).Children.Add(grid);
     }
 
-    public string GetResponse()
+    public override string GetResponse()
     {
-        return "";
-    }
+        var GridIndexInMainLayout = 1;
+        var SliderIndex = 2;
+        var MainComponentLayout = (StackLayout)Content;
+        var Grid = (Grid)MainComponentLayout.Children[GridIndexInMainLayout];
+        var Slider = (Slider)Grid.Children[SliderIndex];
 
-    public Layout Content()
+        return Slider.Value.ToString();
+    }
+}
+public class QuestionDisplayFactory 
+{
+    public static QuestionDisplay GetQuestionDisplay(Question question)
     {
-        return content;
+        return question switch
+        {
+            TextQuestion textQuestion => new TextQuestionDisplay(textQuestion),
+            SliderQuestion sliderQuestion => new SliderQuestionDisplay(sliderQuestion),
+            _ => throw new NotSupportedException("Question type not supported."),
+        };
     }
 }
