@@ -30,6 +30,13 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
+            <VerticalStackLayout>
+                <Button 
+                    x:Name="JoinGroupButton"
+                    Text="Join group" 
+                    Clicked="OnJoinGroupClicked"
+                    HorizontalOptions="Fill"/>
+            </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 
