@@ -15,7 +15,7 @@ namespace Moderation
         private void OnCounterClicked(object sender, EventArgs e)
         {
             index++;
-            index %= TeamMembers.Count();
+            index %= TeamMembers.Count;
             CounterBtn.Text = $"Hello {TeamMembers[index]} !";
             SemanticScreenReader.Announce(CounterBtn.Text);
         }
@@ -26,7 +26,8 @@ namespace Moderation
                     new SliderQuestion("How good do you feel today?", 0 , 10),
                     new TextQuestion("What is your name?"),
                     new TextQuestion("Why do you want to join this group?"),
-                    new SliderQuestion("How much do you want to join this group?", 0, 1)
+                    new SliderQuestion("How much do you want to join this group?", 0, 1),
+                    new TextQuestion("Extra question???")
                 ]));
         }
     }

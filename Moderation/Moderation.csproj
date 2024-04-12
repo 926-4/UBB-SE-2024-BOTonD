@@ -76,6 +76,9 @@
 	  <MauiXaml Update="GroupEntryForm\GroupEntryForm.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="GroupEntryForm\QuestionDisplay.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>

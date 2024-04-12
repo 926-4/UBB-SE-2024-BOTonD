@@ -14,7 +14,7 @@ public partial class GroupEntryForm : ContentPage
         stackLayout.Children.Add(new Label { Text = "Welcome to the group" });
         foreach (var question in formQuestions)
         {
-            View questionControl = GroupEntryForm.CreateQuestionControl(question);
+            var questionControl = QuestionDisplayFactory.GetQuestionDisplay(question);
             stackLayout.Children.Add(questionControl);
         }
         var submitButton = SubmitButton();
@@ -36,76 +36,17 @@ public partial class GroupEntryForm : ContentPage
         var questionsLayout = (StackLayout)((ScrollView)Content).Content;
         foreach (var child in questionsLayout.Children)
         {
-            if (child is Label || child is Button)
+            if (child is not QuestionDisplay questionDisplay)
                 continue;
 
-            string questionText = ((Label)((StackLayout)child).Children[0]).Text;
+            string questionText = questionDisplay.GetQuestion();
+            string response = questionDisplay.GetResponse();
 
-            string response = "";
-            if (((StackLayout)child).Children[1] is ScrollView scrollView)
-            {
-                response = "\"" + ((Editor)scrollView.Children[0]).Text + "\"";
-            }
-            else if (((StackLayout)child).Children[1] is Grid grid)
-            {
-                foreach (var view in grid.Children)
-                {
-                    if (view is Slider slider)
-                    {
-                        response = slider.Value.ToString();
-                        break;
-                    }
-                }
-            }
             responses.Add(questionText, response);
         }
+
         string responseString = string.Join(",", responses.Select(entry => $"{{\n\t{entry.Key}: {entry.Value}\n}}"));
         DisplayAlert("Form Responses", "[\n" + responseString +"\n]", "OK");
     }
 
-    private static View CreateQuestionControl(Question question)
-    {
-        var QuestionControl = new StackLayout();
-        var QuestionText = new Label { Text = question.Text }; 
-        QuestionControl.Children.Add(QuestionText);
-        switch (question)
-        {
-            case TextQuestion:
-                var scrollView = new ScrollView
-                {
-                    Content = new Editor()
-                };
-
-                // Add the ScrollView containing the Editor to the QuestionControl
-                QuestionControl.Children.Add(scrollView);
-                break;
-            case SliderQuestion sliderQuestion:
-                var slider = new Slider
-                {
-                    Minimum = sliderQuestion.Min,
-                    Maximum = sliderQuestion.Max
-                };
-                var minValueLabel = new Label { Text = sliderQuestion.Min.ToString(), HorizontalOptions = LayoutOptions.Start };
-                var maxValueLabel = new Label { Text = sliderQuestion.Max.ToString(), HorizontalOptions = LayoutOptions.End };
-
-                var grid = new Grid();
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
-                grid.Children.Add(minValueLabel);
-                grid.Children.Add(slider);
-                grid.Children.Add(maxValueLabel);
-
-                Grid.SetColumn(minValueLabel, 0);
-                Grid.SetColumn(slider, 1);
-                Grid.SetColumn(maxValueLabel, 2);
-
-                QuestionControl.Children.Add(grid);
-                break;
-            default:
-                return new Label { Text = "Unsupported question type" };
-        }
-        return QuestionControl;
-    } 
 }
