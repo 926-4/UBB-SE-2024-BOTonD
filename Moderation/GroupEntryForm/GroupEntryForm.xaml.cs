@@ -11,25 +11,40 @@ public partial class GroupEntryForm : ContentPage
     private void CreateForm()
     {
         var stackLayout = new StackLayout();
-        stackLayout.Children.Add(new Label { Text = "Welcome to the group" });
+
+        var titleLabel = new Label
+        {
+            Text = "Welcome to the group",
+        };
+
+        stackLayout.Children.Add(titleLabel);
         foreach (var question in formQuestions)
         {
             var questionControl = QuestionDisplayFactory.GetQuestionDisplay(question);
             stackLayout.Children.Add(questionControl);
         }
         var submitButton = SubmitButton();
+        var groupRulesButton = new Button { Text = "Group Rules", Margin = 4 };
+        var backButton = BackButton();
+        stackLayout.Children.Add(groupRulesButton);
         stackLayout.Children.Add(submitButton);
+        stackLayout.Children.Add(backButton);
 
         Content = new ScrollView { Content = stackLayout };
     }
 
     private Button SubmitButton()
     {
-        var button = new Button { Text = "Submit" };
+        var button = new Button { Text = "Submit", Margin = 4 };
         button.Clicked += (sender, e) => HandleSubmit();
         return button;
     }
-
+    private Button BackButton()
+    {
+        var button = new Button { Text = "Back", Margin = 4 };
+        button.Clicked += (sender, e) => { Navigation.PopAsync(); };
+        return button;
+    }
     private void HandleSubmit()
     {
         Dictionary<string, string> responses = [];
