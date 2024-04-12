@@ -59,6 +59,7 @@ public partial class GroupEntryForm : ContentPage
             }
             responses.Add(questionText, response);
         }
+
         string responseString = string.Join(",", responses.Select(entry => $"{{\n\t{entry.Key}: {entry.Value}\n}}"));
         DisplayAlert("Form Responses", "[\n" + responseString +"\n]", "OK");
     }
