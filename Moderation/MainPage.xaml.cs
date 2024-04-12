@@ -4,7 +4,7 @@ namespace Moderation
 {
     public partial class MainPage : ContentPage
     {
-        private static readonly List<string> TeamMembers = ["Boti", "CipriBN", "Ioan", "Norby", "Victor"];
+        private static readonly List<string> TeamMembers = ["Boti", "CipriBN", "Ioan", "ahdjff", "Victor"];
         int index = -1;
 
         public MainPage()
