@@ -4,9 +4,11 @@
              x:Class="Moderation.MainPage">
 
     <ScrollView>
+
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
+
             <Image
                 Source="dotnet_bot.png"
                 HeightRequest="185"
@@ -30,6 +32,7 @@
                 SemanticProperties.Hint="Counts the number of times you click"
                 Clicked="OnCounterClicked"
                 HorizontalOptions="Fill" />
+
             <VerticalStackLayout>
                 <Button 
                     x:Name="JoinGroupButton"
