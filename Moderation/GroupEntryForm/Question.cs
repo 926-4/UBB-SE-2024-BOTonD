@@ -1,13 +1,10 @@
-﻿namespace Moderation.GroupEntryForm
-{
-    public abstract class Question
-    {
-        public string Text { get; }
-        public Guid Id { get; } = Guid.NewGuid();
+﻿using Moderation.Repository;
 
-        public Question(string text)
-        {
-            Text = text;
-        }
+namespace Moderation.GroupEntryForm
+{
+    public abstract class Question(string text) : IHasID
+    {
+        public string Text { get; } = text;
+        public Guid Id { get; } = Guid.NewGuid();
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace Moderation.Repository
 {
-    public interface IIDInterface
+    public interface IHasID
     {
-        Guid ID { get; set; }
+        Guid Id { get; }
     }
-    public interface IRepository<T> where T : IIDInterface
+    public interface IRepository<T> where T : IHasID
     {
         bool Add(Guid key, T value);
         bool Remove(Guid key);

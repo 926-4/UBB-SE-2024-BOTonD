@@ -2,14 +2,9 @@
 
 namespace Moderation.GroupRulesView
 {
-    public class Rule : IIDInterface
+    public class Rule(string text) : IHasID
     {
-        public string Text { get; }
-        public Guid ID { get; set; } = Guid.NewGuid();
-
-        public Rule(string text)
-        {
-            Text = text;
-        }
+        public string Text { get; } = text;
+        public Guid Id { get; } = Guid.NewGuid();
     }
 }

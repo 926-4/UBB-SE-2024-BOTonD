@@ -4,9 +4,8 @@
              x:Class="Moderation.GroupRulesView.RuleDisplay">
     <VerticalStackLayout>
         <Label 
-            Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" 
-            x:Name="l"/>
+            x:Name="RuleTextDisplay"/>
     </VerticalStackLayout>
 </ContentView>
