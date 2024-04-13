@@ -13,8 +13,11 @@
 
         <Button Text="Login"
                 Clicked="OnLoginClicked"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"/>
-        
+                VerticalOptions="Center"
+                HorizontalOptions="Fill"/>
+        <Button Text="Quit"
+                Clicked="OnQuitClicked"
+                VerticalOptions="Center"
+                HorizontalOptions="Fill"/>
     </VerticalStackLayout>
 </ContentPage>

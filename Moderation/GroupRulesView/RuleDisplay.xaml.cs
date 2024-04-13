@@ -5,7 +5,7 @@ public partial class RuleDisplay : ContentView
 	protected Rule rule;
     public RuleDisplay(Rule newRule)
     {
-        this.rule = newRule;
+        rule = newRule;
         InitializeComponent();
         RuleTextDisplay.Text = GetRuleText();
     }

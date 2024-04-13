@@ -1,5 +1,4 @@
 using Moderation.Authentication;
-using Moderation.Repository;
 using Moderation.SessionManagerNamespace;
 namespace Moderation;
 
@@ -35,4 +34,5 @@ public partial class LoginPage : ContentPage
             await DisplayAlert("Error", argEx.Message, "OK");
         }
     }
+    private void OnQuitClicked(object sender, EventArgs e) => Application.Current.Quit();
 }
