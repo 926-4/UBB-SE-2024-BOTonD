@@ -1,9 +1,7 @@
-﻿namespace Moderation.Repository
+﻿using Moderation.Model;
+
+namespace Moderation.Repository
 {
-    public interface IHasID
-    {
-        Guid Id { get; }
-    }
     public interface IRepository<T> where T : IHasID
     {
         bool Add(Guid key, T value);

@@ -1,4 +1,5 @@
-﻿using Moderation.Repository;
+﻿using Moderation.Model;
+using Moderation.Repository;
 
 namespace Moderation.GroupRulesView
 {

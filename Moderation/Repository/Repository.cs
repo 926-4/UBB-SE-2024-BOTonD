@@ -1,4 +1,6 @@
-﻿namespace Moderation.Repository
+﻿using Moderation.Model;
+
+namespace Moderation.Repository
 {
     internal class Repository<T> : IRepository<T> where T : IHasID
     {
