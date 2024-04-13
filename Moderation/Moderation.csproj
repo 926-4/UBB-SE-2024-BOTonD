@@ -57,10 +57,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Include="Authentication\Authentication.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
@@ -69,6 +65,9 @@
 	<ItemGroup>
 	  <Compile Update="GroupEntryForm\GroupEntryForm.xaml.cs">
 	    <DependentUpon>GroupEntryForm.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="LoginPage.xaml.cs">
+	    <DependentUpon>LoginPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
@@ -79,12 +78,9 @@
 	  <MauiXaml Update="GroupEntryForm\QuestionDisplay.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Authentication\bin\Release\net8.0\" />
-	  <Folder Include="Authentication\obj\Release\net8.0\refint\" />
-	  <Folder Include="Authentication\obj\Release\net8.0\ref\" />
+	  <MauiXaml Update="LoginPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	</ItemGroup>
 
 </Project>
