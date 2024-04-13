@@ -37,7 +37,7 @@ namespace Moderation
         }
         private void OnLogoutClicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new LoginPage());
+            Navigation.PopAsync();
         }
     }
 

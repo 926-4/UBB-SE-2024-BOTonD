@@ -1,4 +1,6 @@
+using Moderation.GroupRulesView;
 namespace Moderation.GroupEntryForm;
+
 
 public partial class GroupEntryForm : ContentPage
 {
@@ -24,7 +26,7 @@ public partial class GroupEntryForm : ContentPage
             stackLayout.Children.Add(questionControl);
         }
         var submitButton = SubmitButton();
-        var groupRulesButton = new Button { Text = "Group Rules", Margin = 4 };
+        var groupRulesButton = GroupRulesButton();
         var backButton = BackButton();
         stackLayout.Children.Add(groupRulesButton);
         stackLayout.Children.Add(submitButton);
@@ -32,7 +34,20 @@ public partial class GroupEntryForm : ContentPage
 
         Content = new ScrollView { Content = stackLayout };
     }
-
+    private Button GroupRulesButton()
+    {
+        var button = new Button { Text = "Group Rules", Margin = 4 };
+        button.Clicked += (sender, e) => HandleRules();
+        return button;
+    }
+    private void HandleRules()
+    {
+        Navigation.PushAsync(new GroupRulesView.GroupRulesView([
+                    new Rule("rule a"),
+                    new Rule("rule b"),
+                    new Rule("rule c")
+                ]));
+    }
     private Button SubmitButton()
     {
         var button = new Button { Text = "Submit", Margin = 4 };
