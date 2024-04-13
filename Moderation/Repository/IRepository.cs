@@ -1,10 +1,8 @@
-﻿namespace Moderation.Repository
+﻿using Moderation.Model;
+
+namespace Moderation.Repository
 {
-    public interface IIDInterface
-    {
-        Guid ID { get; set; }
-    }
-    public interface IRepository<T> where T : IIDInterface
+    public interface IRepository<T> where T : IHasID
     {
         bool Add(Guid key, T value);
         bool Remove(Guid key);

@@ -3,13 +3,13 @@ namespace Moderation.GroupRulesView;
 public partial class RuleDisplay : ContentView
 {
 	protected Rule rule;
-    public RuleDisplay(Rule r)
+    public RuleDisplay(Rule newRule)
     {
-        this.rule = r;
+        this.rule = newRule;
         InitializeComponent();
-        l.Text = GetRule();
+        RuleTextDisplay.Text = GetRuleText();
     }
-    public string GetRule()
+    public string GetRuleText()
     {
         return rule.Text;
     }

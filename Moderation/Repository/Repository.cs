@@ -1,6 +1,8 @@
-﻿namespace Moderation.Repository
+﻿using Moderation.Model;
+
+namespace Moderation.Repository
 {
-    internal class Repository<T> : IRepository<T> where T : IIDInterface
+    internal class Repository<T> : IRepository<T> where T : IHasID
     {
         private readonly Dictionary<Guid, T> data;
         public Repository(Dictionary<Guid, T> data)
