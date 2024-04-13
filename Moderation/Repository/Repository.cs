@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Moderation.Repository
+﻿namespace Moderation.Repository
 {
     internal class Repository<T> : IRepository<T> where T : IIDInterface
     {
-        private Dictionary<Guid, T> data;
-        public Repository(Dictionary<Guid, T> data) 
+        private readonly Dictionary<Guid, T> data;
+        public Repository(Dictionary<Guid, T> data)
         {
-            data = new Dictionary<Guid, T>();
+            this.data = data;
+        }
+        public Repository()
+        {
+            this.data = [];
         }
 
         public bool Add(Guid key, T value)
@@ -28,8 +26,8 @@ namespace Moderation.Repository
 
         public T? Get(Guid key)
         {
-            if (data.ContainsKey(key)) return data[key];
-            return default;
+            var value = data.GetValueOrDefault(key);
+            return value;
         }
 
         public IEnumerable<T> GetAll()
