@@ -34,5 +34,5 @@ public partial class LoginPage : ContentPage
             await DisplayAlert("Error", argEx.Message, "OK");
         }
     }
-    private void OnQuitClicked(object sender, EventArgs e) => Application.Current.Quit();
+    private void OnQuitClicked(object sender, EventArgs e) => Application.Current?.Quit();
 }

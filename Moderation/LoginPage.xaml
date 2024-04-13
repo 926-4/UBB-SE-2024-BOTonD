@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Moderation.LoginPage"
            >
-    <VerticalStackLayout Padding="50">
+    <VerticalStackLayout 
+        Padding="50"
+        Margin="20"
+        Spacing="6">
         <Entry x:Name="usernameEntry"
                Placeholder="Username" />
 
