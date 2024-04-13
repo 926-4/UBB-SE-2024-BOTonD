@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Moderation.Repository
 {
-    public interface IRepository<T>
+    public interface IIDInterface
     {
+        Guid ID { get; set; }
+    }
+    public interface IRepository<T> where T: IIDInterface
+    { 
         bool Add(Guid key, T value);
         bool Remove(Guid key);
         T? Get(Guid key);

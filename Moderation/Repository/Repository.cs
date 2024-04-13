@@ -9,10 +9,11 @@ namespace Moderation.Repository
     internal class Repository<T> : IRepository<T>
     {
         private Dictionary<Guid, T> data;
-        public Repository(Dictionary<Guid, T> data)
+        public Repository(Dictionary<Guid, T> data) 
         {
             data = new Dictionary<Guid, T>();
         }
+
         public bool Add(Guid key, T value)
         {
             if (!data.ContainsKey(key)) return false;
