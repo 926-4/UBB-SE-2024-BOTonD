@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moderation.Repository
 {
-    internal class Repository<T> : IRepository<T>
+    internal class Repository<T> : IRepository<T> where T : IIDInterface
     {
         private Dictionary<Guid, T> data;
         public Repository(Dictionary<Guid, T> data) 

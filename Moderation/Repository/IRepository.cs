@@ -10,7 +10,7 @@ namespace Moderation.Repository
     {
         Guid ID { get; set; }
     }
-    public interface IRepository<T> where T: IIDInterface
+    public interface IRepository<T> where T : IIDInterface
     { 
         bool Add(Guid key, T value);
         bool Remove(Guid key);
