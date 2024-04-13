@@ -45,8 +45,8 @@
             </VerticalStackLayout>
             <Button Text="Logout"
                 Clicked="OnLogoutClicked"
-                HorizontalOptions="Center"
-                VerticalOptions="Center"/>
+                VerticalOptions="Center"
+                HorizontalOptions="Fill"/>
         </VerticalStackLayout>
     </ScrollView>
 
