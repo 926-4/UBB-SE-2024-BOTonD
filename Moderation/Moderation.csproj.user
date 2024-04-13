@@ -12,6 +12,12 @@
     <MauiXaml Update="GroupEntryForm\QuestionDisplay.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="GroupRulesList\GroupRulesList.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="GroupRulesList\RuleDisplay.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
   </ItemGroup>
   <ItemGroup>
     <None Update="App.xaml">

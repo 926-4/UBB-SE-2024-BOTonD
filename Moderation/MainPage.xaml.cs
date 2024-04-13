@@ -1,4 +1,5 @@
 ﻿using Moderation.GroupEntryForm;
+using Moderation.GroupRulesList;
 
 namespace Moderation
 {
@@ -30,6 +31,7 @@ namespace Moderation
                     new TextQuestion("Extra question???")
                 ]));
         }
+     
     }
 
 }
