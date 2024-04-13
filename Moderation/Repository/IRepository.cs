@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Moderation.Repository
+﻿namespace Moderation.Repository
 {
     public interface IIDInterface
     {
         Guid ID { get; set; }
     }
     public interface IRepository<T> where T : IIDInterface
-    { 
+    {
         bool Add(Guid key, T value);
         bool Remove(Guid key);
         T? Get(Guid key);

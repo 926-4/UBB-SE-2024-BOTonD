@@ -5,16 +5,16 @@ namespace Moderation;
 
 public partial class LoginPage : ContentPage
 {
-    private AuthenticationModule auth;
+    private readonly AuthenticationModule authenticator;
     public LoginPage()
     {
-        auth = new AuthenticationModule(new Dictionary<string, string> {
+        authenticator = new AuthenticationModule(new Dictionary<string, string> {
             {"a","a" },
             { "Victor", "Victor" }, 
             { "Cipri", "Cipri" }, 
             { "Ioan", "Ioan" }, 
             { "Boti", "Boti" }, 
-            { "Norby", "Norby" } }, TimeSpan.FromSeconds(5));
+            { "Norby", "Norby" } }, TimeSpan.FromMinutes(15));
         InitializeComponent();
     }
 
@@ -25,12 +25,12 @@ public partial class LoginPage : ContentPage
 
         try
         {
-            auth.AuthMethod(username, password);
+            authenticator.AuthMethod(username, password);
             await Navigation.PushAsync(new MainPage(new SessionManager(username))); 
         }
-        catch (ArgumentException ex)
+        catch (ArgumentException argEx)
         {
-            await DisplayAlert("Error", ex.Message, "OK");
+            await DisplayAlert("Error", argEx.Message, "OK");
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Moderation
         {
             sessionManager = sm;
             InitializeComponent();
-            HelloLabel.Text = $"Hello {sessionManager.username}!";
+            HelloLabel.Text = $"Hello {sessionManager.Username}!";
             LastLoginLabel.Text = $"You logged in at {sessionManager.LoginTime}.";
         }
 

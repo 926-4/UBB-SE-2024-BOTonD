@@ -1,60 +1,53 @@
-﻿using System.Net;
-using System.Runtime.CompilerServices;
-
-namespace Moderation.Authentication
+﻿namespace Moderation.Authentication
 {
-    public class AuthenticationModule
+    public class AuthenticationModule(Dictionary<string, string> creds, TimeSpan validityTimeSpanForLogIn)
     {
-        private Dictionary<string, DateTime> usersLastLogin = new Dictionary<string, DateTime>();
-        private TimeSpan timeout;
-        private Dictionary<string, string> credentials;
+        private Dictionary<string, DateTime> LastLogInTimePerAccount { get; set; } = [];
+        private readonly TimeSpan timeout = validityTimeSpanForLogIn;
+        private Dictionary<string, string> AccountNameToPasswordMap { get; set; } = creds;
         public AuthenticationModule(Dictionary<string, string> creds) : this(creds, TimeSpan.FromSeconds(10)) { }
-        public AuthenticationModule(Dictionary<string, string> creds, TimeSpan tm)
+
+        public void AuthMethod(string username, string password)
         {
-            credentials = creds;
-            timeout = tm;
-        }
-        public void AuthMethod(string user, string pass)
-        {
-            if (!credentials.ContainsKey(user))
+            if (!AccountNameToPasswordMap.TryGetValue(username, out string? value))
             {
-                throw new ArgumentException($"User {user} does not exist");
+                throw new ArgumentException($"User {username} does not exist");
             }
-            string salt = generateSalt();
-            if (salt + credentials[user] != salt + pass)
+            string salt = AuthenticationModule.GenerateSalt();
+            if (salt + value != salt + password)
             {
                 throw new ArgumentException($"Wrong password");
             }
-            if (isUserLoggedIn(user))
+            if (IsUserLoggedIn(username))
             {
-                throw new ArgumentException($"User {user} already logged in");
+                throw new ArgumentException($"User {username} already logged in");
             }
-            LogIn(user);
+            LogIn(username);
         }
         public void LogIn(string user)
         {
-            if (!usersLastLogin.ContainsKey(user))
+            if (!LastLogInTimePerAccount.ContainsKey(user))
             {
-                usersLastLogin.Add(user, DateTime.Now);
+                LastLogInTimePerAccount.Add(user, DateTime.Now);
             }
             else
             {
-                usersLastLogin[user] = DateTime.Now;
+                LastLogInTimePerAccount[user] = DateTime.Now;
             }
         }
-        private string generateSalt()
+        private static string GenerateSalt()
         {
             byte[] saltBytes = new byte[16];
             new Random().NextBytes(saltBytes);
             return Convert.ToBase64String(saltBytes);
         }
-        public bool isUserLoggedIn(string user)
+        public bool IsUserLoggedIn(string user)
         {
-            if (!usersLastLogin.ContainsKey(user))
+            if (!LastLogInTimePerAccount.TryGetValue(user, out DateTime value))
             {
                 return false;
             }
-            return DateTime.Now - usersLastLogin[user] <= timeout;
+            return DateTime.Now - value <= timeout;
         }
 
     }
