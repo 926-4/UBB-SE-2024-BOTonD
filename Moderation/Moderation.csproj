@@ -66,6 +66,12 @@
 	  <Compile Update="GroupEntryForm\GroupEntryForm.xaml.cs">
 	    <DependentUpon>GroupEntryForm.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="GroupRulesView\GroupRulesView.xaml.cs">
+	    <DependentUpon>GroupRulesView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="GroupRulesView\RuleDisplay.xaml.cs">
+	    <DependentUpon>RuleDisplay.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="LoginPage.xaml.cs">
 	    <DependentUpon>LoginPage.xaml</DependentUpon>
 	  </Compile>
@@ -76,6 +82,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="GroupEntryForm\QuestionDisplay.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="GroupRulesView\GroupRulesView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="GroupRulesView\RuleDisplay.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="LoginPage.xaml">

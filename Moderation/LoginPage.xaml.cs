@@ -26,7 +26,10 @@ public partial class LoginPage : ContentPage
         try
         {
             auth.AuthMethod(username, password);
-            await Navigation.PushAsync(new MainPage(new SessionManager(username))); 
+            usernameEntry.Text = "";
+            passwordEntry.Text = "";
+            await Navigation.PushAsync(new MainPage(new SessionManager(username)));
+            
         }
         catch (ArgumentException ex)
         {
