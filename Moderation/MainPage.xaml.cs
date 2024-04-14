@@ -1,20 +1,18 @@
 ﻿using Moderation.GroupEntryForm;
-using Moderation.SessionManagerNamespace;
+using Moderation.CurrentSessionNamespace;
 
 namespace Moderation
 {
     public partial class MainPage : ContentPage
     {
         private static readonly List<string> TeamMembers = ["Boti", "CipriBN", "Ioan", "ahdjff", "Victor"];
-        private SessionManager sessionManager;
         int index = -1;
 
-        public MainPage(SessionManager sm)
+        public MainPage()
         {
-            sessionManager = sm;
             InitializeComponent();
-            HelloLabel.Text = $"Hello {sessionManager.Username}!";
-            LastLoginLabel.Text = $"You logged in at {sessionManager.LoginTime}.";
+            HelloLabel.Text = $"Hello {CurrentSession.GetInstance().user.username}!";
+            LastLoginLabel.Text = $"You logged in at {CurrentSession.GetInstance().LoginTime}.";
         }
 
         private void OnCounterClicked(object sender, EventArgs e)
@@ -35,10 +33,7 @@ namespace Moderation
                     new TextQuestion("Extra question???")
                 ]));
         }
-        private void OnLogoutClicked(object sender, EventArgs e)
-        {
-            Navigation.PopAsync();
-        }
+       
     }
 
 }

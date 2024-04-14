@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moderation.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Moderation.Entities
 {
-    public class Role
+    public class Role: IHasID
     {
-        public Guid roleId { get; set; }
+        public Guid Id { get; set; }
         public string Name { get; set; }
         public List<Permission> Permissions { get; set; }
 
         public Role(Guid roleId, string name)
         {
-            this.roleId = roleId;
+            this.Id = roleId;
             this.Name = name;
             this.Permissions = new List<Permission>();
         }

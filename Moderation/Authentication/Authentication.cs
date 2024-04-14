@@ -1,53 +1,39 @@
-﻿namespace Moderation.Authentication
+﻿using Moderation.CurrentSessionNamespace;
+using Moderation.Entities;
+using Moderation.Repository;
+namespace Moderation.Authentication
 {
-    public class AuthenticationModule(Dictionary<string, string> creds, TimeSpan validityTimeSpanForLogIn)
+    public class AuthenticationModule(Dictionary<Guid, string> creds, UserRepository users,TimeSpan validityTimeSpanForLogIn)
     {
-        private Dictionary<string, DateTime> LastLogInTimePerAccount { get; set; } = [];
         private readonly TimeSpan timeout = validityTimeSpanForLogIn;
-        private Dictionary<string, string> AccountNameToPasswordMap { get; set; } = creds;
-        public AuthenticationModule(Dictionary<string, string> creds) : this(creds, TimeSpan.FromSeconds(10)) { }
+        private Dictionary<Guid, string> UserIDToPasswordMap { get; set; } = creds;
+        private UserRepository userRepo = users;
+        public AuthenticationModule(Dictionary<Guid, string> creds, UserRepository users) : this(creds,users, TimeSpan.FromSeconds(10)) { }
 
         public void AuthMethod(string username, string password)
         {
-            if (!AccountNameToPasswordMap.TryGetValue(username, out string? value))
+            Guid? id = userRepo.GetGuidByName(username);
+            if(!id.HasValue)
             {
-                throw new ArgumentException($"User {username} does not exist");
+                throw new ArgumentException($"Username does not exist");
             }
-            string salt = AuthenticationModule.GenerateSalt();
-            if (salt + value != salt + password)
+            string salt = GenerateSalt();
+            if (salt + UserIDToPasswordMap[id.Value] != salt + password)
             {
                 throw new ArgumentException($"Wrong password");
             }
-            if (IsUserLoggedIn(username))
-            {
-                throw new ArgumentException($"User {username} already logged in");
-            }
-            LogIn(username);
+            LogIn(userRepo.Get(id.Value));
         }
-        public void LogIn(string user)
+        public void LogIn(User user)
         {
-            if (!LastLogInTimePerAccount.ContainsKey(user))
-            {
-                LastLogInTimePerAccount.Add(user, DateTime.Now);
-            }
-            else
-            {
-                LastLogInTimePerAccount[user] = DateTime.Now;
-            }
+            CurrentSession.GetInstance().user = user;
+            CurrentSession.GetInstance().LoginTime = DateTime.Now;
         }
         private static string GenerateSalt()
         {
             byte[] saltBytes = new byte[16];
             new Random().NextBytes(saltBytes);
             return Convert.ToBase64String(saltBytes);
-        }
-        public bool IsUserLoggedIn(string user)
-        {
-            if (!LastLogInTimePerAccount.TryGetValue(user, out DateTime value))
-            {
-                return false;
-            }
-            return DateTime.Now - value <= timeout;
         }
 
     }
