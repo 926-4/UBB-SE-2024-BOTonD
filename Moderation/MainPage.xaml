@@ -43,10 +43,6 @@
                     Clicked="OnJoinGroupClicked"
                     HorizontalOptions="Fill"/>
             </VerticalStackLayout>
-            <Button Text="Logout"
-                Clicked="OnLogoutClicked"
-                VerticalOptions="Center"
-                HorizontalOptions="Fill"/>
         </VerticalStackLayout>
     </ScrollView>
 
