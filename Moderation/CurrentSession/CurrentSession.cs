@@ -3,7 +3,7 @@ namespace Moderation.CurrentSessionNamespace
 {
     public class CurrentSession
     {
-        private static CurrentSession instance;
+        private static CurrentSession? instance;
 
         private CurrentSession()
         {
@@ -11,20 +11,22 @@ namespace Moderation.CurrentSessionNamespace
 
         public static CurrentSession GetInstance()
         {
-            if (instance == null)
-            {
-                instance = new CurrentSession();
-            }
+            instance ??= new CurrentSession();
             return instance;
         }
 
-        public User? user { get; set; }
-        public DateTime LoginTime { get; set; }
+        public User? User { get; set; }
+        public DateTime? LoginTime { get; set; }
 
-        public void Logout()
+        public void LogOut()
         {
-            user = null;
-            LoginTime = DateTime.MinValue;
+            User = null;
+            LoginTime = null;
+        }
+        public void LogIn(User user)
+        {
+            User = user;
+            LoginTime = DateTime.Now;
         }
     }
 }

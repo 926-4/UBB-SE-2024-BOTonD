@@ -3,12 +3,11 @@ using Moderation.Entities;
 using Moderation.Repository;
 namespace Moderation.Authentication
 {
-    public class AuthenticationModule(Dictionary<Guid, string> creds, UserRepository users,TimeSpan validityTimeSpanForLogIn)
+    public class AuthenticationModule(Dictionary<Guid, string> guidToUsername, UserRepository users/*, TimeSpan validityTimeSpanForLogIn*/)
     {
-        private readonly TimeSpan timeout = validityTimeSpanForLogIn;
-        private Dictionary<Guid, string> UserIDToPasswordMap { get; set; } = creds;
-        private UserRepository userRepo = users;
-        public AuthenticationModule(Dictionary<Guid, string> creds, UserRepository users) : this(creds,users, TimeSpan.FromSeconds(10)) { }
+        //private readonly TimeSpan timeout = validityTimeSpanForLogIn;
+        private Dictionary<Guid, string> UserIDToPasswordMap { get; set; } = guidToUsername;
+        private readonly UserRepository userRepo = users;
 
         public void AuthMethod(string username, string password)
         {
@@ -22,12 +21,16 @@ namespace Moderation.Authentication
             {
                 throw new ArgumentException($"Wrong password");
             }
-            LogIn(userRepo.Get(id.Value));
+            User? maybeUserAccount = userRepo.Get(id.Value);
+            if (maybeUserAccount != null)
+            {
+                User userAccount = maybeUserAccount;
+                LogIn(userAccount);
+            }
         }
-        public void LogIn(User user)
+        public static void LogIn(User user)
         {
-            CurrentSession.GetInstance().user = user;
-            CurrentSession.GetInstance().LoginTime = DateTime.Now;
+            CurrentSession.GetInstance().LogIn(user);
         }
         private static string GenerateSalt()
         {

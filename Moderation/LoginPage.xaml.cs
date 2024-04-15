@@ -9,14 +9,14 @@ public partial class LoginPage : ContentPage
     private readonly AuthenticationModule authenticator;
     public LoginPage()
     {
-        User ua = new User(Guid.NewGuid(), "ua", 1, 1,new UserStatus(UserRestriction.None, DateTime.Now, "None" ));
-        User ub = new User(Guid.NewGuid(), "ub", 1, 1,new UserStatus(UserRestriction.None, DateTime.Now, "None" ));
-        User uc = new User(Guid.NewGuid(), "uc", 1, 1,new UserStatus(UserRestriction.None, DateTime.Now, "None" ));
+        User ua = new(Guid.NewGuid(), "ua", 1, 1,new UserStatus(UserRestriction.None, DateTime.Now, "None" ));
+        User ub = new(Guid.NewGuid(), "ub", 1, 1, new UserStatus(UserRestriction.None, DateTime.Now, "None"));
+        User uc = new(Guid.NewGuid(), "uc", 1, 1, new UserStatus(UserRestriction.None, DateTime.Now, "None"));
         authenticator = new AuthenticationModule(new Dictionary<Guid, string> {
             {ua.Id,"ua" },
             {ub.Id, "ub"},
             {uc.Id, "uc" }
-            }, new UserRepository(new Dictionary<Guid, User> { { ua.Id, ua }, { ub.Id, ub }, { uc.Id, uc } }), TimeSpan.FromMinutes(15));
+            }, new UserRepository(new Dictionary<Guid, User> { { ua.Id, ua }, { ub.Id, ub }, { uc.Id, uc } }));
         InitializeComponent();
     }
 

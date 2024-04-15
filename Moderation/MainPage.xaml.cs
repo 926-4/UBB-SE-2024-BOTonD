@@ -11,7 +11,7 @@ namespace Moderation
         public MainPage()
         {
             InitializeComponent();
-            HelloLabel.Text = $"Hello {CurrentSession.GetInstance().user.username}!";
+            HelloLabel.Text = $"Hello {CurrentSession.GetInstance().User?.Username}!";
             LastLoginLabel.Text = $"You logged in at {CurrentSession.GetInstance().LoginTime}.";
         }
 
@@ -33,7 +33,11 @@ namespace Moderation
                     new TextQuestion("Extra question???")
                 ]));
         }
-       
+       private void OnLogOutClicked(object sender, EventArgs e)
+        {
+            CurrentSession.GetInstance().LogOut();
+            Navigation.PopAsync();
+        }
     }
 
 }

@@ -1,3 +1,4 @@
+using Moderation.CurrentSessionNamespace;
 using Moderation.GroupRulesView;
 namespace Moderation.GroupEntryForm;
 
@@ -75,8 +76,12 @@ public partial class GroupEntryForm : ContentPage
             responses.Add(questionText, response);
         }
 
-        string responseString = string.Join(",", responses.Select(entry => $"{{\n\t{entry.Key}: {entry.Value}\n}}"));
-        DisplayAlert("Form Responses", "[\n" + responseString +"\n]", "OK");
+        string responseString = "{\n" +
+                                $"\tuser: {CurrentSession.GetInstance()?.User?.Username},\n" +
+                                $"\ttime: {DateTime.Now},\n" +
+                                "\t[\n" + string.Join(",", responses.Select(entry => $"{{\n\t{entry.Key}: {entry.Value}\n}}")) + "\n]\n" +
+                                "}";
+        DisplayAlert("Thanks for applying! We'll get back to you soon",$"Form Responses : {responseString}", "OK");
     }
 
 }
