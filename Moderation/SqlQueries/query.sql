@@ -53,8 +53,7 @@ CREATE TABLE PollOption (
 )
 CREATE TABLE Award(
 	AwardId UNIQUEIDENTIFIER primary key,
-	Type nvarchar(255),
-	PostId UNIQUEIDENTIFIER references Post(PostId)
+	Type nvarchar(255)
 )
 CREATE TABLE PostAward(
 	AwardId UNIQUEIDENTIFIER references Award(AwardId),
