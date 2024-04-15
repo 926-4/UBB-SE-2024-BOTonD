@@ -1,76 +1,89 @@
-Drop table AnsweredQuestion
-drop table GroupQuestion
+drop table Vote
+drop table JoinRequestMessage
 drop table JoinRequest
+drop table PollAward
+drop table PostAward
+drop table Award
+drop table PollOption
+drop table PollPost
 drop table Post
-drop table Report
-drop table MutedUser
-drop table BannedUser
 drop table Report
 drop table GroupUser
 drop table RolePermission
-drop table Permission
 drop table UserRole
 
 CREATE TABLE UserRole(
-	roleId int PRIMARY KEY,
-	name varchar(250)
-)
-CREATE TABLE Permission(
-	permissionId int PRIMARY KEY,
-	name varchar(250)
+	RoleId UNIQUEIDENTIFIER PRIMARY KEY,
+	Name nvarchar(255)
 )
 CREATE TABLE RolePermission(
-	roleId int references UserRole(roleId),
-	permissionId int references Permission(permissionId),
-	Primary Key (roleId,permissionId)
+	RoleId UNIQUEIDENTIFIER references UserRole(RoleId),
+	Permission nvarchar(255),
+	Primary Key (RoleId,Permission)
 )
 CREATE TABLE GroupUser(
-	userId varchar(250) PRIMARY KEY,
-	roleId int references UserRole(roleId),
-	userPostScore int,
-	userMarketplaceScore int,
-	status varchar(250)
+    Id UNIQUEIDENTIFIER PRIMARY KEY,
+    Username NVARCHAR(255),
+    PostScore INT,
+    MarketplaceScore INT,
+    StatusRestriction INT, 
+	StatusRestrictionDate DATETIME,
+    StatusMessage NVARCHAR(MAX)
 )
 CREATE TABLE Post(
-	postId varchar(250) primary key,
-	userId varchar(250) references GroupUser(userId),
-	postScore int,
-	status varchar(250)
+	PostId UNIQUEIDENTIFIER primary key,
+	Content nvarchar(MAX),
+	UserId UNIQUEIDENTIFIER references GroupUser(Id),
+	Score int,
+	Status nvarchar(250),
+	IsDeleted BIT
+)
+CREATE TABLE PollPost (
+    PollId UNIQUEIDENTIFIER PRIMARY KEY,
+    Content NVARCHAR(MAX),
+    UserId UNIQUEIDENTIFIER references GroupUser(Id),
+    Score INT,
+    Status NVARCHAR(50),
+    IsDeleted BIT,
+)
+CREATE TABLE PollOption (
+    OptionId INT IDENTITY PRIMARY KEY,
+    PollId UNIQUEIDENTIFIER references PollPost(PollId),
+    OptionText NVARCHAR(MAX),
+)
+CREATE TABLE Award(
+	AwardId UNIQUEIDENTIFIER primary key,
+	Type nvarchar(255),
+	PostId UNIQUEIDENTIFIER references Post(PostId)
+)
+CREATE TABLE PostAward(
+	AwardId UNIQUEIDENTIFIER references Award(AwardId),
+	PostId UNIQUEIDENTIFIER references Post(PostId),
+	primary key(AwardId,PostId)
+)
+CREATE TABLE PollAward(
+	AwardId UNIQUEIDENTIFIER references Award(AwardId),
+	PollId UNIQUEIDENTIFIER references PollPost(PollId),
+	primary key (AwardId,PollId)
 )
 CREATE TABLE Report(
-	reportId varchar(250) primary key,
-	userId varchar(250) references GroupUser(userId),
-	message varchar(250),
-	status varchar(250),
-	type varchar(250)
-)
-CREATE TABLE BannedUser(
-	bannedId varchar(250) primary key,
-	userId varchar(250) references GroupUser(userId),
-	message varchar(250),
-	startTime DATETIME,
-	endTime DATETIME
-)
-CREATE TABLE MutedUser(
-	mutedId varchar(250) primary key,
-	userId varchar(250) references GroupUser(userId),
-	message varchar(250),
-	startTime DATETIME,
-	endTime DATETIME
+	ReportId UNIQUEIDENTIFIER primary key,
+	UserId UNIQUEIDENTIFIER references GroupUser(Id),
+	Message varchar(250)
 )
 CREATE TABLE JoinRequest(
-	joinId varchar(250) primary key,
-	userId varchar(250) references GroupUser(UserId),
-	status varchar(250)
+	Id UNIQUEIDENTIFIER PRIMARY KEY,
+    UserId UNIQUEIDENTIFIER references GroupUser(Id)
 )
-CREATE TABLE GroupQuestion(
-	questionId int primary key,
-	question varchar(250),
-	typeofAnswer varchar(250)
+CREATE TABLE JoinRequestMessage (
+    JoinRequestId UNIQUEIDENTIFIER references JoinRequest(Id),
+    [Key] NVARCHAR(255),
+    [Value] NVARCHAR(MAX),
+	primary key(JoinRequestId,[Key])
 )
-CREATE TABLE AnsweredQuestion(
-	joinId varchar(250) references JoinRequest(joinId),
-	questionId int references GroupQuestion(questionId),
-	asnwer varchar(250),
-	primary key(joinId,questionId)
+CREATE TABLE Vote(
+	VoteId UNIQUEIDENTIFIER primary key,
+	UserPost UNIQUEIDENTIFIER references GroupUser(Id),
+	PollId UNIQUEIDENTIFIER references PollPost(PollId),
+	Options nvarchar(Max)
 )
