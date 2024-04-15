@@ -5,22 +5,11 @@ namespace Moderation
 {
     public partial class MainPage : ContentPage
     {
-        private static readonly List<string> TeamMembers = ["Boti", "CipriBN", "Ioan", "ahdjff", "Victor"];
-        int index = -1;
 
         public MainPage()
         {
             InitializeComponent();
-            HelloLabel.Text = $"Hello {CurrentSession.GetInstance().User?.Username}!";
             LastLoginLabel.Text = $"You logged in at {CurrentSession.GetInstance().LoginTime}.";
-        }
-
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            index++;
-            index %= TeamMembers.Count;
-            CounterBtn.Text = $"Hello {TeamMembers[index]} !";
-            SemanticScreenReader.Announce(CounterBtn.Text);
         }
         private void OnJoinGroupClicked(object sender, EventArgs e)
         {
