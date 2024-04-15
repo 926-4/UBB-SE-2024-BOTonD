@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moderation.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -7,63 +8,60 @@ using System.Threading.Tasks;
 
 namespace Moderation.DbEndpoints
 {
-    public class User
-    {
-        public Guid Id { get; set; }
-        public string Role { get; set; }
-
-        public int PostScore {  get; set; }
-        public int MarketPlaceScore {  get; set; }
-        public string Status { get; set; }
-
-
-    }
     public class UserEndpoints
     {
         private static string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+
+    
         public static void CreateUser(User user)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "INSERT INTO GroupUser VALUES (@Id,@Role,@Post,@Mp,@Status)";
+
+                string sql = "INSERT INTO GroupUser (Id, Username, PostScore, MarketplaceScore, StatusRestriction, StatusRestrictionDate, StatusMessage) " +
+                             "VALUES (@Id, @Username, @PostScore, @MarketplaceScore, @StatusRestriction, @StatusRestrictionDate, @StatusMessage)";
+
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@Id", user.Id);
-                    command.Parameters.AddWithValue("@Role", user.Role);
-                    command.Parameters.AddWithValue("@Post", user.PostScore);
-                    command.Parameters.AddWithValue("@Mp", user.MarketPlaceScore);
-                    command.Parameters.AddWithValue("@Status", user.Status);
+                    command.Parameters.AddWithValue("@Username", user.Username);
+                    command.Parameters.AddWithValue("@PostScore", user.PostScore);
+                    command.Parameters.AddWithValue("@MarketplaceScore", user.MarketplaceScore);
+                    command.Parameters.AddWithValue("@StatusRestriction", (int)user.Status.restriction);
+                    command.Parameters.AddWithValue("@StatusRestrictionDate", user.Status.restrictionDate);
+                    command.Parameters.AddWithValue("@StatusMessage", user.Status.message);
+
                     command.ExecuteNonQuery();
                 }
             }
         }
-        public static List<User> ReadUser()
+        public static List<User> ReadAllUsers()
         {
             List<User> users = new List<User>();
+
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "SELECT * FROM GroupUser";
+
+                string sql = "SELECT Id, Username, PostScore, MarketplaceScore, StatusRestriction, StatusRestrictionDate, StatusMessage FROM GroupUser";
+
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            User user = new User
-                            {
-                                Id = reader.GetGuid(0),
-                                Role = reader.GetString(1),
-                                PostScore = reader.GetInt32(2),
-                                MarketPlaceScore = reader.GetInt32(3),
-                                Status = reader.GetString(4)
-                            };
+                            UserRestriction restriction = (UserRestriction)reader.GetInt32(4);
+                            UserStatus status = new UserStatus(restriction, reader.GetDateTime(5), reader.GetString(6));
+
+                            User user = new User(reader.GetGuid(0), reader.GetString(1), reader.GetInt32(2), reader.GetInt32(3), status);
                             users.Add(user);
                         }
                     }
                 }
             }
+
             return users;
         }
         public static void UpdateUser(User user)
@@ -71,27 +69,37 @@ namespace Moderation.DbEndpoints
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "UPDATE GroupUser SET roleId=@Role, userPostScore=@post, userMarketplaceScore=@mp, status=@status WHERE userId=@id";
+
+                string sql = "UPDATE GroupUser SET Username = @Username, PostScore = @PostScore, MarketplaceScore = @MarketplaceScore, " +
+                             "StatusRestriction = @StatusRestriction, StatusRestrictionDate = @StatusRestrictionDate, StatusMessage = @StatusMessage " +
+                             "WHERE Id = @Id";
+
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@Role", user.Role);
-                    command.Parameters.AddWithValue("@post", user.PostScore);
-                    command.Parameters.AddWithValue("@mp", user.MarketPlaceScore);
-                    command.Parameters.AddWithValue("@status", user.Status);
-                    command.Parameters.AddWithValue("@id", user.Id);
+                    command.Parameters.AddWithValue("@Username", user.Username);
+                    command.Parameters.AddWithValue("@PostScore", user.PostScore);
+                    command.Parameters.AddWithValue("@MarketplaceScore", user.MarketplaceScore);
+                    command.Parameters.AddWithValue("@StatusRestriction", (int)user.Status.restriction);
+                    command.Parameters.AddWithValue("@StatusRestrictionDate", user.Status.restrictionDate);
+                    command.Parameters.AddWithValue("@StatusMessage", user.Status.message);
+                    command.Parameters.AddWithValue("@Id", user.Id);
+
                     command.ExecuteNonQuery();
                 }
             }
         }
-        public static void DeleteRole(User user)
+        public static void DeleteUser(Guid userId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "DELETE FROM GroupUser WHERE userId=@id";
+
+                string sql = "DELETE FROM GroupUser WHERE Id = @Id";
+
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@id", user.Id);
+                    command.Parameters.AddWithValue("@Id", userId);
+
                     command.ExecuteNonQuery();
                 }
             }
