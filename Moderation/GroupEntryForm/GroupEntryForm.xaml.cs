@@ -7,10 +7,10 @@ public partial class GroupEntryForm : ContentPage
 {
     private readonly IEnumerable<Question> formQuestions;
     public GroupEntryForm(IEnumerable<Question> formQuestions)
-	{
+    {
         this.formQuestions = formQuestions;
         CreateForm();
-	}
+    }
     private void CreateForm()
     {
         var stackLayout = new StackLayout();

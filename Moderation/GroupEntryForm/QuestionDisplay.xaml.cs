@@ -1,3 +1,5 @@
+using Microsoft.Maui.Controls;
+
 namespace Moderation.GroupEntryForm;
 
 public abstract partial class QuestionDisplay : ContentView
@@ -78,6 +80,33 @@ public class SliderQuestionDisplay(SliderQuestion question) : QuestionDisplay(qu
         return Slider.Value.ToString();
     }
 }
+public class RadioQuestionDisplay(RadioQuestion question) : QuestionDisplay(question)
+{
+    protected override void CreateContent()
+    {
+#pragma warning disable CS9179 // Primary constructor parameter is shadowed by a member from base
+        RadioQuestion? radioQuestion = question as RadioQuestion;
+#pragma warning restore CS9179 // Primary constructor parameter is shadowed by a member from base
+        //var OptionView = new RadioButtonGroup { }
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
+        foreach (var option in radioQuestion?.Options)
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
+        {
+            ((StackLayout)Content).Children.Add(new RadioButton() { Content = option });
+        }
+    }
+    public override string GetResponse()
+    {
+        return ((StackLayout)Content)
+                .Children
+                .Where(child => child is RadioButton)
+                .Where(radioButton => ((RadioButton)radioButton).IsChecked)
+                .Select(checkedButton => ((RadioButton)checkedButton).Content.ToString())
+                .FirstOrDefault()
+                ?? "none";
+    }
+
+}
 public class QuestionDisplayFactory 
 {
     public static QuestionDisplay GetQuestionDisplay(Question question)
@@ -86,6 +115,7 @@ public class QuestionDisplayFactory
         {
             TextQuestion textQuestion => new TextQuestionDisplay(textQuestion),
             SliderQuestion sliderQuestion => new SliderQuestionDisplay(sliderQuestion),
+            RadioQuestion radioQuestion => new RadioQuestionDisplay(radioQuestion),
             _ => throw new NotSupportedException("Question type not supported."),
         };
     }
