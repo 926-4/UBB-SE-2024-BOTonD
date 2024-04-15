@@ -1,4 +1,6 @@
-﻿namespace Moderation
+﻿using Moderation.CurrentSessionNamespace;
+
+namespace Moderation
 {
     public partial class AppShell : Shell
     {
@@ -6,5 +8,6 @@
         {
             InitializeComponent();
         }
+      
     }
 }

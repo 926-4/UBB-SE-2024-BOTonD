@@ -1,9 +1,9 @@
 ﻿using Moderation.Model;
 using Moderation.Repository;
 
-namespace Moderation.GroupEntryForm
+namespace Moderation.GroupRulesView
 {
-    public abstract class Question(string text) : IHasID
+    public class Rule(string text) : IHasID
     {
         public string Text { get; } = text;
         public Guid Id { get; } = Guid.NewGuid();
