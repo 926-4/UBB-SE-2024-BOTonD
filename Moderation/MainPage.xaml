@@ -42,9 +42,9 @@
                     Clicked="OnJoinGroupClicked"
                     HorizontalOptions="Fill"/>
             <Button 
-                    x:Name="LogOutButton"
-                    Text="Log Out" 
-                    Clicked="OnLogOutClicked"
+                    x:Name="ViewGroupButton"
+                    Text="View Group" 
+                    Clicked="OnViewGroupClicked"
                     HorizontalOptions="Fill"/>
         </VerticalStackLayout>
     </ScrollView>

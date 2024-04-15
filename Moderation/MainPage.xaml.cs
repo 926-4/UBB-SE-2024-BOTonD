@@ -34,6 +34,12 @@ namespace Moderation
                     new RadioQuestion( "favourite farm animal", ["dog", "cat", "mouse", "sheep", "cow", "chicken"])
                 ]));
         }
+
+        private void OnViewGroupClicked(object sender, EventArgs e)
+        {
+
+        }
+
        private void OnLogOutClicked(object sender, EventArgs e)
         {
             CurrentSession.GetInstance().LogOut();
