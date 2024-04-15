@@ -40,11 +40,13 @@ public class TextQuestionDisplay(TextQuestion question) : QuestionDisplay(questi
     }
 }
 
-public class SliderQuestionDisplay(Question question) : QuestionDisplay(question)
+public class SliderQuestionDisplay(SliderQuestion question) : QuestionDisplay(question)
 {
     protected override void CreateContent()
     {
-        var sliderQuestion = question as SliderQuestion;
+#pragma warning disable CS9179 // Primary constructor parameter is shadowed by a member from base
+        SliderQuestion? sliderQuestion = question as SliderQuestion;
+#pragma warning restore CS9179 // Primary constructor parameter is shadowed by a member from base
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
         var slider = new Slider { Minimum = sliderQuestion.Min, Maximum = sliderQuestion.Max };
 #pragma warning restore CS8602 // Dereference of a possibly null reference.

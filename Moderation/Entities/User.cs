@@ -7,21 +7,12 @@ using System.Threading.Tasks;
 
 namespace Moderation.Entities
 {
-    public class User : IHasID
+    public class User(Guid uId, string username, int postScore, int marketplaceScore, UserStatus status) : IHasID
     {
-        public Guid Id { get; set; }
-        public string username { get; set; }
-        public int postScore { get; set; }
-        public int marketplaceScore { get; set; }
-        public UserStatus status { get; set; }
-
-        public User(Guid uId, string username, int postScore, int marketplaceScore, UserStatus status)
-        {
-            this.Id = uId;
-            this.username = username;
-            this.postScore = postScore;
-            this.marketplaceScore = marketplaceScore;
-            this.status = status;
-        }
+        public Guid Id { get; set; } = uId;
+        public string Username { get; set; } = username;
+        public int PostScore { get; set; } = postScore;
+        public int MarketplaceScore { get; set; } = marketplaceScore;
+        public UserStatus Status { get; set; } = status;
     }
 }

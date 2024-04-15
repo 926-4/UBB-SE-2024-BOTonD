@@ -2,9 +2,9 @@
 
 namespace Moderation.Repository
 {
-    internal class Repository<T> : IRepository<T> where T : IHasID
+    public class Repository<T> : IRepository<T> where T : IHasID
     {
-        private readonly Dictionary<Guid, T> data;
+        protected readonly Dictionary<Guid, T> data;
         public Repository(Dictionary<Guid, T> data)
         {
             this.data = data;
