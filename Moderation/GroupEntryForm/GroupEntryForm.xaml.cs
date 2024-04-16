@@ -2,7 +2,6 @@ using Moderation.CurrentSessionNamespace;
 using Moderation.GroupRulesView;
 namespace Moderation.GroupEntryForm;
 
-
 public partial class GroupEntryForm : ContentPage
 {
     private readonly IEnumerable<Question> formQuestions;
