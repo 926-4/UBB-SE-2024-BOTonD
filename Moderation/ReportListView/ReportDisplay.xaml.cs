@@ -27,7 +27,7 @@ public partial class ReportDisplay : ContentView
         userIdStackLayout.Children.Add(userIdValueLabel);
         stackLayout.Children.Add(userIdStackLayout);
 
-        var messageEntry = new Entry { Text = report.message, Placeholder = "Enter message...", Margin = new Thickness(0, 4, 0, 0) };
+        var messageEntry = new Entry { Text = report.messagegit add , Placeholder = "Enter message...", Margin = new Thickness(0, 4, 0, 0) };
         stackLayout.Children.Add(messageEntry);
 
         var buttonsStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
