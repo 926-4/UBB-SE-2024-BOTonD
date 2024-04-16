@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moderation.Entities;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -7,84 +8,75 @@ using System.Threading.Tasks;
 
 namespace Moderation.DbEndpoints
 {
-    public class GroupQuestion
-    {
-        public Guid Id { get; set; }
-        public string Question { get; set; }
-        public string TypeofAnswer { get; set; }
-    }
-    public class GroupQuestionEndpoint
+    public class AwardEndpoint
     {
         private static string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        public static void CreateQuestion(GroupQuestion groupQuestion)
+        public static void CreateAward(Award award)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "INSERT INTO JoinRequest VALUES (@Id,@q,@t)";
+                string sql = "INSERT INTO Award VALUES (@Id,@Type)";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@Id", groupQuestion.Id);
-                    command.Parameters.AddWithValue("@q", groupQuestion.Question);
-                    command.Parameters.AddWithValue("@t", groupQuestion.TypeofAnswer);
+                    command.Parameters.AddWithValue("@Id", award.awardId);
+                    command.Parameters.AddWithValue("@Type", award.awardType);
                     command.ExecuteNonQuery();
                 }
             }
         }
-        public static List<GroupQuestion> ReadQuestion()
+        public static List<Award> ReadAward()
         {
-            List<GroupQuestion> groupQuestions = new List<GroupQuestion>();
+            List<Award> awards = new List<Award>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "SELECT * FROM GroupQuestion";
+                string sql = "SELECT * FROM Award";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            GroupQuestion groupQuestion = new GroupQuestion
+                            Award award = new Award
                             {
-                                Id = reader.GetGuid(0),
-                                Question = reader.GetString(1),
-                                TypeofAnswer = reader.GetString(2),
+                                awardId = reader.GetGuid(0),
+                                awardType = (Award.AwardType)Enum.Parse(typeof(Award.AwardType), reader.GetString(1)),
+                               
                             };
-                            groupQuestions.Add(groupQuestion);
+                            awards.Add(award);
                         }
                     }
                 }
             }
-            return groupQuestions;
+            return awards;
         }
-        public static void UpdateQuestion(GroupQuestion groupQuestion)
+        public static void UpdateAward(Award award)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "UPDATE GroupQuestion SET question=@q,typeofAnswer=@t WHERE questionId=@id";
+                string sql = "UPDATE Award SET Type=@T WHERE AwardId=@Id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@q", groupQuestion.Question);
-                    command.Parameters.AddWithValue("@t", groupQuestion.TypeofAnswer);
-                    command.Parameters.AddWithValue("@id", groupQuestion.Id);
+                    command.Parameters.AddWithValue("@Id", award.awardId);
+                    command.Parameters.AddWithValue("@T", award.awardType);
                     command.ExecuteNonQuery();
                 }
             }
         }
-        public static void DeleteQuestion(GroupQuestion groupQuestion)
+        public static void DeleteAward(Award award)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string sql = "DELETE FROM GroupQuestion WHERE questionId=@id";
+                string sql = "DELETE FROM Award WHERE AwardId=@id";
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@id", groupQuestion.Id);
+                    command.Parameters.AddWithValue("@id", award.awardId);
                     command.ExecuteNonQuery();
                 }
             }
         }
-        
     }
 }
