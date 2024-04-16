@@ -30,12 +30,6 @@ namespace Moderation
 
         private void OnViewGroupClicked(object sender, EventArgs e)
         {
-<<<<<<< Updated upstream
-
-        }
-
-       private void OnLogOutClicked(object sender, EventArgs e)
-=======
             // TODO remove the hardcoded values
             string content1 = "I am Victor.";
             User author1 = new User(System.Guid.NewGuid(), "victor3136", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "enthusiastic"));
@@ -62,7 +56,6 @@ namespace Moderation
         }
 
         private void OnLogOutClicked(object sender, EventArgs e)
->>>>>>> Stashed changes
         {
             CurrentSession.GetInstance().LogOut();
             Navigation.PopAsync();

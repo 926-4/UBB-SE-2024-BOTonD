@@ -34,17 +34,11 @@
                 HorizontalOptions="Fill"
             />
             <Button 
-<<<<<<< Updated upstream
-                    x:Name="ViewGroupButton"
-                    Text="View Group" 
-                    Clicked="OnViewGroupClicked"
-                    HorizontalOptions="Fill"/>
-=======
                 x:Name="LogOutButton"
-                Text="Log Out" 
+                Text="Log Out"
                 Clicked="OnLogOutClicked"
-                HorizontalOptions="Fill"/>
->>>>>>> Stashed changes
+                HorizontalOptions="Fill"
+            />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
