@@ -4,10 +4,10 @@ namespace Moderation.ReportListView;
 
 public partial class ReportDisplay : ContentView
 {
-	private PostReport postReport;
-	public ReportDisplay(PostReport report)
-	{
-		this.postReport = report;
+    //private readonly PostReport postReport;
+    public ReportDisplay(PostReport report)
+    {
+        //this.postReport = report;
         var stackLayout = new StackLayout { Margin = new Thickness(20) };
 
         var reportLabel = new Label { Text = "Report", FontSize = 20, FontAttributes = FontAttributes.Bold };
@@ -22,7 +22,8 @@ public partial class ReportDisplay : ContentView
 
         var userIdStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var userIdLabel = new Label { Text = "User ID:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
-        var userIdValueLabel = new Label { Text = report.UserId.ToString(), FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
+        var userIdValueLabel = new Label { Text = report.Id.ToString(), FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
+        
         userIdStackLayout.Children.Add(userIdLabel);
         userIdStackLayout.Children.Add(userIdValueLabel);
         stackLayout.Children.Add(userIdStackLayout);
@@ -47,26 +48,23 @@ public partial class ReportDisplay : ContentView
 
         Content = stackLayout;
     }
-    private void CreateContent()
-    {
 
-    }
-    private void OnWarningClicked(object sender, EventArgs e)
+    private void OnWarningClicked(object? sender, EventArgs e)
     {
         // Handle Warning button click
     }
 
-    private void OnMuteClicked(object sender, EventArgs e)
+    private void OnMuteClicked(object? sender, EventArgs e)
     {
         // Handle Mute button click
     }
 
-    private void OnBanClicked(object sender, EventArgs e)
+    private void OnBanClicked(object? sender, EventArgs e)
     {
         // Handle Ban button click
     }
 
-    private void OnDismissClicked(object sender, EventArgs e)
+    private void OnDismissClicked(object? sender, EventArgs e)
     {
         // Handle Dismiss button click
     }
