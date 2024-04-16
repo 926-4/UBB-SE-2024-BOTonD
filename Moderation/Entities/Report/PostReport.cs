@@ -6,17 +6,10 @@ using System.Threading.Tasks;
 
 namespace Moderation.Entities.Report
 {
-    public class PostReport : IReport
+    public class PostReport(Guid userId, Guid reportId, string message) : IReport
     {
-        public Guid userId { get; set; }
-        public Guid reportId { get; set; }
-        public string message { get; set; }
-
-        public PostReport(Guid userId, Guid reportId, string message)
-        {
-            this.userId = userId;
-            this.reportId = reportId;
-            this.message = message;
-        }
+        public Guid UserId { get; set; } = userId;
+        public Guid Id { get; set; } = reportId;
+        public string Message { get; set; } = message;
     }
 }

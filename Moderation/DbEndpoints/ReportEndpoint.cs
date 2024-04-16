@@ -1,10 +1,5 @@
 ﻿using Moderation.Entities.Report;
-using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Moderation.DbEndpoints
 {
@@ -21,10 +16,9 @@ namespace Moderation.DbEndpoints
                          "VALUES (@ReportId, @UserId, @Message)";
 
             using SqlCommand command = new(sql, connection);
-            command.Parameters.AddWithValue("@ReportId", postReport.reportId);
-            command.Parameters.AddWithValue("@UserId", postReport.userId);
-            command.Parameters.AddWithValue("@Message", postReport.message);
-
+            command.Parameters.AddWithValue("@ReportId", postReport.Id);
+            command.Parameters.AddWithValue("@UserId", postReport.UserId);
+            command.Parameters.AddWithValue("@Message", postReport.Message);
             command.ExecuteNonQuery();
         }
         public static List<PostReport> ReadAllPostReports()

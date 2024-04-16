@@ -7,18 +7,11 @@ using System.Threading.Tasks;
 
 namespace Moderation.Entities
 {
-    public class Role: IHasID
+    public class Role(Guid roleId, string name) : IHasID
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
-        public List<Permission> Permissions { get; set; }
-
-        public Role(Guid roleId, string name)
-        {
-            this.Id = roleId;
-            this.Name = name;
-            this.Permissions = new List<Permission>();
-        }
+        public Guid Id { get; set; } = roleId;
+        public string Name { get; set; } = name;
+        public List<Permission> Permissions { get; set; } = [];
     }
 
     public enum Permission
