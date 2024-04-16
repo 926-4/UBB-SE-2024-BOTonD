@@ -7,7 +7,7 @@ using Moderation.Repository;
 
 namespace Moderation.Model
 {
-    class Group(string name, string description, User creator) : IHasID
+    public class Group(string name, string description, User creator) : IHasID
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         public string Name { get; set; } = name;
