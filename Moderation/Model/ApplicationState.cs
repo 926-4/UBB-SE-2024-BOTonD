@@ -7,10 +7,10 @@ namespace Moderation.Model
         private ApplicationState? instance;
         public ApplicationState GetApp()
         {
-            instance ??=new ApplicationState();
+            instance ??= new ApplicationState();
             return instance;
         }
         public Repository<Group> Groups { get; } = new();
-
+        public UserRepository UserRepository { get; } = new();
     }
 }

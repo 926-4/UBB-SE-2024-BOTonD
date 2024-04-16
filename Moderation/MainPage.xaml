@@ -6,11 +6,6 @@
         <VerticalStackLayout
             Padding="30,0"
             Spacing="25">
-            <Image
-                Source="dotnet_bot.png"
-                HeightRequest="500"
-                Aspect="AspectFit"
-                SemanticProperties.Description="norbert pop" />
             <Label
                 Text="Hello, World!"
                 Style="{StaticResource Headline}"
