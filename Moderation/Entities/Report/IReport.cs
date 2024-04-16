@@ -11,5 +11,7 @@ namespace Moderation.Entities.Report
     {
         Guid UserId { get; set; }
         string Message { get; set; }
+
+        //added post id to report
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Moderation.Entities;
 using Moderation.Entities.Post;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 namespace Moderation.DbEndpoints
 {
     public class PollEndpoints

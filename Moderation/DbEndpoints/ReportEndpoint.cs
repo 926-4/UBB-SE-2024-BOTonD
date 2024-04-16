@@ -1,5 +1,5 @@
 ﻿using Moderation.Entities.Report;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace Moderation.DbEndpoints
 {
@@ -13,11 +13,12 @@ namespace Moderation.DbEndpoints
             connection.Open();
 
             string sql = "INSERT INTO Report (ReportId, UserId, Message) " +
-                         "VALUES (@ReportId, @UserId, @Message)";
+                         "VALUES (@ReportId, @UserId, @PostId,@Message)";
 
             using SqlCommand command = new(sql, connection);
             command.Parameters.AddWithValue("@ReportId", postReport.Id);
             command.Parameters.AddWithValue("@UserId", postReport.UserId);
+            command.Parameters.AddWithValue("@PostId", postReport.PostId);
             command.Parameters.AddWithValue("@Message", postReport.Message);
             command.ExecuteNonQuery();
         }
@@ -35,7 +36,7 @@ namespace Moderation.DbEndpoints
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    PostReport postReport = new(reader.GetGuid(1), reader.GetGuid(0), reader.GetString(2));
+                    PostReport postReport = new(reader.GetGuid(1), reader.GetGuid(0),reader.GetString(3), reader.GetGuid(2));
                     postReports.Add(postReport);
                 }
             }
