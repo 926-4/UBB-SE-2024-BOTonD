@@ -4,13 +4,13 @@ namespace Moderation.Model
 {
     class ApplicationState
     {
-        private ApplicationState? instance;
-        public ApplicationState GetApp()
+        static private ApplicationState? instance;
+        static public ApplicationState GetApp()
         {
-            instance ??=new ApplicationState();
+            instance ??= new ApplicationState();
             return instance;
         }
         public Repository<Group> Groups { get; } = new();
-
+        public UserRepository UserRepository { get; } = new();
     }
 }

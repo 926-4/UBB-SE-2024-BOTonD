@@ -19,7 +19,6 @@ namespace Moderation.DbEndpoints
             command.Parameters.AddWithValue("@ReportId", postReport.Id);
             command.Parameters.AddWithValue("@UserId", postReport.UserId);
             command.Parameters.AddWithValue("@Message", postReport.Message);
-
             command.ExecuteNonQuery();
         }
         public static List<PostReport> ReadAllPostReports()

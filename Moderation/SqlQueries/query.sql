@@ -1,13 +1,16 @@
+drop table [Rule]
+drop table [Group]
+drop table Question
 drop table Vote
 drop table JoinRequestMessage
 drop table JoinRequest
 drop table PollAward
 drop table PostAward
+drop table Report
 drop table Award
 drop table PollOption
 drop table PollPost
 drop table Post
-drop table Report
 drop table GroupUser
 drop table RolePermission
 drop table UserRole
@@ -68,6 +71,7 @@ CREATE TABLE PollAward(
 CREATE TABLE Report(
 	ReportId UNIQUEIDENTIFIER primary key,
 	UserId UNIQUEIDENTIFIER references GroupUser(Id),
+	PostId UNIQUEIDENTIFIER references Post(PostId),
 	Message varchar(250)
 )
 CREATE TABLE JoinRequest(
@@ -85,4 +89,20 @@ CREATE TABLE Vote(
 	UserPost UNIQUEIDENTIFIER references GroupUser(Id),
 	PollId UNIQUEIDENTIFIER references PollPost(PollId),
 	Options nvarchar(Max)
+)
+CREATE TABLE Question(
+	QuestionId UNIQUEIDENTIFIER primary key,
+	JoinRequestId UNIQUEIDENTIFIER references JoinRequest(Id),
+	Type nvarchar(255),
+	Text nvarchar(MAX)
+)
+CREATE TABLE [Group](
+	Id UNIQUEIDENTIFIER primary key,
+	Name NVARCHAR(255)
+)
+CREATE TABLE [Rule](
+	RuleId UNIQUEIDENTIFIER primary key,
+	GroupId UNIQUEIDENTIFIER references [Group](Id),
+	Title nvarchar(255),
+	Text nvarchar(MAX)
 )
