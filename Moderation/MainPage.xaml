@@ -28,6 +28,11 @@
                 Clicked="OnViewGroupClicked"
                 HorizontalOptions="Fill"
             />
+            <Button x:Name="ViewReportsButton"
+                    Text="View Reports"
+                    Clicked="OnViewReportsClicked"
+                    HorizontalOptions="Fill"
+            />
             <Button 
                 x:Name="LogOutButton"
                 Text="Log Out"

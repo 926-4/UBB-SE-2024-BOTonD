@@ -3,6 +3,7 @@ using Moderation.CurrentSessionNamespace;
 using Moderation.GroupFeed;
 using Moderation.Entities;
 using Moderation.Entities.Post;
+using Moderation.Entities.Report;
 
 namespace Moderation
 {
@@ -54,7 +55,16 @@ namespace Moderation
                 new TextPost(System.Guid.NewGuid(), content5, author5, 0, "5", new List<Award>{}, false)
             ]));
         }
+        private void OnViewReportsClicked(object sender, EventArgs e)
+        {
+            User author4 = new User(System.Guid.NewGuid(), "neon1024_", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "in progress"));
+            User author5 = new User(System.Guid.NewGuid(), "PopNorbert", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "at the gym"));
 
+            Navigation.PushAsync(new ReportListView.ReportListView([
+                new PostReport(author4.Id,System.Guid.NewGuid(),"Ok"),
+                new PostReport(author5.Id,System.Guid.NewGuid(),"Ok")
+                ]));
+        }
         private void OnLogOutClicked(object sender, EventArgs e)
         {
             CurrentSession.GetInstance().LogOut();
