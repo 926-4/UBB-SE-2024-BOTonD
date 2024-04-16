@@ -90,12 +90,6 @@ CREATE TABLE Vote(
 	PollId UNIQUEIDENTIFIER references PollPost(PollId),
 	Options nvarchar(Max)
 )
-CREATE TABLE Question(
-	QuestionId UNIQUEIDENTIFIER primary key,
-	JoinRequestId UNIQUEIDENTIFIER references JoinRequest(Id),
-	Type nvarchar(255),
-	Text nvarchar(MAX)
-)
 CREATE TABLE [Group](
 	Id UNIQUEIDENTIFIER primary key,
 	Name NVARCHAR(255)

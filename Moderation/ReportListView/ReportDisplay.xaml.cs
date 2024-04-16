@@ -15,19 +15,19 @@ public partial class ReportDisplay : ContentView
 
         var reportIdStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var reportIdLabel = new Label { Text = "Report ID:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
-        var reportIdValueLabel = new Label { Text = report.reportId.ToString(), FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
+        var reportIdValueLabel = new Label { Text = report.UserId.ToString(), FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
         reportIdStackLayout.Children.Add(reportIdLabel);
         reportIdStackLayout.Children.Add(reportIdValueLabel);
         stackLayout.Children.Add(reportIdStackLayout);
 
         var userIdStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var userIdLabel = new Label { Text = "User ID:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
-        var userIdValueLabel = new Label { Text = report.userId.ToString(), FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
+        var userIdValueLabel = new Label { Text = report.UserId.ToString(), FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
         userIdStackLayout.Children.Add(userIdLabel);
         userIdStackLayout.Children.Add(userIdValueLabel);
         stackLayout.Children.Add(userIdStackLayout);
 
-        var messageEntry = new Entry { Text = report.messagegit add , Placeholder = "Enter message...", Margin = new Thickness(0, 4, 0, 0) };
+        var messageEntry = new Entry { Text = report.Message, Placeholder = "Enter message...", Margin = new Thickness(0, 4, 0, 0) };
         stackLayout.Children.Add(messageEntry);
 
         var buttonsStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };

@@ -59,10 +59,10 @@ namespace Moderation
         {
             User author4 = new User(System.Guid.NewGuid(), "neon1024_", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "in progress"));
             User author5 = new User(System.Guid.NewGuid(), "PopNorbert", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "at the gym"));
-
+            TextPost post = new TextPost(Guid.NewGuid(),"AAAA",author5,4,"none",new List<Award>(),false);
             Navigation.PushAsync(new ReportListView.ReportListView([
-                new PostReport(author4.Id,System.Guid.NewGuid(),"Ok"),
-                new PostReport(author5.Id,System.Guid.NewGuid(),"Ok")
+                new PostReport(author4.Id,System.Guid.NewGuid(),"Ok",post.postId),
+                new PostReport(author5.Id,System.Guid.NewGuid(),"Ok",post.postId)
                 ]));
         }
         private void OnLogOutClicked(object sender, EventArgs e)
