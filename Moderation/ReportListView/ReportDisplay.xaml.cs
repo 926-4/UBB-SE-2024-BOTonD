@@ -15,7 +15,7 @@ public partial class ReportDisplay : ContentView
 
         var reportIdStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var reportIdLabel = new Label { Text = "Report ID:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
-        var reportIdValueLabel = new Label { Text = report.UserId.ToString(), FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
+        var reportIdValueLabel = new Label { Text = report.Id.ToString(), FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
         reportIdStackLayout.Children.Add(reportIdLabel);
         reportIdStackLayout.Children.Add(reportIdValueLabel);
         stackLayout.Children.Add(reportIdStackLayout);
