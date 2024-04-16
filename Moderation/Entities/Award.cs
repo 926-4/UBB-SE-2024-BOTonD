@@ -9,11 +9,12 @@ namespace Moderation.Entities
     public class Award
     {
         public Guid awardId { get; set; }
-        private enum AwardType
+        public enum AwardType
         {
             Bronze,
             Silver,
             Gold
         }
-    }
+        public AwardType awardType { get; set; }
+    } 
 }
