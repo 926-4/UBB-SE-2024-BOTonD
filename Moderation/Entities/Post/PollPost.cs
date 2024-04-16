@@ -15,25 +15,26 @@ namespace Moderation.Entities.Post
         public string status { get; set; }
         public bool isDeleted { get; set; }
         public List<Award> awards { get; set; }
-        public List<String> options { get; set; }
-        public Dictionary<Guid, Guid> votes { get; set; }
+        public List<String> Options { get; set; }
+        public Dictionary<Guid, Guid> Votes { get; set; }
 
-        public PollPost(Guid postId, string content, User author, int score, string status, bool isDeleted, List<string> options, Dictionary<Guid, Guid> votes, List<Award> awards)
+        public PollPost(Guid postId, string content, User author, int score, string status, bool isDeleted, List<string> options, List<Award> awards)
         {
             this.postId = postId;
             this.content = content;
             this.author = author;
             this.score = score;
             this.status = status;
+            this.isDeleted = isDeleted;
             this.awards = awards;
-            this.options = options;
-            this.votes = votes;
+            Options = options;
+            Votes = [];
             this.awards = awards;
         }
 
-        public void addOption(string option)
+        public void AddOption(string option)
         {
-            options.Add(option);
+            Options.Add(option);
         }
     }
 }
