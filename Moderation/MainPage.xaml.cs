@@ -31,7 +31,7 @@ namespace Moderation
         private void OnViewGroupClicked(object sender, EventArgs e)
         {
             // TODO remove the hardcoded values
-            string content1 = "I am Victor.";
+            string content1 = "I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor.";
             User author1 = new User(System.Guid.NewGuid(), "victor3136", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "enthusiastic"));
 
             string content2 = "I am Boti.";

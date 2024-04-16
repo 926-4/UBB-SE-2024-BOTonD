@@ -28,7 +28,6 @@ public partial class GroupFeedView : ContentPage
 		Content = new ScrollView {
 			Content = layout,
 			BackgroundColor = Color.FromArgb("#424549"),
-			Margin = new Thickness(0, 100, 0, 100)
 		};
 	}
 }
