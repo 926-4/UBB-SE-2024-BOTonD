@@ -20,7 +20,7 @@ namespace Moderation.DbEndpoints
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@Id", award.awardId);
-                    command.Parameters.AddWithValue("@Type", award.awardType);
+                    command.Parameters.AddWithValue("@Type", award.awardType.ToString());
                     command.ExecuteNonQuery();
                 }
             }
@@ -60,7 +60,7 @@ namespace Moderation.DbEndpoints
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@Id", award.awardId);
-                    command.Parameters.AddWithValue("@T", award.awardType);
+                    command.Parameters.AddWithValue("@T", award.awardType.ToString());
                     command.ExecuteNonQuery();
                 }
             }
