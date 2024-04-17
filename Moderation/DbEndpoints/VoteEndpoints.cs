@@ -61,7 +61,20 @@ namespace Moderation.DbEndpoints
 
             return votes;
         }
-
+        public static void UpdateVote(Vote vote)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                string sql = "UPDATE Vote SET Options=@Options WHERE VoteId=@VoteId ";
+                using (SqlCommand command = new SqlCommand(sql, connection))
+                {
+                    command.Parameters.AddWithValue("@Options", vote.option);
+                    command.Parameters.AddWithValue("@VoteId", vote.voteId);
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
         public static void DeleteVote(Guid voteId)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
