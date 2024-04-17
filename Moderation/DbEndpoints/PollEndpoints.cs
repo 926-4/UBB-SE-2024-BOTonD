@@ -78,7 +78,7 @@ namespace Moderation.DbEndpoints
 
                     bool isDeleted = reader.GetBoolean(11);
 
-                    User author = new(userId, username, postScore, marketplaceScore, new UserStatus((UserRestriction)statusRestriction, statusRestrictionDate, statusMessage));
+                    User author = new(userId, username);
 
                     // Fetch options for the poll
                     List<string> options = ReadOptionsForPoll(pollId);

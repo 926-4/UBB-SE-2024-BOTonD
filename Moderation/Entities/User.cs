@@ -19,6 +19,12 @@ namespace Moderation.Entities
             Username = username;
             Password = GetRandomlyGeneratedPassword();
         }
+        public User(Guid id, string username)
+        {
+            Id = id;
+            Username = username;
+            Password = GetRandomlyGeneratedPassword();
+        }
         public User(string username, string password)
         {
             Id = Guid.NewGuid();
