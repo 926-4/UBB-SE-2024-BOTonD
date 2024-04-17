@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Moderation.Entities.Post
 {
-    public class TextPost(Guid postId, string content, User author, int score, string status, List<Award> awards, bool isDeleted) : IPost
+    public class TextPost(Guid postId, string content, User author, int score, string status, List<Award> awards, bool isDeleted=false) : IPost
     {
         public Guid Id { get; set; } = postId;
         public string Content { get; set; } = content;

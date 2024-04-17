@@ -30,11 +30,11 @@ namespace Moderation.CurrentSessionNamespace
             User = user;
             LoginTime = DateTime.Now;
         }
-        public void PeekGroup(Group group)
+        public void LookIntoGroup(Group group)
         {
-            Group = group; 
+            Group = group;
         }
-        public void StashGroup() 
+        public void LookOutsideCurrentGroup()
         {
             Group = null;
         }

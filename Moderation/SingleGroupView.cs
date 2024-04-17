@@ -28,8 +28,8 @@ public class SingleGroupView : ContentView
 		{
 			if(userIsInGroup)
 			{
-				//Navigation.PushAsync(new GroupFeedView(ApplicationState.GetApp().Posts));
-				CurrentSession.GetInstance().PeekGroup(group);
+				//Navigation.PushAsync(new GroupFeedView(ApplicationState.Get().Posts));
+				CurrentSession.GetInstance().LookIntoGroup(group);
 				Navigation.PopAsync();
             }
             else

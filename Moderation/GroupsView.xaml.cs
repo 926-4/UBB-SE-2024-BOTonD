@@ -14,7 +14,7 @@ public partial class GroupsView : ContentPage
 
     private void MakeKids()
     {
-        foreach (Group item in ApplicationState.GetApp().Groups.GetAll())
+        foreach (Group item in ApplicationState.Get().Groups.GetAll())
         {
             ((StackLayout)Content).Children.Add(new SingleGroupView(item, CurrentSession.GetInstance().User));
         }

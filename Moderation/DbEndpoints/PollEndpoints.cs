@@ -67,15 +67,16 @@ namespace Moderation.DbEndpoints
                     string content = reader.GetString(1);
                     int score = reader.GetInt32(2);
                     string status = reader.GetString(3);
-                    bool isDeleted = reader.GetBoolean(4);
 
-                    Guid userId = reader.GetGuid(5);
-                    string username = reader.GetString(6);
-                    int postScore = reader.GetInt32(7);
-                    int marketplaceScore = reader.GetInt32(8);
-                    int statusRestriction = reader.GetInt32(9);
-                    DateTime statusRestrictionDate = reader.GetDateTime(10);
-                    string statusMessage = reader.GetString(11);
+                    Guid userId = reader.GetGuid(4);
+                    string username = reader.GetString(5);
+                    int postScore = reader.GetInt32(6);
+                    int marketplaceScore = reader.GetInt32(7);
+                    int statusRestriction = reader.GetInt32(8);
+                    DateTime statusRestrictionDate = reader.GetDateTime(9);
+                    string statusMessage = reader.GetString(10);
+
+                    bool isDeleted = reader.GetBoolean(11);
 
                     User author = new(userId, username, postScore, marketplaceScore, new UserStatus((UserRestriction)statusRestriction, statusRestrictionDate, statusMessage));
 
@@ -85,7 +86,7 @@ namespace Moderation.DbEndpoints
                     // Fetch awards for the poll
                     List<Award> awards = ReadAwardsForPoll(pollId);
 
-                    PollPost pollPost = new(pollId, content, author, score, status, isDeleted, options, awards);
+                    PollPost pollPost = new(pollId, content, author, score, status, options, awards, isDeleted);
                     pollPosts.Add(pollPost);
                 }
             }
