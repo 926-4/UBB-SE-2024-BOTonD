@@ -1,16 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Moderation.Model;
 
 namespace Moderation.Entities.Report
 {
-    public class PostReport(Guid userId, Guid reportId, string message, Guid postId) : IReport
+    public class PostReport : IHasID
     {
-        public Guid UserId { get; set; } = userId;
-        public Guid Id { get; set; } = reportId;
-        public string Message { get; set; } = message;
-        public Guid PostId { get; set; } = postId;
+        public Guid Id { get; set; }
+        public Guid UserId { get; set; }
+        public string Message { get; set; }
+        public Guid PostId { get; set; }
+        public PostReport(Guid userId, string message, Guid postId)
+        {
+            Id = Guid.NewGuid();
+            UserId = userId;
+            Message = message;
+            PostId = postId;
+        }
+        public PostReport(Guid id, Guid userId, string message, Guid postId)
+        {
+            Id = id;
+            UserId = userId;
+            Message = message;
+            PostId = postId;
+        }
     }
 }

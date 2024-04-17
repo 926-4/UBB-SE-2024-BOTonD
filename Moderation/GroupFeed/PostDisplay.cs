@@ -5,9 +5,9 @@ namespace Moderation.GroupFeed;
 
 public class PostDisplay : ContentView
 {
-    private IPost _post;
-    private Picker _reactionsPicker;
-    private Picker _awardsPicker;
+    private readonly IPost _post;
+    private readonly Picker _reactionsPicker;
+    private readonly Picker _awardsPicker;
 
     public PostDisplay(IPost post)
 	{
@@ -17,15 +17,22 @@ public class PostDisplay : ContentView
 
         var reactions = new List<string> { "Like", "Dislike"};
 
-        _reactionsPicker = new Picker { Title = "React", MinimumWidthRequest = 100 };
-        _reactionsPicker.ItemsSource = reactions;
-        _reactionsPicker.SelectedIndexChanged += onReactionsPicker_SelectedIndexChanged;
+        _reactionsPicker = new Picker
+        {
+            Title = "React",
+            MinimumWidthRequest = 100,
+            ItemsSource = reactions
+        };
+        _reactionsPicker.SelectedIndexChanged += OnReactionsPicker_SelectedIndexChanged;
 
         var awards = new List<string> { "Bronze", "Silver", "Gold" };
 
-        _awardsPicker = new Picker { Title = "Award" };
-        _awardsPicker.ItemsSource = awards;
-        _awardsPicker.SelectedIndexChanged += onAwardsPicker_SelectedIndexChanged;
+        _awardsPicker = new Picker
+        {
+            Title = "Award",
+            ItemsSource = awards
+        };
+        _awardsPicker.SelectedIndexChanged += OnAwardsPicker_SelectedIndexChanged;
 
         reactButton = new Button
         {
@@ -43,14 +50,12 @@ public class PostDisplay : ContentView
 
         commentButton = new Button
         {
-            Text = "Comment"
+            Text = "Comment",
+            Command = new Command(() =>
+            {
+                Navigation.PushAsync(new CommentsFeedView(_post.Id));
+            })
         };
-
-        commentButton.Command = new Command(() =>
-        {
-            Navigation.PushAsync(new CommentsFeedView(_post.Id));
-        });
-
         shareButton = new Button
         {
             Text = "Share"
@@ -72,7 +77,7 @@ public class PostDisplay : ContentView
         });
 
         // Adding buttons to the layout
-        FlexLayout buttonsLayout = new FlexLayout()
+        FlexLayout buttonsLayout = new()
         {
             JustifyContent = Microsoft.Maui.Layouts.FlexJustify.SpaceBetween,
 
@@ -85,8 +90,8 @@ public class PostDisplay : ContentView
             }
         };
 
-		StackLayout mainLayout = new StackLayout
-		{
+        StackLayout mainLayout = new()
+        {
             Padding = 25,
             Margin = new Thickness(25, 25, 25, 25),
 
@@ -157,8 +162,8 @@ public class PostDisplay : ContentView
             }
         };
 
-        Border border = new Border
-		{
+        Border border = new()
+        {
 			Content = mainLayout,
 
 			BackgroundColor = Color.FromArgb("#36393e"),
@@ -176,7 +181,7 @@ public class PostDisplay : ContentView
         Content = border;
 	}
 
-    private void onReactionsPicker_SelectedIndexChanged(object sender, EventArgs e)
+    private void OnReactionsPicker_SelectedIndexChanged(object? sender, EventArgs e)
     {
         var selectedReaction = _reactionsPicker.SelectedItem.ToString();
 
@@ -197,7 +202,7 @@ public class PostDisplay : ContentView
         }
     }
 
-    private void onAwardsPicker_SelectedIndexChanged(object sender, EventArgs e)
+    private void OnAwardsPicker_SelectedIndexChanged(object? sender, EventArgs e)
     {
         var selectedAward = _awardsPicker.SelectedItem.ToString();
 
