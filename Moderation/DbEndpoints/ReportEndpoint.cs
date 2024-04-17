@@ -30,13 +30,14 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT ReportId, UserId, Message FROM Report";
+                string sql = "SELECT ReportId, UserId, Message, PostId FROM Report";
 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    PostReport postReport = new(reader.GetGuid(1), reader.GetGuid(0),reader.GetString(3), reader.GetGuid(2));
+                    ////!?!?!??!?!?!?!
+                    PostReport postReport = new(reader.GetGuid(0), reader.GetGuid(1),reader.GetString(2), reader.GetGuid(3));
                     postReports.Add(postReport);
                 }
             }

@@ -26,9 +26,9 @@ namespace Moderation.DbEndpoints
             command.Parameters.AddWithValue("@Username", user.Username);
             command.Parameters.AddWithValue("@PostScore", user.PostScore);
             command.Parameters.AddWithValue("@MarketplaceScore", user.MarketplaceScore);
-            command.Parameters.AddWithValue("@StatusRestriction", (int)user.Status.restriction);
-            command.Parameters.AddWithValue("@StatusRestrictionDate", user.Status.restrictionDate);
-            command.Parameters.AddWithValue("@StatusMessage", user.Status.message);
+            command.Parameters.AddWithValue("@StatusRestriction", (int)user.Status.Restriction);
+            command.Parameters.AddWithValue("@StatusRestrictionDate", user.Status.RestrictionDate);
+            command.Parameters.AddWithValue("@StatusMessage", user.Status.Message);
 
             command.ExecuteNonQuery();
         }
@@ -69,9 +69,9 @@ namespace Moderation.DbEndpoints
             command.Parameters.AddWithValue("@Username", user.Username);
             command.Parameters.AddWithValue("@PostScore", user.PostScore);
             command.Parameters.AddWithValue("@MarketplaceScore", user.MarketplaceScore);
-            command.Parameters.AddWithValue("@StatusRestriction", (int)user.Status.restriction);
-            command.Parameters.AddWithValue("@StatusRestrictionDate", user.Status.restrictionDate);
-            command.Parameters.AddWithValue("@StatusMessage", user.Status.message);
+            command.Parameters.AddWithValue("@StatusRestriction", (int)user.Status.Restriction);
+            command.Parameters.AddWithValue("@StatusRestrictionDate", user.Status.RestrictionDate);
+            command.Parameters.AddWithValue("@StatusMessage", user.Status.Message);
             command.Parameters.AddWithValue("@Id", user.Id);
 
             command.ExecuteNonQuery();

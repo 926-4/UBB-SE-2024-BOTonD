@@ -39,42 +39,42 @@ namespace Moderation
         {
             // TODO remove the hardcoded values
             string content1 = "I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor. I am Victor.";
-            User author1 = new(Guid.NewGuid(), "victor3136", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "enthusiastic"));
+            User author1 = new("victor3136");
 
             string content2 = "I am Boti.";
-            User author2 = new(System.Guid.NewGuid(), "SzilagyiBotond", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "at work"));
+            User author2 = new("SzilagyiBotond");
 
             string content3 = "I am Cipri.";
-            User author3 = new(Guid.NewGuid(), "Cip", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "at peace"));
+            User author3 = new("Cip");
 
             string content4 = "I am Ioan.";
-            User author4 = new(Guid.NewGuid(), "neon1024_", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "in progress"));
+            User author4 = new("neon1024_");
 
             string content5 = "I am Norbi.";
-            User author5 = new(Guid.NewGuid(), "PopNorbert", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "at the gym"));
+            User author5 = new("PopNorbert");
 
             Navigation.PushAsync(new GroupFeedView([
-                new TextPost(Guid.NewGuid(), content1, author1, 0, "1", []),
-                new TextPost(Guid.NewGuid(), content2, author2, 0, "2", []),
-                new TextPost(Guid.NewGuid(), content3, author3, 0, "3", []),
-                new TextPost(Guid.NewGuid(), content4, author4, 0, "4", []),
-                new TextPost(Guid.NewGuid(), content5, author5, 0, "5", [])
-            ]));
+                new TextPost(content1, author1, "1"),
+                new TextPost(content2, author2, "2"),
+                new TextPost(content3, author3, "3"),
+                new TextPost(content4, author4, "4"),
+                new TextPost(content5, author5, "5")
+            ])) ;
         }
         private void OnViewReportsClicked(object sender, EventArgs e)
         {
-            User author4 = new(Guid.NewGuid(), "neon1024_", 0, 0, new UserStatus(UserRestriction.None, DateTime.Now, "in progress"));
-            User author5 = new(Guid.NewGuid(), "NopPornbert", 0, 0, new UserStatus(UserRestriction.None, DateTime.Now, "at the gym"));
-            TextPost post = new(Guid.NewGuid(), "AAAA", author5, 4, "none", []);
+            User author4 = new("neon1024_");
+            User author5 = new("NopPornbert");
+            TextPost post = new("AAAA", author5);
             Navigation.PushAsync(new ReportListView.ReportListView([
-                new PostReport(author4.Id,Guid.NewGuid(),"Ok",post.Id),
-                new PostReport(author5.Id,Guid.NewGuid(),"Ok",post.Id)
+                new PostReport(author4.Id,"This post is very bad for this community",post.Id),
+                new PostReport(author5.Id,"I am reporting my own post!!:-DDD",post.Id)
                 ]));
         }
         private void OnRequestsClicked(object sender, EventArgs e)
         {
-            User author4 = new User(System.Guid.NewGuid(), "neon1024_", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "in progress"));
-            User author5 = new User(System.Guid.NewGuid(), "PopNorbert", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "at the gym"));
+            User author4 = new("neon1024_");
+            User author5 = new("NopPornbert");
             Navigation.PushAsync(new JoinRequestView.JoinRequestListView([
                 new JoinRequest(author4.Id,new Dictionary<string, string>{
                     {"How you are" ,"Good"},
