@@ -26,7 +26,7 @@ namespace Moderation
                     new TextQuestion("Why do you want to join this group?"),
                     new SliderQuestion("How much do you want to join this group?", 0, 1),
                     new TextQuestion("Extra question???"),
-                    new RadioQuestion( "favourite farm animal", ["dog", "cat", "mouse", "sheep", "cow", "chicken"])
+                    new RadioQuestion("favourite farm animal", ["dog", "cat", "mouse", "sheep", "cow", "chicken"])
                 ]));
         }
 
