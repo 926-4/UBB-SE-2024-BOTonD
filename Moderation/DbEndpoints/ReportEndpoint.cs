@@ -3,7 +3,6 @@ using Microsoft.Data.SqlClient;
 
 namespace Moderation.DbEndpoints
 {
-
     public class ReportEndpoint
     {
         private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
@@ -13,12 +12,12 @@ namespace Moderation.DbEndpoints
             connection.Open();
 
             string sql = "INSERT INTO Report (ReportId, UserId, PostId, Message, GroupId) " +
-                         "VALUES (@ReportId, @UserId, @Id, @Message, @GroupId)";
+                         "VALUES (@ReportId, @UserId, @PostId, @Message, @GroupId)";
 
             using SqlCommand command = new(sql, connection);
             command.Parameters.AddWithValue("@ReportId", postReport.Id);
             command.Parameters.AddWithValue("@UserId", postReport.UserId);
-            command.Parameters.AddWithValue("@Id", postReport.PostId);
+            command.Parameters.AddWithValue("@PostId", postReport.PostId);
             command.Parameters.AddWithValue("@Message", postReport.Message);
             command.Parameters.AddWithValue("@GroupId", postReport.GroupId);
             command.ExecuteNonQuery();
@@ -72,7 +71,7 @@ namespace Moderation.DbEndpoints
                                       $"PostId = {postReport.PostId},"      +
                                       $"Message = {postReport.Message},"    +
                                       $"GroupId = {postReport.GroupId}"     +
-                                      "WHERE ReportId = " + Id;
+                                      $"WHERE ReportId = {Id}";
 
             using SqlCommand command = new(sqlCommandString, connection);
 
