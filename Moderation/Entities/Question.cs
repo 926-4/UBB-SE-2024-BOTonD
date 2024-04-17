@@ -12,5 +12,13 @@ namespace Moderation.Entities
         public Guid RequestId { get; set; }
         public string Type { get; set; }
         public string Text { get; set; }
+
+        public Question(Guid requestId, string type, string text)
+        {
+            QuestionId = Guid.NewGuid();
+            RequestId = requestId;
+            Type = type;
+            Text = text;
+        }
     }
 }
