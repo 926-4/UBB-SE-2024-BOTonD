@@ -65,11 +65,13 @@ public partial class JoinRequestDisplay : ContentView
 
 
         var buttonsStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
-        var warningButton = new Button { Text = "Accept" };
-        warningButton.Clicked += OnAcceptClicked;
-        var muteButton = new Button { Text = "Decline" };
-        muteButton.Clicked += OnDeclineClicked;
-
+        var acceptButton = new Button { Text = "Accept" };
+        acceptButton.Clicked += OnAcceptClicked;
+        var declineButton = new Button { Text = "Decline" };
+        declineButton.Clicked += OnDeclineClicked;
+        buttonsStackLayout.Children.Add(acceptButton);
+        buttonsStackLayout.Children.Add(declineButton);
+        stackLayout.Children.Add(buttonsStackLayout);
         Content = stackLayout;
     }
 
