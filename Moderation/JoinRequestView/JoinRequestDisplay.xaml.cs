@@ -46,9 +46,22 @@ public partial class JoinRequestDisplay : ContentView
 
             grid.Children.Add(keyLabel);
             grid.Children.Add(valueLabel);
+            grid.Padding = new Thickness(5);
 
-            stackLayout.Children.Add(grid);
+            var frame = new Frame
+            {
+                BorderColor = Color.Parse("Black"),
+                HasShadow = false,
+                Padding = 1,
+                CornerRadius = 5,
+                Content = grid
+            };
+
+            stackLayout.Children.Add(frame);
+
+            //stackLayout.Children.Add(grid);
         }
+
 
 
         var buttonsStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
