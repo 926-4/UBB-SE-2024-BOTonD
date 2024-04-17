@@ -8,17 +8,16 @@ namespace Moderation.Entities
 {
     public class Question
     {
-        public Guid QuestionId { get; set; }
         public Guid RequestId { get; set; }
-        public string Type { get; set; }
         public string Text { get; set; }
 
-        public Question(Guid requestId, string type, string text)
+        public string Answer {  get; set; }
+
+        public Question(Guid requestId, string text, string answer)
         {
-            QuestionId = Guid.NewGuid();
             RequestId = requestId;
-            Type = type;
             Text = text;
+            Answer = answer;
         }
     }
 }
