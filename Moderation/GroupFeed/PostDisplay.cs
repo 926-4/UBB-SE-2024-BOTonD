@@ -84,7 +84,7 @@ public class PostDisplay : ContentView
                             VerticalTextAlignment = TextAlignment.Center,
                             HorizontalTextAlignment = TextAlignment.Start,
 
-                            Text = post.author.Username,
+                            Text = post.Author.Username,
                             TextColor = Colors.White,
 
                             FontSize = 25,
@@ -115,7 +115,7 @@ public class PostDisplay : ContentView
                             VerticalTextAlignment = TextAlignment.Start,
                             HorizontalTextAlignment = TextAlignment.Start,
 
-                            Text = post.content,
+                            Text = post.Content,
                             TextColor = Colors.White,
 
                             FontSize = 25,

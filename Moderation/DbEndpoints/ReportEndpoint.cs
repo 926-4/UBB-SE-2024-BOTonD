@@ -13,12 +13,12 @@ namespace Moderation.DbEndpoints
             connection.Open();
 
             string sql = "INSERT INTO Report (ReportId, UserId, Message) " +
-                         "VALUES (@ReportId, @UserId, @PostId,@Message)";
+                         "VALUES (@ReportId, @UserId, @Id,@Message)";
 
             using SqlCommand command = new(sql, connection);
             command.Parameters.AddWithValue("@ReportId", postReport.Id);
             command.Parameters.AddWithValue("@UserId", postReport.UserId);
-            command.Parameters.AddWithValue("@PostId", postReport.PostId);
+            command.Parameters.AddWithValue("@Id", postReport.PostId);
             command.Parameters.AddWithValue("@Message", postReport.Message);
             command.ExecuteNonQuery();
         }

@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Moderation.Model;
 
 namespace Moderation.Entities.Post
 {
-    public interface IPost
+    public interface IPost : IHasID
     {
-        Guid postId { get; set; }
-        string content { get; set; }
-        User author { get; set; }
-        int score { get; set; }
-        string status { get; set; }
-        List<Award> awards { get; set; }
-        bool isDeleted { get; set; }
+        string Content { get; set; }
+        User Author { get; set; }
+        int Score { get; set; }
+        string Status { get; set; }
+        List<Award> Awards { get; set; }
+        bool IsDeleted { get; set; }
     }
 }

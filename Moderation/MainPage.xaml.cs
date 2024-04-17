@@ -61,8 +61,8 @@ namespace Moderation
             User author5 = new User(System.Guid.NewGuid(), "PopNorbert", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "at the gym"));
             TextPost post = new TextPost(Guid.NewGuid(),"AAAA",author5,4,"none",new List<Award>(),false);
             Navigation.PushAsync(new ReportListView.ReportListView([
-                new PostReport(author4.Id,System.Guid.NewGuid(),"Ok",post.postId),
-                new PostReport(author5.Id,System.Guid.NewGuid(),"Ok",post.postId)
+                new PostReport(author4.Id,System.Guid.NewGuid(),"Ok",post.Id),
+                new PostReport(author5.Id,System.Guid.NewGuid(),"Ok",post.Id)
                 ]));
         }
         private void OnLogOutClicked(object sender, EventArgs e)

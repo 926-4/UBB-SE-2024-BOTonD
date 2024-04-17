@@ -6,25 +6,14 @@ using System.Threading.Tasks;
 
 namespace Moderation.Entities.Post
 {
-    public class TextPost : IPost
+    public class TextPost(Guid postId, string content, User author, int score, string status, List<Award> awards, bool isDeleted) : IPost
     {
-        public Guid postId { get; set; }
-        public string content { get; set; }
-        public User author { get; set; }
-        public int score { get; set; }
-        public string status { get; set; }
-        public List<Award> awards { get; set; }
-        public bool isDeleted { get; set; }
-
-        public TextPost(Guid postId, string content, User author, int score, string status, List<Award> awards, bool isDeleted)
-        {
-            this.postId = postId;
-            this.content = content;
-            this.author = author;
-            this.score = score;
-            this.status = status;
-            this.awards = awards;
-            this.isDeleted = isDeleted;
-        }
+        public Guid Id { get; set; } = postId;
+        public string Content { get; set; } = content;
+        public User Author { get; set; } = author;
+        public int Score { get; set; } = score;
+        public string Status { get; set; } = status;
+        public List<Award> Awards { get; set; } = awards;
+        public bool IsDeleted { get; set; } = isDeleted;
     }
 }

@@ -5,7 +5,7 @@ namespace Moderation.GroupFeed;
 
 public partial class GroupFeedView : ContentPage
 {
-	private IEnumerable<IPost> _posts;
+	private readonly IEnumerable<IPost> _posts;
 
 	public GroupFeedView(IEnumerable<IPost> posts)
 	{
