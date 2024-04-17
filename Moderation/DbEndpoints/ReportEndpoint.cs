@@ -1,5 +1,5 @@
 ﻿using Moderation.Entities.Report;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace Moderation.DbEndpoints
 {
@@ -13,13 +13,13 @@ namespace Moderation.DbEndpoints
             connection.Open();
 
             string sql = "INSERT INTO Report (ReportId, UserId, Message) " +
-                         "VALUES (@ReportId, @UserId, @Message)";
+                         "VALUES (@ReportId, @UserId, @Id,@Message)";
 
             using SqlCommand command = new(sql, connection);
             command.Parameters.AddWithValue("@ReportId", postReport.Id);
             command.Parameters.AddWithValue("@UserId", postReport.UserId);
+            command.Parameters.AddWithValue("@Id", postReport.PostId);
             command.Parameters.AddWithValue("@Message", postReport.Message);
-
             command.ExecuteNonQuery();
         }
         public static List<PostReport> ReadAllPostReports()
@@ -30,13 +30,14 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT ReportId, UserId, Message FROM Report";
+                string sql = "SELECT ReportId, UserId, Message, PostId FROM Report";
 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    PostReport postReport = new(reader.GetGuid(1), reader.GetGuid(0), reader.GetString(2));
+                    ////!?!?!??!?!?!?!
+                    PostReport postReport = new(reader.GetGuid(0), reader.GetGuid(1),reader.GetString(2), reader.GetGuid(3));
                     postReports.Add(postReport);
                 }
             }

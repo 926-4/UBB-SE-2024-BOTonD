@@ -1,15 +1,10 @@
-﻿using Moderation.Entities;
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Data.SqlClient;
+using Moderation.Entities;
 
 namespace Moderation.DbEndpoints
 {
-    
-    public  class RoleEndpoints
+
+    public class RoleEndpoints
     {
         private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         public static void CreateRole(Role role)
@@ -43,7 +38,7 @@ namespace Moderation.DbEndpoints
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Role role = new                    (
+                    Role role = new(
                         reader.GetGuid(0),
                         reader.GetString(1)
                     );

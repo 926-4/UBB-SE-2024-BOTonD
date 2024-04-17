@@ -2,32 +2,25 @@ using Moderation.Authentication;
 using Moderation.CurrentSessionNamespace;
 using Moderation.Repository;
 using Moderation.Entities;
+using Moderation.Model;
 namespace Moderation;
 
 public partial class LoginPage : ContentPage
 {
-    private readonly AuthenticationModule authenticator;
+    private readonly ApplicationState CurrentApp = ApplicationState.Get();
     public LoginPage()
     {
-        User ua = new(Guid.NewGuid(), "ua", 1, 1,new UserStatus(UserRestriction.None, DateTime.Now, "None" ));
-        User ub = new(Guid.NewGuid(), "ub", 1, 1, new UserStatus(UserRestriction.None, DateTime.Now, "None"));
-        User uc = new(Guid.NewGuid(), "uc", 1, 1, new UserStatus(UserRestriction.None, DateTime.Now, "None"));
-        authenticator = new AuthenticationModule(new Dictionary<Guid, string> {
-            {ua.Id,"ua" },
-            {ub.Id, "ub"},
-            {uc.Id, "uc" }
-            }, new UserRepository(new Dictionary<Guid, User> { { ua.Id, ua }, { ub.Id, ub }, { uc.Id, uc } }));
         InitializeComponent();
     }
 
     private async void OnLoginClicked(object sender, EventArgs e)
     {
-        string username = usernameEntry.Text;
-        string password = passwordEntry.Text;
+        string username = usernameEntry.Text.Trim();
+        string password = passwordEntry.Text.Trim();
 
         try
         {
-            authenticator.AuthMethod(username, password);
+            CurrentApp.Authenticator.AuthMethod(username, password);
             usernameEntry.Text = "";
             passwordEntry.Text = "";
             await Navigation.PushAsync(new MainPage());

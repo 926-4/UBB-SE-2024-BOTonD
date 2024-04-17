@@ -3,16 +3,25 @@ using Moderation.Entities;
 using Moderation.Repository;
 namespace Moderation.Authentication
 {
-    public class AuthenticationModule(Dictionary<Guid, string> guidToUsername, UserRepository users/*, TimeSpan validityTimeSpanForLogIn*/)
+    public class AuthenticationModule
     {
-        //private readonly TimeSpan timeout = validityTimeSpanForLogIn;
-        private Dictionary<Guid, string> UserIDToPasswordMap { get; set; } = guidToUsername;
-        private readonly UserRepository userRepo = users;
+        private Dictionary<Guid, string> UserIDToPasswordMap { get; set; }
+        private readonly UserRepository userRepo;
+        public AuthenticationModule(Dictionary<Guid, string> guidToUsername, UserRepository users)
+        {
+            UserIDToPasswordMap = guidToUsername;
+            userRepo = users;
+        }
+        public AuthenticationModule()
+        {
+            UserIDToPasswordMap = [];
+            userRepo = new();
+        }
 
         public void AuthMethod(string username, string password)
         {
             Guid? id = userRepo.GetGuidByName(username);
-            if(!id.HasValue)
+            if (!id.HasValue)
             {
                 throw new ArgumentException($"Username does not exist");
             }
@@ -39,5 +48,10 @@ namespace Moderation.Authentication
             return Convert.ToBase64String(saltBytes);
         }
 
+        internal void AddUser(User user, string password)
+        {
+            UserIDToPasswordMap.Add(user.Id, password);
+            userRepo.Add(user.Id, user);
+        }
     }
 }

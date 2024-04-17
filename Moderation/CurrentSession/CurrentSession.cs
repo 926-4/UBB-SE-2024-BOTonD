@@ -1,4 +1,5 @@
 ﻿using Moderation.Entities;
+using Moderation.Model;
 namespace Moderation.CurrentSessionNamespace
 {
     public class CurrentSession
@@ -16,6 +17,7 @@ namespace Moderation.CurrentSessionNamespace
         }
 
         public User? User { get; set; }
+        public Group? Group { get; set; }
         public DateTime? LoginTime { get; set; }
 
         public void LogOut()
@@ -27,6 +29,14 @@ namespace Moderation.CurrentSessionNamespace
         {
             User = user;
             LoginTime = DateTime.Now;
+        }
+        public void LookIntoGroup(Group group)
+        {
+            Group = group;
+        }
+        public void LookOutsideCurrentGroup()
+        {
+            Group = null;
         }
     }
 }

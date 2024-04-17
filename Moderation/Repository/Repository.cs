@@ -17,7 +17,7 @@ namespace Moderation.Repository
 
         public virtual bool Add(Guid key, T value)
         {
-            if (!data.ContainsKey(key)) return false;
+            if (data.ContainsKey(key)) return false;
             data.Add(key, value);
             return true;
         }

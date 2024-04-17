@@ -1,5 +1,5 @@
 ﻿using Moderation.Entities;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace Moderation.DbEndpoints
 {

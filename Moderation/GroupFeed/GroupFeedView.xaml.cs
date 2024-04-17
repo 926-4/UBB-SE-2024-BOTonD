@@ -5,11 +5,11 @@ namespace Moderation.GroupFeed;
 
 public partial class GroupFeedView : ContentPage
 {
-	private IEnumerable<IPost> _posts;
+	private readonly IEnumerable<IPost> _posts;
 
 	public GroupFeedView(IEnumerable<IPost> posts)
 	{
-		InitializeComponent();
+		//InitializeComponent();
 
 		_posts = posts;
 
@@ -28,7 +28,6 @@ public partial class GroupFeedView : ContentPage
 		Content = new ScrollView {
 			Content = layout,
 			BackgroundColor = Color.FromArgb("#424549"),
-			Margin = new Thickness(0, 100, 0, 100)
 		};
 	}
 }
