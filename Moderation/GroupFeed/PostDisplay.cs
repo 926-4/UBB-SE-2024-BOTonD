@@ -56,7 +56,6 @@ public class PostDisplay : ContentView
                 Navigation.PushAsync(new CommentsFeedView(_post.Id));
             })
         };
-
         shareButton = new Button
         {
             Text = "Share"
