@@ -1,6 +1,4 @@
 drop table [Rule]
-drop table [Group]
-drop table Question
 drop table Vote
 drop table JoinRequestMessage
 drop table JoinRequest
@@ -12,6 +10,8 @@ drop table PollOption
 drop table PollPost
 drop table Post
 drop table GroupUser
+drop table [User]
+drop table [Group]
 drop table RolePermission
 drop table UserRole
 
@@ -24,14 +24,25 @@ CREATE TABLE RolePermission(
 	Permission nvarchar(255),
 	Primary Key (RoleId,Permission)
 )
+CREATE TABLE [Group](
+	Id UNIQUEIDENTIFIER primary key,
+	Name NVARCHAR(255)
+)
+CREATE TABLE [User](
+	Id UNIQUEIDENTIFIER Primary key,
+	Username nvarchar(255),
+	Password nvarchar(255)
+)
 CREATE TABLE GroupUser(
-    Id UNIQUEIDENTIFIER PRIMARY KEY,
-    Username NVARCHAR(255),
+    Id UNIQUEIDENTIFIER primary key,
+    Uid UNIQUEIDENTIFIER references [User](Id),
+	GroupId UNIQUEIDENTIFIER references [Group](Id),
     PostScore INT,
     MarketplaceScore INT,
     StatusRestriction INT, 
 	StatusRestrictionDate DATETIME,
-    StatusMessage NVARCHAR(MAX)
+    StatusMessage NVARCHAR(MAX),
+	RoleId UNIQUEIDENTIFIER references UserRole(RoleId)
 )
 CREATE TABLE Post(
 	PostId UNIQUEIDENTIFIER primary key,
@@ -39,7 +50,8 @@ CREATE TABLE Post(
 	UserId UNIQUEIDENTIFIER references GroupUser(Id),
 	Score int,
 	Status nvarchar(250),
-	IsDeleted BIT
+	IsDeleted BIT,
+	GroupId UNIQUEIDENTIFIER references [Group](Id)
 )
 CREATE TABLE PollPost (
     PollId UNIQUEIDENTIFIER PRIMARY KEY,
@@ -48,6 +60,7 @@ CREATE TABLE PollPost (
     Score INT,
     Status NVARCHAR(50),
     IsDeleted BIT,
+	GroupId UNIQUEIDENTIFIER references [Group](Id)
 )
 CREATE TABLE PollOption (
     OptionId INT IDENTITY PRIMARY KEY,
@@ -72,7 +85,8 @@ CREATE TABLE Report(
 	ReportId UNIQUEIDENTIFIER primary key,
 	UserId UNIQUEIDENTIFIER references GroupUser(Id),
 	PostId UNIQUEIDENTIFIER references Post(PostId),
-	Message varchar(250)
+	Message varchar(250),
+	GroupId UNIQUEIDENTIFIER references [Group](Id)
 )
 CREATE TABLE JoinRequest(
 	Id UNIQUEIDENTIFIER PRIMARY KEY,
@@ -89,10 +103,6 @@ CREATE TABLE Vote(
 	UserPost UNIQUEIDENTIFIER references GroupUser(Id),
 	PollId UNIQUEIDENTIFIER references PollPost(PollId),
 	Options nvarchar(Max)
-)
-CREATE TABLE [Group](
-	Id UNIQUEIDENTIFIER primary key,
-	Name NVARCHAR(255)
 )
 CREATE TABLE [Rule](
 	RuleId UNIQUEIDENTIFIER primary key,
