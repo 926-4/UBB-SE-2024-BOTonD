@@ -15,34 +15,34 @@ namespace Moderation.Repository
             this.data = [];
         }
 
-        public bool Add(Guid key, T value)
+        public virtual bool Add(Guid key, T value)
         {
             if (!data.ContainsKey(key)) return false;
             data.Add(key, value);
             return true;
         }
 
-        public bool Contains(Guid key)
+        public virtual bool Contains(Guid key)
         {
             return data.ContainsKey(key);
         }
 
-        public T? Get(Guid key)
+        public virtual T? Get(Guid key)
         {
             var value = data.GetValueOrDefault(key);
             return value;
         }
 
-        public IEnumerable<T> GetAll()
+        public virtual IEnumerable<T> GetAll()
         {
             return data.Values;
         }
 
-        public bool Remove(Guid key)
+        public virtual bool Remove(Guid key)
         {
             return data.Remove(key);
         }
-        public bool Update(Guid key, T value)
+        public virtual bool Update(Guid key, T value)
         {
             if (!data.ContainsKey(key)) return false;
             data[key] = value;
