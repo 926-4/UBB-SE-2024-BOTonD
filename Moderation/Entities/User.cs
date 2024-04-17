@@ -1,5 +1,4 @@
-﻿using Android.Health.Connect.DataTypes.Units;
-using Moderation.Model;
+﻿using Moderation.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

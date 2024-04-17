@@ -3,10 +3,26 @@ using Moderation.Repository;
 
 namespace Moderation.GroupRulesView
 {
-    public class Rule(string text, Guid groupId) : IHasID
+    public class Rule : IHasID
     {
-        public string Text { get; } = text;
-        public Guid Id { get; } = Guid.NewGuid();
-        public Guid GroupId { get; set; } = groupId;
+        public Guid Id { get; }
+        public Guid GroupId { get; set; }
+        public string Title {  get; set; }
+        public string Text { get; }
+
+        public Rule(Guid groupId, string title, string text)
+        {
+            Id = Guid.NewGuid();
+            GroupId = groupId;
+            Title = title;
+            Text = text;
+        }
+        public Rule(Guid id, Guid groupId, string title, string text)
+        {
+            Id = id;
+            GroupId = groupId;
+            Title = title;
+            Text = text;
+        }
     }
 }

@@ -5,6 +5,7 @@ using Moderation.Entities.Post;
 using Moderation.GroupEntryForm;
 using Moderation.GroupRulesView;
 using Moderation.Repository;
+using Question = Moderation.GroupEntryForm.Question;
 //using System.Data;
 
 namespace Moderation.Model
@@ -47,9 +48,9 @@ namespace Moderation.Model
             Question q2 = new SliderQuestion("How much do you like me?:->", 0, 10);
             Question q3 = new RadioQuestion("What do you want to eat?", ["grill", "pizza", "nothing", "vegetarian"]);
             
-            Rule r1 = new("I do solemnly swear to be cool and chill");
-            Rule r2 = new("I do solemnly swear to be cool and chill");
-            Rule r3 = new("I do solemnly swear I won't ask why the first rule is written twice");
+            Rule r1 = new(Guid.NewGuid(), "Vibe Check", "I do solemnly swear to be cool and chill");
+            Rule r2 = new(Guid.NewGuid(), "Vibe Check", "I do solemnly swear to be cool and chill");
+            Rule r3 = new(Guid.NewGuid(), "Vibe Check Check", "I do solemnly swear I won't ask why the first rule is written twice");
             
             group.GroupEntryQuestions.Add(q1.Id, q1);
             group.GroupEntryQuestions.Add(q2.Id, q2); 
@@ -64,8 +65,8 @@ namespace Moderation.Model
             q1 = new TextQuestion("What time are you free at?");
             q2 = new RadioQuestion("What are you studying?", ["biology", "maths", "physics", "literature"]);
             q3 = new TextQuestion("Any other mentions? (leave free if all's good)");
-            r1 = new("I will do my best to help others during my stay here");
-            r2 = new("I will not throw a spontaneous party");
+            r1 = new(Guid.NewGuid(), "Kindness Check", "I will do my best to help others during my stay here");
+            r2 = new(Guid.NewGuid(), "Manners Check", "I will not throw a spontaneous party");
 
             group.GroupEntryQuestions.Add(q1.Id, q1);
             group.GroupEntryQuestions.Add(q2.Id, q2);

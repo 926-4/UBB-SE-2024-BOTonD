@@ -43,9 +43,9 @@ public partial class GroupEntryForm : ContentPage
     private void HandleRules()
     {
         Navigation.PushAsync(new GroupRulesView.GroupRulesView([
-                    new Rule("rule a"),
-                    new Rule("rule b"),
-                    new Rule("rule c")
+                    new Rule(Guid.NewGuid(), "rule a", "rule a text"),
+                    new Rule(Guid.NewGuid(), "rule b", "rule b text"),
+                    new Rule(Guid.NewGuid(), "rule c", "rule c text"),
                 ]));
     }
     private Button SubmitButton()
@@ -82,5 +82,4 @@ public partial class GroupEntryForm : ContentPage
                                 "}";
         DisplayAlert("Thanks for applying! We'll get back to you soon",$"Form Responses : {responseString}", "OK");
     }
-
 }

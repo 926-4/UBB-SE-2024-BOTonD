@@ -37,7 +37,7 @@ namespace Moderation.DbEndpoints
                 while (reader.Read())
                 {
                     ////!?!?!??!?!?!?!
-                    PostReport postReport = new(reader.GetGuid(0), reader.GetGuid(1),reader.GetString(2), reader.GetGuid(3));
+                    PostReport postReport = new(reader.GetGuid(0), reader.GetGuid(1), reader.GetString(2), reader.GetGuid(3));
                     postReports.Add(postReport);
                 }
             }
@@ -56,6 +56,22 @@ namespace Moderation.DbEndpoints
 
             command.ExecuteNonQuery();
         }
+        public static void UpdatePostReport(Guid Id, PostReport postReport)
+        {
+            using SqlConnection connection = new(connectionString);
 
+            connection.Open();
+
+            string sqlCommandString = "UPDATE Report" +
+                                      $"SET UserId = {postReport.UserId}," +
+                                      $"PostId = {postReport.PostId}," +
+                                      $"Message = {postReport.Message}," +
+                                      $"GroupId = {postReport.GroupId}" +
+                                      $"WHERE ReportId = {Id}";
+
+            using SqlCommand command = new(sqlCommandString, connection);
+
+            command.ExecuteNonQuery();
+        }
     }
 }

@@ -4,6 +4,7 @@ using Moderation.Entities.Report;
 using Moderation.GroupEntryForm;
 using Moderation.GroupRulesView;
 using Moderation.Repository;
+using Question = Moderation.GroupEntryForm.Question;
 
 namespace Moderation.Model
 {
