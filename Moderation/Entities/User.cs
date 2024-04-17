@@ -31,6 +31,12 @@ namespace Moderation.Entities
             Username = username;
             Password = password;
         }
+        public User(Guid id, string username, string password)
+        {
+            Id = id;
+            Username = username;
+            Password = password;
+        }
         private string GetRandomlyGeneratedPassword()
         {
             Random random = new Random();
