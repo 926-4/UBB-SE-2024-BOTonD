@@ -3,7 +3,6 @@ using Moderation.Entities;
 
 namespace Moderation.DbEndpoints
 {
-
     public class RoleEndpoints
     {
         private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
