@@ -4,6 +4,7 @@ namespace Moderation.Entities.Post
 {
     public interface IPost : IHasID
     {
+        Guid Id { get; set; }
         string Content { get; set; }
         User Author { get; set; }
         int Score { get; set; }

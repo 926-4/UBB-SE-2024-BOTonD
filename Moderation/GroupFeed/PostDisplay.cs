@@ -48,7 +48,7 @@ public class PostDisplay : ContentView
 
         commentButton.Command = new Command(() =>
         {
-            Navigation.PushAsync(new CommentsFeedView(_post.postId));
+            Navigation.PushAsync(new CommentsFeedView(_post.Id));
         });
 
         shareButton = new Button
