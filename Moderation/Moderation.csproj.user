@@ -20,6 +20,9 @@
     <MauiXaml Update="GroupFeed\GroupFeedView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="GroupFeed\CommentsFeedView.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="GroupRulesView\GroupRulesView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>

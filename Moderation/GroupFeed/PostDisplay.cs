@@ -1,14 +1,31 @@
 using Microsoft.Maui.Controls.Shapes;
 using Moderation.Entities.Post;
-using Path = System.IO.Path;
 
 namespace Moderation.GroupFeed;
 
 public class PostDisplay : ContentView
 {
+    private IPost _post;
+    private Picker _reactionsPicker;
+    private Picker _awardsPicker;
+
     public PostDisplay(IPost post)
 	{
+        _post = post;
+
         Button reactButton, commentButton, shareButton, awardButton;
+
+        var reactions = new List<string> { "Like", "Dislike"};
+
+        _reactionsPicker = new Picker { Title = "React", MinimumWidthRequest = 100 };
+        _reactionsPicker.ItemsSource = reactions;
+        _reactionsPicker.SelectedIndexChanged += onReactionsPicker_SelectedIndexChanged;
+
+        var awards = new List<string> { "Bronze", "Silver", "Gold" };
+
+        _awardsPicker = new Picker { Title = "Award" };
+        _awardsPicker.ItemsSource = awards;
+        _awardsPicker.SelectedIndexChanged += onAwardsPicker_SelectedIndexChanged;
 
         reactButton = new Button
         {
@@ -31,7 +48,7 @@ public class PostDisplay : ContentView
 
         commentButton.Command = new Command(() =>
         {
-            commentButton.Text = "Commented";
+            Navigation.PushAsync(new CommentsFeedView(_post.postId));
         });
 
         shareButton = new Button
@@ -61,10 +78,10 @@ public class PostDisplay : ContentView
 
             Children =
             {
-               reactButton,
+               _reactionsPicker,
                commentButton,
                shareButton,
-               awardButton
+               _awardsPicker
             }
         };
 
@@ -158,4 +175,50 @@ public class PostDisplay : ContentView
 
         Content = border;
 	}
+
+    private void onReactionsPicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var selectedReaction = _reactionsPicker.SelectedItem.ToString();
+
+        switch(selectedReaction)
+        {
+            case "Like":
+                // TODO
+
+                break;
+
+            case "Dislike":
+                // TODO
+
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    private void onAwardsPicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var selectedAward = _awardsPicker.SelectedItem.ToString();
+
+        switch (selectedAward)
+        {
+            case "Bronze":
+                // TODO
+
+                break;
+
+            case "Silver":
+                // TODO
+
+                break;
+
+            case "Gold":
+                // TODO
+                break;
+
+            default:
+                break;
+        }
+    }
 }
