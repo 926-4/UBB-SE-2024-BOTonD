@@ -16,9 +16,8 @@ namespace Moderation.Model
         public Repository<Question> GroupEntryQuestions { get; }
         public Repository<Rule> GroupRules { get; }
         public Repository<Role> Roles { get; }
-        public Repository<PostReport> Reports { get; }// TODO: ReportRepositoru: Repository<Report>
+        public Repository<PostReport> Reports { get; }
         public Dictionary<User, Role> GroupMembers { get; } // TODO: Poate tine minte si care useri sunt banned/muted?
-        // TODO: Report repo dupa ce e definita clasa Report
         public Group(string name, string description, User creator)
         {
             Id = Guid.NewGuid();
