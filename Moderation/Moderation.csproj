@@ -69,6 +69,9 @@
 	  <Compile Update="GroupFeed\GroupFeedView.xaml.cs">
 	    <DependentUpon>GroupFeedView.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="GroupFeed\CommentsFeedView.xaml.cs">
+	    <DependentUpon>CommentsFeedView.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="GroupRulesView\GroupRulesView.xaml.cs">
 	    <DependentUpon>GroupRulesView.xaml</DependentUpon>
 	  </Compile>
@@ -90,6 +93,9 @@
 	  <MauiXaml Update="GroupFeed\GroupFeedView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="GroupFeed\CommentsFeedView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="GroupRulesView\GroupRulesView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -97,6 +103,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="GroupsView.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="JoinRequestView\JoinRequestDisplay.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="JoinRequestView\JoinRequestListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="LoginPage.xaml">

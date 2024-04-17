@@ -20,6 +20,9 @@
     <MauiXaml Update="GroupFeed\GroupFeedView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="GroupFeed\CommentsFeedView.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="GroupRulesView\GroupRulesView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
@@ -27,6 +30,12 @@
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="GroupsView.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="JoinRequestView\JoinRequestDisplay.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="JoinRequestView\JoinRequestListView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="LoginPage.xaml">

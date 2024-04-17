@@ -1,4 +1,4 @@
-﻿using Moderation.CurrentSessionNamespace;
+using Moderation.CurrentSessionNamespace;
 using Moderation.Entities;
 using Moderation.Entities.Post;
 using Moderation.Entities.Report;
@@ -69,6 +69,21 @@ namespace Moderation
             Navigation.PushAsync(new ReportListView.ReportListView([
                 new PostReport(author4.Id,Guid.NewGuid(),"Ok",post.Id),
                 new PostReport(author5.Id,Guid.NewGuid(),"Ok",post.Id)
+                ]));
+        }
+        private void OnRequestsClicked(object sender, EventArgs e)
+        {
+            User author4 = new User(System.Guid.NewGuid(), "neon1024_", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "in progress"));
+            User author5 = new User(System.Guid.NewGuid(), "PopNorbert", 0, 0, new UserStatus(UserRestriction.None, System.DateTime.Now, "at the gym"));
+            Navigation.PushAsync(new JoinRequestView.JoinRequestListView([
+                new JoinRequest(author4.Id,new Dictionary<string, string>{
+                    {"How you are" ,"Good"},
+                    {"Do you want to join", "Yeah" }
+                }),
+                new JoinRequest(author5.Id,new Dictionary<string, string>{
+                    {"How you are", "Bad" },
+                    {"Do you want to join", "Nah"}
+                })
                 ]));
         }
         private void OnLogOutClicked(object sender, EventArgs e)

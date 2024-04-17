@@ -4,10 +4,10 @@ namespace Moderation.ReportListView;
 
 public partial class ReportDisplay : ContentView
 {
-    //private readonly PostReport postReport;
+    private PostReport postReport;
     public ReportDisplay(PostReport report)
     {
-        //this.postReport = report;
+        this.postReport = report;
         var stackLayout = new StackLayout { Margin = new Thickness(20) };
 
         var reportLabel = new Label { Text = "Report", FontSize = 20, FontAttributes = FontAttributes.Bold };
