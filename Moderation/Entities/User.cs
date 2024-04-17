@@ -1,4 +1,5 @@
-﻿using Moderation.Model;
+﻿using Android.Health.Connect.DataTypes.Units;
+using Moderation.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,25 +12,36 @@ namespace Moderation.Entities
     {
         public Guid Id { get; set; }
         public string Username { get; set; }
-        public int PostScore { get; set; }
-        public int MarketplaceScore { get; set; }
-        public UserStatus Status { get; set; }
+        public string Password { get; set; }
+
         public User(string username)
         {
             Id = Guid.NewGuid();
             Username = username;
-            PostScore = 1;
-            MarketplaceScore = 1;
-            Status =  new(UserRestriction.None, DateTime.Now);
+            Password = GetRandomlyGeneratedPassword();
         }
-        public User(Guid userId, string username, int postScore, int marketplaceScore, UserStatus userStatus)
+        public User(string username, string password)
         {
-            this.Id = userId;
+            Id = Guid.NewGuid();
             Username = username;
-            PostScore = postScore;
-            MarketplaceScore = marketplaceScore;
-            this.Status = userStatus;
+            Password = password;
         }
+        private string GetRandomlyGeneratedPassword()
+        {
+            Random random = new Random();
 
+            string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
+
+            int length = random.Next(8, 24);
+
+            char[] chars = new char[length];
+            
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = validChars[random.Next(0, validChars.Length)];
+            }
+
+            return new string(chars);
+        }
     }
 }
