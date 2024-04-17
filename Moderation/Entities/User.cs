@@ -10,26 +10,21 @@ namespace Moderation.Entities
     public class User : IHasID
     {
         public Guid Id { get; set; }
+        
         public string Username { get; set; }
-        public int PostScore { get; set; }
-        public int MarketplaceScore { get; set; }
-        public UserStatus Status { get; set; }
-        public User(string username)
+        public string Password { get; set; }
+
+        public User(string username,string password)
         {
             Id = Guid.NewGuid();
             Username = username;
-            PostScore = 1;
-            MarketplaceScore = 1;
-            Status =  new(UserRestriction.None, DateTime.Now);
+            Password = password;
         }
-        public User(Guid userId, string username, int postScore, int marketplaceScore, UserStatus userStatus)
+        public User(Guid id, string username, string password)
         {
-            this.Id = userId;
+            Id = id;
             Username = username;
-            PostScore = postScore;
-            MarketplaceScore = marketplaceScore;
-            this.Status = userStatus;
+            Password = password;
         }
-
     }
 }
