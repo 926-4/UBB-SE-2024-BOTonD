@@ -1,5 +1,5 @@
-﻿using Moderation.Entities;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using Moderation.Entities;
 
 namespace Moderation.DbEndpoints
 {
@@ -38,7 +38,7 @@ namespace Moderation.DbEndpoints
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    Role role = new                    (
+                    Role role = new(
                         reader.GetGuid(0),
                         reader.GetString(1)
                     );

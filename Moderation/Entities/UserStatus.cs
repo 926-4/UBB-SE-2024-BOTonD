@@ -13,17 +13,10 @@ namespace Moderation.Entities
         Banned
     }
 
-    public class UserStatus
+    public class UserStatus(UserRestriction restriction, DateTime restrictionDate, string message = "")
     {
-        public UserRestriction restriction { get; set; }
-        public DateTime restrictionDate { get; set; }
-        public string message { get; set; }
-
-        public UserStatus(UserRestriction restriction, DateTime restrictionDate, string message)
-        {
-            this.restriction = restriction;
-            this.restrictionDate = restrictionDate;
-            this.message = message;
-        }
+        public UserRestriction Restriction { get; set; } = restriction;
+        public DateTime RestrictionDate { get; set; } = restrictionDate;
+        public string Message { get; set; } = message;
     }
 }

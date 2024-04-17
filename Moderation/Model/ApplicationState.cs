@@ -20,15 +20,15 @@ namespace Moderation.Model
         private ApplicationState InitialiseUsers()
         {
             /// TODO Move to repository/db
-            User victor = new(Guid.NewGuid(), "Victor", 1, 1, new UserStatus(UserRestriction.None, DateTime.Now, "None"));
+            User victor = new("Victor");
             string victorsPassword = "a";
-            User boti = new(Guid.NewGuid(), "Boti", 1, 1, new UserStatus(UserRestriction.None, DateTime.Now, "None"));
+            User boti = new("Boti");
             string botisPassword = "a";
-            User norby = new(Guid.NewGuid(), "Norby", 1, 1, new UserStatus(UserRestriction.None, DateTime.Now, "None"));
+            User norby = new("Norby");
             string norbysPassword = "a";
-            User cipri = new(Guid.NewGuid(), "Cipri", 1, 1, new UserStatus(UserRestriction.None, DateTime.Now, "None"));
+            User cipri = new("Cipri");
             string ciprisPassword = "a"; 
-            User ioan = new(Guid.NewGuid(), "Ioan", 1, 1, new UserStatus(UserRestriction.None, DateTime.Now, "None"));
+            User ioan = new("Ioan");
             string ioansPassword = "a";
             Authenticator.AddUser(victor, victorsPassword);
             Authenticator.AddUser(boti, botisPassword);
