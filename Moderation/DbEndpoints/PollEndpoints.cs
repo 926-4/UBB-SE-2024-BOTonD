@@ -16,12 +16,12 @@ namespace Moderation.DbEndpoints
 
             using (SqlCommand command = new(insertPollPostSql, connection))
             {
-                command.Parameters.AddWithValue("@PollId", pollPost.postId);
-                command.Parameters.AddWithValue("@Content", pollPost.content);
-                command.Parameters.AddWithValue("@UserId", pollPost.author.Id);
-                command.Parameters.AddWithValue("@Score", pollPost.score);
-                command.Parameters.AddWithValue("@Status", pollPost.status);
-                command.Parameters.AddWithValue("@IsDeleted", pollPost.isDeleted);
+                command.Parameters.AddWithValue("@PollId", pollPost.Id);
+                command.Parameters.AddWithValue("@Content", pollPost.Content);
+                command.Parameters.AddWithValue("@UserId", pollPost.Author.Id);
+                command.Parameters.AddWithValue("@Score", pollPost.Score);
+                command.Parameters.AddWithValue("@Status", pollPost.Status);
+                command.Parameters.AddWithValue("@IsDeleted", pollPost.IsDeleted);
 
                 command.ExecuteNonQuery();
             }
@@ -31,18 +31,18 @@ namespace Moderation.DbEndpoints
             {
                 string insertPollOptionSql = "INSERT INTO PollOption (PollId, OptionText) VALUES (@PollId, @OptionText)";
                 using SqlCommand optionCommand = new(insertPollOptionSql, connection);
-                optionCommand.Parameters.AddWithValue("@PollId", pollPost.postId);
+                optionCommand.Parameters.AddWithValue("@PollId", pollPost.Id);
                 optionCommand.Parameters.AddWithValue("@OptionText", option);
                 optionCommand.ExecuteNonQuery();
             }
 
             // Insert awards for the poll into PollAward table
-            foreach (Award award in pollPost.awards)
+            foreach (Award award in pollPost.Awards)
             {
                 string insertPollAwardSql = "INSERT INTO PollAward (AwardId, PollId) VALUES (@AwardId, @PollId)";
                 using SqlCommand awardCommand = new(insertPollAwardSql, connection);
                 awardCommand.Parameters.AddWithValue("@AwardId", award.awardId);
-                awardCommand.Parameters.AddWithValue("@PollId", pollPost.postId);
+                awardCommand.Parameters.AddWithValue("@PollId", pollPost.Id);
                 awardCommand.ExecuteNonQuery();
             }
         }
@@ -67,15 +67,16 @@ namespace Moderation.DbEndpoints
                     string content = reader.GetString(1);
                     int score = reader.GetInt32(2);
                     string status = reader.GetString(3);
-                    bool isDeleted = reader.GetBoolean(4);
 
-                    Guid userId = reader.GetGuid(5);
-                    string username = reader.GetString(6);
-                    int postScore = reader.GetInt32(7);
-                    int marketplaceScore = reader.GetInt32(8);
-                    int statusRestriction = reader.GetInt32(9);
-                    DateTime statusRestrictionDate = reader.GetDateTime(10);
-                    string statusMessage = reader.GetString(11);
+                    Guid userId = reader.GetGuid(4);
+                    string username = reader.GetString(5);
+                    int postScore = reader.GetInt32(6);
+                    int marketplaceScore = reader.GetInt32(7);
+                    int statusRestriction = reader.GetInt32(8);
+                    DateTime statusRestrictionDate = reader.GetDateTime(9);
+                    string statusMessage = reader.GetString(10);
+
+                    bool isDeleted = reader.GetBoolean(11);
 
                     User author = new(userId, username, postScore, marketplaceScore, new UserStatus((UserRestriction)statusRestriction, statusRestrictionDate, statusMessage));
 
@@ -85,7 +86,7 @@ namespace Moderation.DbEndpoints
                     // Fetch awards for the poll
                     List<Award> awards = ReadAwardsForPoll(pollId);
 
-                    PollPost pollPost = new(pollId, content, author, score, status, isDeleted, options, awards);
+                    PollPost pollPost = new(pollId, content, author, score, status, options, awards, isDeleted);
                     pollPosts.Add(pollPost);
                 }
             }

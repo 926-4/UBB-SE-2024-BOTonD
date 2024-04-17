@@ -43,9 +43,9 @@ public partial class GroupEntryForm : ContentPage
     private void HandleRules()
     {
         Navigation.PushAsync(new GroupRulesView.GroupRulesView([
-                    new Rule("rule a",Guid.NewGuid()),
-                    new Rule("rule b",Guid.NewGuid()),
-                    new Rule("rule c",Guid.NewGuid())
+                    new Rule("rule a"),
+                    new Rule("rule b"),
+                    new Rule("rule c")
                 ]));
     }
     private Button SubmitButton()

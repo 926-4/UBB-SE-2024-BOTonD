@@ -3,10 +3,20 @@ using Moderation.Entities;
 using Moderation.Repository;
 namespace Moderation.Authentication
 {
-    public class AuthenticationModule(Dictionary<Guid, string> guidToUsername, UserRepository users)
+    public class AuthenticationModule
     {
-        private Dictionary<Guid, string> UserIDToPasswordMap { get; set; } = guidToUsername;
-        private readonly UserRepository userRepo = users;
+        private Dictionary<Guid, string> UserIDToPasswordMap { get; set; }
+        private readonly UserRepository userRepo;
+        public AuthenticationModule(Dictionary<Guid, string> guidToUsername, UserRepository users)
+        {
+            UserIDToPasswordMap = guidToUsername;
+            userRepo = users;
+        }
+        public AuthenticationModule()
+        {
+            UserIDToPasswordMap = [];
+            userRepo = new();
+        }
 
         public void AuthMethod(string username, string password)
         {
@@ -38,5 +48,10 @@ namespace Moderation.Authentication
             return Convert.ToBase64String(saltBytes);
         }
 
+        internal void AddUser(User user, string password)
+        {
+            UserIDToPasswordMap.Add(user.Id, password);
+            userRepo.Add(user.Id, user);
+        }
     }
 }

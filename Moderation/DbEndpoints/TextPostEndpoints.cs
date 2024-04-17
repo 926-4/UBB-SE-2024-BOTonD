@@ -18,29 +18,29 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string insertPostSql = "INSERT INTO Post (PostId, Content, UserId, Score, Status, IsDeleted) " +
-                                       "VALUES (@PostId, @Content, @UserId, @Score, @Status, @IsDeleted)";
+                string insertPostSql = "INSERT INTO Post (Id, Content, UserId, Score, Status, IsDeleted) " +
+                                       "VALUES (@Id, @Content, @UserId, @Score, @Status, @IsDeleted)";
 
                 using (SqlCommand command = new SqlCommand(insertPostSql, connection))
                 {
-                    command.Parameters.AddWithValue("@PostId", textPost.postId);
-                    command.Parameters.AddWithValue("@Content", textPost.content);
-                    command.Parameters.AddWithValue("@UserId", textPost.author.Id);
-                    command.Parameters.AddWithValue("@Score", textPost.score);
-                    command.Parameters.AddWithValue("@Status", textPost.status);
-                    command.Parameters.AddWithValue("@IsDeleted", textPost.isDeleted);
+                    command.Parameters.AddWithValue("@Id", textPost.Id);
+                    command.Parameters.AddWithValue("@Content", textPost.Content);
+                    command.Parameters.AddWithValue("@UserId", textPost.Author.Id);
+                    command.Parameters.AddWithValue("@Score", textPost.Score);
+                    command.Parameters.AddWithValue("@Status", textPost.Status);
+                    command.Parameters.AddWithValue("@IsDeleted", textPost.IsDeleted);
 
                     command.ExecuteNonQuery();
                 }
 
                 // Insert awards for the post into PostAward table
-                foreach (Award award in textPost.awards)
+                foreach (Award award in textPost.Awards)
                 {
-                    string insertPostAwardSql = "INSERT INTO PostAward (AwardId, PostId) VALUES (@AwardId, @PostId)";
+                    string insertPostAwardSql = "INSERT INTO PostAward (AwardId, Id) VALUES (@AwardId, @Id)";
                     using (SqlCommand awardCommand = new SqlCommand(insertPostAwardSql, connection))
                     {
                         awardCommand.Parameters.AddWithValue("@AwardId", award.awardId);
-                        awardCommand.Parameters.AddWithValue("@PostId", textPost.postId);
+                        awardCommand.Parameters.AddWithValue("@Id", textPost.Id);
                         awardCommand.ExecuteNonQuery();
                     }
                 }
@@ -54,7 +54,7 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT p.PostId, p.Content, p.Score, p.Status, p.IsDeleted, " +
+                string sql = "SELECT p.Id, p.Content, p.Score, p.Status, p.IsDeleted, " +
                              "u.Id, u.Username, u.PostScore, u.MarketplaceScore, u.StatusRestriction, u.StatusRestrictionDate, u.StatusMessage " +
                              "FROM Post p " +
                              "INNER JOIN GroupUser u ON p.UserId = u.Id";
@@ -104,11 +104,11 @@ namespace Moderation.DbEndpoints
                 string sql = "SELECT a.AwardId, a.Type " +
                              "FROM Award a " +
                              "INNER JOIN PostAward pa ON a.AwardId = pa.AwardId " +
-                             "WHERE pa.PostId = @PostId";
+                             "WHERE pa.Id = @Id";
 
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
-                    command.Parameters.AddWithValue("@PostId", postId);
+                    command.Parameters.AddWithValue("@Id", postId);
 
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -131,18 +131,18 @@ namespace Moderation.DbEndpoints
                 connection.Open();
 
                 // Delete from PostAward table first
-                string deletePostAwardSql = "DELETE FROM PostAward WHERE PostId = @PostId";
+                string deletePostAwardSql = "DELETE FROM PostAward WHERE Id = @Id";
                 using (SqlCommand command = new SqlCommand(deletePostAwardSql, connection))
                 {
-                    command.Parameters.AddWithValue("@PostId", postId);
+                    command.Parameters.AddWithValue("@Id", postId);
                     command.ExecuteNonQuery();
                 }
 
                 // Delete from Post table
-                string deletePostSql = "DELETE FROM Post WHERE PostId = @PostId";
+                string deletePostSql = "DELETE FROM Post WHERE Id = @Id";
                 using (SqlCommand command = new SqlCommand(deletePostSql, connection))
                 {
-                    command.Parameters.AddWithValue("@PostId", postId);
+                    command.Parameters.AddWithValue("@Id", postId);
                     command.ExecuteNonQuery();
                 }
             }

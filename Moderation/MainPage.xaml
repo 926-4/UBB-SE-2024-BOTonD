@@ -7,7 +7,7 @@
             Padding="30,0"
             Spacing="25">
             <Label
-                Text="Hello, World!"
+                Text="Hello, "
                 Style="{StaticResource Headline}"
                 SemanticProperties.HeadingLevel="Level1" 
                 x:Name="HelloLabel"/>
