@@ -39,7 +39,7 @@ namespace Moderation.DbEndpoints
                 while (reader.Read())
                 {
                     ////!?!?!??!?!?!?!
-                    PostReport postReport = new(reader.GetGuid(0), reader.GetGuid(1), reader.GetString(2), reader.GetGuid(3), reader.GetGuid(4));
+                    PostReport postReport = new(reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetString(3), reader.GetGuid(4));
                     postReports.Add(postReport);
                 }
             }
