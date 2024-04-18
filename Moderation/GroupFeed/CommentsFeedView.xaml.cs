@@ -22,11 +22,11 @@ public partial class CommentsFeedView : ContentPage
 
         IEnumerable<IPost> _comments = new List<TextPost>
         {
-            new("Nice one.", new User("victor3136")),
-            new("Unbelievable.", new User("SzilagyiBotond")),
-            new("Wow.", new User("Cip")),
-            new("...", new User("neon1024_")),
-            new(".", new User("PopNorbert"))
+            //new("Nice one.", new User("victor3136")),
+            //new("Unbelievable.", new User("SzilagyiBotond")),
+            //new("Wow.", new User("Cip")),
+            //new("...", new User("neon1024_")),
+            //new(".", new User("PopNorbert"))
         };  
 
         foreach (var comment in _comments)

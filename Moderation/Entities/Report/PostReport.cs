@@ -9,7 +9,7 @@ namespace Moderation.Entities.Report
         public Guid PostId { get; set; }
         public string Message { get; set; }
         public Guid GroupId { get; set; }
-        public PostReport(Guid userId, Guid postId, string message, Guid groupId)
+        public PostReport(Guid userId, string message, Guid postId, Guid groupId)
         {
             Id = Guid.NewGuid();
             UserId = userId;
@@ -21,8 +21,8 @@ namespace Moderation.Entities.Report
         {
             Id = id;
             UserId = userId;
-            Message = message;
             PostId = postId;
+            Message = message;
             GroupId = groupId;
         }
     }

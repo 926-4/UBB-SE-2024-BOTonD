@@ -1,5 +1,6 @@
 using Microsoft.Maui.Controls.Shapes;
 using Moderation.Entities.Post;
+using Moderation.Model;
 
 namespace Moderation.GroupFeed;
 
@@ -10,12 +11,12 @@ public class PostDisplay : ContentView
     private readonly Picker _awardsPicker;
 
     public PostDisplay(IPost post)
-	{
+    {
         _post = post;
 
         Button reactButton, commentButton, shareButton, awardButton;
 
-        var reactions = new List<string> { "Like", "Dislike"};
+        var reactions = new List<string> { "Like", "Dislike" };
 
         _reactionsPicker = new Picker
         {
@@ -105,8 +106,7 @@ public class PostDisplay : ContentView
                             VerticalOptions = LayoutOptions.Center,
                             VerticalTextAlignment = TextAlignment.Center,
                             HorizontalTextAlignment = TextAlignment.Start,
-
-                            Text = post.Author.Username,
+                            Text = ApplicationState.Get().UserRepository.Get(post.Author.UserId)?.Username ?? "",
                             TextColor = Colors.White,
 
                             FontSize = 25,
@@ -164,28 +164,28 @@ public class PostDisplay : ContentView
 
         Border border = new()
         {
-			Content = mainLayout,
+            Content = mainLayout,
 
-			BackgroundColor = Color.FromArgb("#36393e"),
-			Margin = new Thickness(50, 50, 50, 50),
+            BackgroundColor = Color.FromArgb("#36393e"),
+            Margin = new Thickness(50, 50, 50, 50),
 
-			// Border Options
-			Stroke = Color.FromArgb("#1e2124"),
-			StrokeThickness = 5,
-			StrokeShape = new RoundRectangle
-			{
-				CornerRadius = new CornerRadius(15, 15, 15, 15)
-			}
-		};
+            // Border Options
+            Stroke = Color.FromArgb("#1e2124"),
+            StrokeThickness = 5,
+            StrokeShape = new RoundRectangle
+            {
+                CornerRadius = new CornerRadius(15, 15, 15, 15)
+            }
+        };
 
         Content = border;
-	}
+    }
 
     private void OnReactionsPicker_SelectedIndexChanged(object? sender, EventArgs e)
     {
         var selectedReaction = _reactionsPicker.SelectedItem.ToString();
 
-        switch(selectedReaction)
+        switch (selectedReaction)
         {
             case "Like":
                 // TODO

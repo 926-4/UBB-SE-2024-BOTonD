@@ -11,8 +11,8 @@ namespace Moderation.DbEndpoints
             using SqlConnection connection = new(connectionString);
             connection.Open();
 
-            string insertPollPostSql = "INSERT INTO PollPost (PollId, Content, UserId, Score, Status, IsDeleted) " +
-                                       "VALUES (@PollId, @Content, @UserId, @Score, @Status, @IsDeleted)";
+            string insertPollPostSql = "INSERT INTO PollPost (PollId, Content, UserId, Score, Status, IsDeleted, GroupId) " +
+                                       "VALUES (@PollId, @Content, @UserId, @Score, @Status, @IsDeleted, @GroupId)";
 
             using (SqlCommand command = new(insertPollPostSql, connection))
             {
@@ -22,6 +22,7 @@ namespace Moderation.DbEndpoints
                 command.Parameters.AddWithValue("@Score", pollPost.Score);
                 command.Parameters.AddWithValue("@Status", pollPost.Status);
                 command.Parameters.AddWithValue("@IsDeleted", pollPost.IsDeleted);
+                command.Parameters.AddWithValue("@GroupId", pollPost.GroupId);
 
                 command.ExecuteNonQuery();
             }
@@ -29,8 +30,11 @@ namespace Moderation.DbEndpoints
             // Insert options for the poll into PollOption table
             foreach (string option in pollPost.Options)
             {
-                string insertPollOptionSql = "INSERT INTO PollOption (PollId, OptionText) VALUES (@PollId, @OptionText)";
+                string insertPollOptionSql = "INSERT INTO PollOption (OptionId, PollId, OptionText)" +
+                                             "VALUES (@OptionId, @PollId, @OptionText)";
+
                 using SqlCommand optionCommand = new(insertPollOptionSql, connection);
+                optionCommand.Parameters.AddWithValue("@OptionId", Guid.NewGuid());
                 optionCommand.Parameters.AddWithValue("@PollId", pollPost.Id);
                 optionCommand.Parameters.AddWithValue("@OptionText", option);
                 optionCommand.ExecuteNonQuery();
@@ -55,7 +59,7 @@ namespace Moderation.DbEndpoints
                 connection.Open();
 
                 string sql = "SELECT pp.PollId, pp.Content, pp.Score, pp.Status, pp.IsDeleted, " +
-                             "u.Id, u.Username, u.PostScore, u.MarketplaceScore, u.StatusRestriction, u.StatusRestrictionDate, u.StatusMessage " +
+                             "u.Id, u.UserId, u.PostScore, u.MarketplaceScore, u.StatusRestriction, u.StatusRestrictionDate, u.StatusMessage, u.GroupId " +
                              "FROM PollPost pp " +
                              "INNER JOIN GroupUser u ON pp.UserId = u.Id";
 
@@ -68,15 +72,17 @@ namespace Moderation.DbEndpoints
                     int score = reader.GetInt32(2);
                     string status = reader.GetString(3);
 
-                    Guid userId = reader.GetGuid(4);
-                    string username = reader.GetString(5);
-                    int postScore = reader.GetInt32(6);
-                    int marketplaceScore = reader.GetInt32(7);
-                    int statusRestriction = reader.GetInt32(8);
-                    DateTime statusRestrictionDate = reader.GetDateTime(9);
-                    string statusMessage = reader.GetString(10);
+                    Guid id = reader.GetGuid(5);
+                    Guid userId = reader.GetGuid(6);
+                    int postScore = reader.GetInt32(7);
+                    int marketplaceScore = reader.GetInt32(8);
+                    int statusRestriction = reader.GetInt32(9);
+                    DateTime statusRestrictionDate = reader.GetDateTime(10);
+                    string statusMessage = reader.GetString(11);
+                    Guid groupId=reader.GetGuid(12);
 
-                    bool isDeleted = reader.GetBoolean(11);
+                    bool isDeleted = reader.GetBoolean(4);
+
 
                     User author = new(userId, username);
 
@@ -86,7 +92,7 @@ namespace Moderation.DbEndpoints
                     // Fetch awards for the poll
                     List<Award> awards = ReadAwardsForPoll(pollId);
 
-                    PollPost pollPost = new(pollId, content, author, score, status, options, awards, isDeleted);
+                    PollPost pollPost = new(pollId, content, author, score, status, options, awards, groupId,isDeleted);
                     pollPosts.Add(pollPost);
                 }
             }

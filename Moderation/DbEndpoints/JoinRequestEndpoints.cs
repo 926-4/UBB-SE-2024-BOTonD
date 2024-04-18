@@ -19,17 +19,6 @@ namespace Moderation.DbEndpoints
                 command.Parameters.AddWithValue("@UserId", joinRequest.userId);
                 command.ExecuteNonQuery();
             }
-
-            // Insert JoinRequestMessage entries
-            string insertJoinRequestMessageSql = "INSERT INTO JoinRequestMessage (JoinRequestId, [Key], [Value]) VALUES (@JoinRequestId, @Key, @Value)";
-            foreach (var kvp in joinRequest.messageResponse)
-            {
-                using SqlCommand command = new(insertJoinRequestMessageSql, connection);
-                command.Parameters.AddWithValue("@JoinRequestId", joinRequest.Id);
-                command.Parameters.AddWithValue("@Key", kvp.Key);
-                command.Parameters.AddWithValue("@Value", kvp.Value);
-                command.ExecuteNonQuery();
-            }
         }
         public static List<JoinRequest> ReadAllJoinRequests()
         {
@@ -40,38 +29,17 @@ namespace Moderation.DbEndpoints
                 connection.Open();
 
                 string sql = "SELECT j.Id, j.UserId, m.[Key], m.[Value] " +
-                             "FROM JoinRequest j " +
-                             "JOIN JoinRequestMessage m ON j.Id = m.JoinRequestId";
+                             "FROM JoinRequest j ";
 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
-                Guid currentJoinRequestId = Guid.Empty;
-                Dictionary<string, string> messageResponse = [];
-
                 while (reader.Read())
                 {
-                    Guid joinRequestId = reader.GetGuid(0);
-
-                    if (joinRequestId != currentJoinRequestId)
-                    {
-                        if (currentJoinRequestId != Guid.Empty)
-                        {
-                            JoinRequest joinRequest = new(currentJoinRequestId, messageResponse);
-                            joinRequests.Add(joinRequest);
-                            messageResponse = [];
-                        }
-
-                        currentJoinRequestId = joinRequestId;
-                    }
-
-                    messageResponse.Add(reader.GetString(2), reader.GetString(3));
-                }
-
-                // Add the last join request
-                if (currentJoinRequestId != Guid.Empty)
-                {
-                    JoinRequest joinRequest = new(currentJoinRequestId, messageResponse);
-                    joinRequests.Add(joinRequest);
+                    JoinRequest joinRequest = new JoinRequest
+                    (
+                        reader.GetGuid(0),
+                        reader.GetGuid(1)
+                    );
                 }
             }
 
@@ -82,14 +50,6 @@ namespace Moderation.DbEndpoints
         {
             using SqlConnection connection = new(connectionString);
             connection.Open();
-
-            string deleteJoinRequestMessageSql = "DELETE FROM JoinRequestMessage WHERE JoinRequestId = @JoinRequestId";
-            using (SqlCommand command = new(deleteJoinRequestMessageSql, connection))
-            {
-                command.Parameters.AddWithValue("@JoinRequestId", joinRequestId);
-                command.ExecuteNonQuery();
-            }
-
             string deleteJoinRequestSql = "DELETE FROM JoinRequest WHERE Id = @Id";
             using (SqlCommand command = new(deleteJoinRequestSql, connection))
             {
