@@ -30,8 +30,11 @@ namespace Moderation.DbEndpoints
             // Insert options for the poll into PollOption table
             foreach (string option in pollPost.Options)
             {
-                string insertPollOptionSql = "INSERT INTO PollOption (PollId, OptionText) VALUES (@PollId, @OptionText)";
+                string insertPollOptionSql = "INSERT INTO PollOption (OptionId, PollId, OptionText)" +
+                                             "VALUES (@OptionId, @PollId, @OptionText)";
+
                 using SqlCommand optionCommand = new(insertPollOptionSql, connection);
+                optionCommand.Parameters.AddWithValue("@OptionId", Guid.NewGuid());
                 optionCommand.Parameters.AddWithValue("@PollId", pollPost.Id);
                 optionCommand.Parameters.AddWithValue("@OptionText", option);
                 optionCommand.ExecuteNonQuery();
