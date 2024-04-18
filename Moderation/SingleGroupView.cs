@@ -1,6 +1,7 @@
 using Moderation.CurrentSessionNamespace;
 using Moderation.DbEndpoints;
 using Moderation.Entities;
+using Moderation.GroupEntryForm;
 using Moderation.GroupFeed;
 using Moderation.Model;
 
@@ -39,7 +40,12 @@ public class SingleGroupView : ContentView
             }
             else
             {
-                Navigation.PushAsync(new GroupEntryForm.GroupEntryForm(group.GroupEntryQuestions.GetAll()));
+                Navigation.PushAsync(new GroupEntryForm.GroupEntryForm(
+                    [
+                    new TextQuestion("What would you like to be when yoyu grow up?"),
+                    new SliderQuestion("How much do you want it?", 0, 100),
+                    new RadioQuestion("Pick your favourite farmyard animal:", ["duck", "cow", "pig"])
+                    ]));
             }
         };
         Content = new HorizontalStackLayout
