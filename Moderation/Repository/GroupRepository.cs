@@ -1,10 +1,5 @@
 ﻿using Moderation.DbEndpoints;
 using Moderation.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Moderation.Repository
 {
@@ -22,33 +17,33 @@ namespace Moderation.Repository
 
         public override bool Contains(Guid key)
         {
-            return UserEndpoints.ReadAllUsers().Exists(u => u.Id == key);
+            return GroupEndpoints.ReadAllGroups().Exists(u => u.Id == key);
         }
 
-        public override User? Get(Guid key)
+        public override Group? Get(Guid key)
         {
-            return UserEndpoints.ReadAllUsers().Find(u => u.Id == key);
+            return GroupEndpoints.ReadAllGroups().Find(u => u.Id == key);
         }
 
-        public override IEnumerable<User> GetAll()
+        public override IEnumerable<Group> GetAll()
         {
-            return UserEndpoints.ReadAllUsers();
+            return GroupEndpoints.ReadAllGroups();
         }
 
         public override bool Remove(Guid key)
         {
-            UserEndpoints.DeleteUser(key);
+            GroupEndpoints.DeleteGroup(key);
             return true;
         }
 
-        public override bool Update(Guid key, User value)
+        public override bool Update(Guid key, Group value)
         {
-            UserEndpoints.UpdateUser(value);
+            GroupEndpoints.UpdateGroup(value);
             return true;
         }
         public Guid? GetGuidByName(string name)
         {
-            return UserEndpoints.ReadAllUsers().Find(u => u.Username == name)?.Id;
+            return GroupEndpoints.ReadAllGroups().Find(u => u.Name == name)?.Id;
         }
     }
 }

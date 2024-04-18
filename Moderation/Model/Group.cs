@@ -1,5 +1,4 @@
-﻿using Moderation.DbEndpoints;
-using Moderation.Entities;
+﻿using Moderation.Entities;
 using Moderation.Entities.Report;
 using Moderation.GroupEntryForm;
 using Moderation.GroupRulesView;
@@ -13,11 +12,11 @@ namespace Moderation.Model
         public string Name { get; set; }
         public string Description { get; set; }
         public User Creator { get; }
-        public Repository<GroupEntryForm.Question> GroupEntryQuestions { get; }
+        public Repository<Question> GroupEntryQuestions { get; }
         public Repository<Rule> GroupRules { get; }
         public Repository<Role> Roles { get; }
         public Repository<PostReport> Reports { get; }
-        public Dictionary<User, Role> GroupMembers { get; } // TODO: Poate tine minte si care useri sunt banned/muted?
+        public Dictionary<User, Role> GroupMembers { get; }
         public Group(string name, string description, User creator)
         {
             Id = Guid.NewGuid();

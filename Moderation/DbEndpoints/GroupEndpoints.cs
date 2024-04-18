@@ -1,12 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Model;
-using Moderation.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Moderation.DbEndpoints
 {
