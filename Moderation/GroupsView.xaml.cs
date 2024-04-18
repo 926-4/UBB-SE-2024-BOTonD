@@ -14,9 +14,9 @@ public partial class GroupsView : ContentPage
 
     private void MakeKids()
     {
-        foreach (Group item in ApplicationState.Get().Groups.GetAll())
+        foreach (Group group in ApplicationState.Get().Groups.GetAll())
         {
-            ((StackLayout)Content).Children.Add(new SingleGroupView(item, CurrentSession.GetInstance().User));
+            ((StackLayout)Content).Children.Add(new SingleGroupView(group, CurrentSession.GetInstance().User));
         }
         Button backButton = new()
         {

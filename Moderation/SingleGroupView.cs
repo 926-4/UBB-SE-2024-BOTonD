@@ -10,7 +10,7 @@ public class SingleGroupView : ContentView
     {
         if (user == null)
             return;
-        var userIsInGroup = group.Roles.Contains(user.Id);
+        var userIsInGroup = ApplicationState.Get().
         var label = new Label
         {
             Margin = 5,
