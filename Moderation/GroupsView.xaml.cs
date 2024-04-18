@@ -6,11 +6,11 @@ namespace Moderation;
 
 public partial class GroupsView : ContentPage
 {
-	public GroupsView()
-	{
-		//InitializeComponent();
+    public GroupsView()
+    {
+        Content = new StackLayout { HorizontalOptions = LayoutOptions.Fill };
         MakeKids();
-	}
+    }
 
     private void MakeKids()
     {
@@ -18,6 +18,12 @@ public partial class GroupsView : ContentPage
         {
             ((StackLayout)Content).Children.Add(new SingleGroupView(item, CurrentSession.GetInstance().User));
         }
-        throw new NotImplementedException();
+        Button backButton = new()
+        {
+            Text = "Back",
+            HorizontalOptions = LayoutOptions.Fill,
+        };
+        backButton.Clicked += (s, e) => { CurrentSession.GetInstance().LogOut(); Navigation.PopAsync(); };
+        ((StackLayout)Content).Children.Add(backButton);
     }
 }
