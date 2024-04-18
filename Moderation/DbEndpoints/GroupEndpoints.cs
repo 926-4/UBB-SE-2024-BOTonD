@@ -13,7 +13,7 @@ namespace Moderation.DbEndpoints
             using SqlConnection connection = new(connectionString);
             connection.Open();
 
-            string sql = "INSERT INTO Group (Id, Name, Description, Owner) " +
+            string sql = "INSERT INTO [Group] (Id, Name, Description, Owner) " +
                          "VALUES (@Id, @Name, @Description, @Owner)";
 
             using SqlCommand command = new(sql, connection);
@@ -32,7 +32,7 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT Id, Name, Description, Owner FROM User";
+                string sql = "SELECT Id, Name, Description, Owner FROM [Group]";
 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
@@ -40,7 +40,7 @@ namespace Moderation.DbEndpoints
                 while (reader.Read())
                 {
                     var userId = reader.GetGuid(3);
-                    string username = ApplicationState.Get().UserRepository.Get(userId).Username;
+                    string username = ApplicationState.Get().UserRepository?.Get(userId)?.Username ?? throw new Exception("No username by that id");
                     User user = new User(userId, username);
 
                     Group group = new Group(reader.GetGuid(0), reader.GetString(1), reader.GetString(2), user);

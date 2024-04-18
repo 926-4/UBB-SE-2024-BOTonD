@@ -14,7 +14,7 @@ namespace Moderation.Model
         static private ApplicationState? instance;
         public CurrentSession CurrentSession { get; } = CurrentSession.GetInstance();
         public AuthenticationModule Authenticator { get; } = new AuthenticationModule();
-        public Repository<Group> Groups { get; } = new();
+        public GroupRepository Groups { get; } = new();
         public UserRepository UserRepository { get; } = new();
         public Repository<IPost> Posts { get; } = new();
         private ApplicationState InitialiseUsers()
