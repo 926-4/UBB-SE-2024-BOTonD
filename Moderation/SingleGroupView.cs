@@ -38,6 +38,7 @@ public class SingleGroupView : ContentView
             }
             else
             {
+                CurrentSession.GetInstance().LookIntoGroup(group);
                 Navigation.PushAsync(new GroupEntryForm.GroupEntryForm(group.GroupEntryQuestions.GetAll()));
             }
         };
