@@ -12,8 +12,7 @@ namespace Moderation.DbEndpoints
     {
         private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-
-        public static void CreateGroupUser(User user)
+        public static void CreateUser(User user)
         {
             using SqlConnection connection = new(connectionString);
             connection.Open();
@@ -40,6 +39,7 @@ namespace Moderation.DbEndpoints
 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
+
                 while (reader.Read())
                 {
 
@@ -50,12 +50,13 @@ namespace Moderation.DbEndpoints
 
             return users;
         }
-        public static void UpdateGroupUser(User user)
+        public static void UpdateUser(User user)
         {
             using SqlConnection connection = new(connectionString);
             connection.Open();
 
-            string sql = "UPDATE User SET Username = @Username,Password = @Password" +
+            string sql = "UPDATE User" +
+                         "SET Username = @Username, Password = @Password" +
                          "WHERE Id = @Id";
 
             using SqlCommand command = new(sql, connection);
@@ -65,7 +66,7 @@ namespace Moderation.DbEndpoints
 
             command.ExecuteNonQuery();
         }
-        public static void DeleteGroupUser(Guid id)
+        public static void DeleteUser(Guid id)
         {
             using SqlConnection connection = new(connectionString);
             connection.Open();
