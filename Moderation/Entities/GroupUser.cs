@@ -14,6 +14,7 @@ namespace Moderation.Entities
         public int PostScore { get; set; }
         public int MarketplaceScore { get; set; }
         public UserStatus Status { get; set; }
+        public Guid RoleId { get; set; }
         public GroupUser(Guid userId, Guid groupId)
         {
             Id = Guid.NewGuid();
@@ -25,12 +26,22 @@ namespace Moderation.Entities
         }
         public GroupUser(Guid id,Guid userId, Guid groupId, int postScore, int marketplaceScore, UserStatus userStatus)
         {
-            this.Id = id;
-            this.UserId = userId;
-            this.GroupId = groupId;
+            Id = id;
+            UserId = userId;
+            GroupId = groupId;
             PostScore = postScore;
             MarketplaceScore = marketplaceScore;
-            this.Status = userStatus;
+            Status = userStatus;
+        }
+        public GroupUser(Guid id, Guid userId, Guid groupId, int postScore, int marketplaceScore, UserStatus userStatus, Guid roleId)
+        {
+            Id = id;
+            UserId = userId;
+            GroupId = groupId;
+            PostScore = postScore;
+            MarketplaceScore = marketplaceScore;
+            Status = userStatus;
+            RoleId = roleId;
         }
     }
 }
