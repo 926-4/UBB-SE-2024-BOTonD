@@ -11,12 +11,18 @@ namespace Moderation.Entities
     {
         public Guid Id { get; set; }
         public Guid userId { get; set; }
-        public Dictionary<string, string> messageResponse { get; set; }
+        //public Dictionary<string, string> messageResponse { get; set; }
 
-        public JoinRequest(Guid userId, Dictionary<string, string> messageResponse)
+        public JoinRequest(Guid userId)
         {
+            Id=Guid.NewGuid();
             this.userId = userId;
-            this.messageResponse = messageResponse;
+            //this.messageResponse = messageResponse;
+        }
+        public JoinRequest(Guid id, Guid userId) 
+        {
+            this.Id=id;
+            this.userId = userId;
         }
     }
 }

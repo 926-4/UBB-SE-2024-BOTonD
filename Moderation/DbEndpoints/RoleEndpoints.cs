@@ -22,7 +22,7 @@ namespace Moderation.DbEndpoints
                 sql = "Insert into RolePermission Values (@id,@p)";
                 using SqlCommand command = new(sql, connection);
                 command.Parameters.AddWithValue("@Id", role.Id);
-                command.Parameters.AddWithValue("@p", permission);
+                command.Parameters.AddWithValue("@p", permission.ToString());
                 command.ExecuteNonQuery();
             }
         }

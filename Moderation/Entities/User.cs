@@ -11,25 +11,48 @@ namespace Moderation.Entities
     {
         public Guid Id { get; set; }
         public string Username { get; set; }
-        public int PostScore { get; set; }
-        public int MarketplaceScore { get; set; }
-        public UserStatus Status { get; set; }
+        public string Password { get; set; }
+
         public User(string username)
         {
             Id = Guid.NewGuid();
             Username = username;
-            PostScore = 1;
-            MarketplaceScore = 1;
-            Status =  new(UserRestriction.None, DateTime.Now);
+            Password = GetRandomlyGeneratedPassword();
         }
-        public User(Guid userId, string username, int postScore, int marketplaceScore, UserStatus userStatus)
+        public User(Guid id, string username)
         {
-            this.Id = userId;
+            Id = id;
             Username = username;
-            PostScore = postScore;
-            MarketplaceScore = marketplaceScore;
-            this.Status = userStatus;
+            Password = GetRandomlyGeneratedPassword();
         }
+        public User(string username, string password)
+        {
+            Id = Guid.NewGuid();
+            Username = username;
+            Password = password;
+        }
+        public User(Guid id, string username, string password)
+        {
+            Id = id;
+            Username = username;
+            Password = password;
+        }
+        private string GetRandomlyGeneratedPassword()
+        {
+            Random random = new Random();
 
+            string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
+
+            int length = random.Next(8, 24);
+
+            char[] chars = new char[length];
+
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = validChars[random.Next(0, validChars.Length)];
+            }
+
+            return new string(chars);
+        }
     }
 }

@@ -17,8 +17,8 @@ namespace Moderation.DbEndpoints
             using SqlConnection connection = new(connectionString);
             connection.Open();
 
-            string insertPostSql = "INSERT INTO Post (Id, Content, UserId, Score, Status, IsDeleted) " +
-                                   "VALUES (@Id, @Content, @UserId, @Score, @Status, @IsDeleted)";
+            string insertPostSql = "INSERT INTO Post (PostId, Content, UserId, Score, Status, IsDeleted, GroupId) " +
+                                   "VALUES (@Id, @Content, @UserId, @Score, @Status, @IsDeleted, @GroupId)";
 
             using (SqlCommand command = new(insertPostSql, connection))
             {
@@ -28,6 +28,7 @@ namespace Moderation.DbEndpoints
                 command.Parameters.AddWithValue("@Score", textPost.Score);
                 command.Parameters.AddWithValue("@Status", textPost.Status);
                 command.Parameters.AddWithValue("@IsDeleted", textPost.IsDeleted);
+                command.Parameters.AddWithValue("@GroupId", textPost.Author.GroupId);
 
                 command.ExecuteNonQuery();
             }
@@ -50,8 +51,8 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT p.Id, p.Content, p.Score, p.Status, p.IsDeleted, " +
-                             "u.Id, u.Username, u.PostScore, u.MarketplaceScore, u.StatusRestriction, u.StatusRestrictionDate, u.StatusMessage " +
+                string sql = "SELECT p.PostId, p.Content, p.Score, p.Status, p.IsDeleted, p.GroupId" +
+                             "u.Id, u.UserId, u.GroupId, u.PostScore, u.MarketplaceScore, u.StatusRestriction, u.StatusRestrictionDate, u.StatusMessage " +
                              "FROM Post p " +
                              "INNER JOIN GroupUser u ON p.UserId = u.Id";
 
@@ -59,27 +60,38 @@ namespace Moderation.DbEndpoints
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    //Guid postId = reader.GetGuid(0);
+                    Guid postid = reader.GetGuid(0);
                     string content = reader.GetString(1);
-                    //int score = reader.GetInt32(2);
-                    //string status = reader.GetString(3);
-                    //bool isDeleted = reader.GetBoolean(4);
+                    int score = reader.GetInt32(2);
+                    string status = reader.GetString(3);
+                    bool isdeleted = reader.GetBoolean(4);
+                    Guid groupId = reader.GetGuid(5);
 
-                    //Guid userId = reader.GetGuid(5);
-                    string username = reader.GetString(6);
-                    //int postScore = reader.GetInt32(7);
-                    //int marketplaceScore = reader.GetInt32(8);
-                    //int statusRestriction = reader.GetInt32(9);
-                    //DateTime statusRestrictionDate = reader.GetDateTime(10);
-                    //string statusMessage = reader.GetString(11);
+                    Guid id = reader.GetGuid(6);
+                    Guid userId = reader.GetGuid(7);
+                    Guid groupUserId = reader.GetGuid(8);
+                    int postscore = reader.GetInt32(9);
+                    int marketplacescore = reader.GetInt32(10);
+                    int statusrestriction = reader.GetInt32(11);
+                    DateTime statusrestrictiondate = reader.GetDateTime(12);
+                    string statusmessage = reader.GetString(13);
 
-                    User author = new(username);
+                    GroupUser author = new(id,userId,groupUserId,postscore,marketplacescore,new UserStatus((UserRestriction)statusrestriction, statusrestrictiondate, statusmessage));
 
-                    // Fetch awards for the post
-                    //List<Award> awards = ReadAwardsForPost(postId);
 
-                    TextPost textPost = new(content, author);
-                    textPosts.Add(textPost);
+                   List < Award > awards = ReadAwardsForPost(postid);
+
+                    TextPost textPost = new(postid, content, author, [], score, status, false); 
+                    //public TextPost(
+                    //Guid id,
+                    //string content,
+                    //GroupUser author,
+                    //List<Award> awards,
+                    //int score = 0,
+                    //string status = "",
+                    //bool isDeleted = false)
+
+                        textPosts.Add(textPost);
                 }
             }
 
@@ -126,7 +138,7 @@ namespace Moderation.DbEndpoints
             }
 
             // Delete from Post table
-            string deletePostSql = "DELETE FROM Post WHERE Id = @Id";
+            string deletePostSql = "DELETE FROM Post WHERE PostId = @Id";
             using (SqlCommand command = new(deletePostSql, connection))
             {
                 command.Parameters.AddWithValue("@Id", postId);

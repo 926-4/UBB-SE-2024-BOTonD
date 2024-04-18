@@ -10,8 +10,8 @@ drop table PollOption
 drop table PollPost
 drop table Post
 drop table GroupUser
-drop table [User]
 drop table [Group]
+drop table [User]
 drop table RolePermission
 drop table UserRole
 
@@ -24,15 +24,18 @@ CREATE TABLE RolePermission(
 	Permission nvarchar(255),
 	Primary Key (RoleId,Permission)
 )
-CREATE TABLE [Group](
-	Id UNIQUEIDENTIFIER primary key,
-	Name NVARCHAR(255)
-)
 CREATE TABLE [User](
 	Id UNIQUEIDENTIFIER Primary key,
 	Username nvarchar(255),
 	Password nvarchar(255)
 )
+CREATE TABLE [Group](
+	Id UNIQUEIDENTIFIER primary key,
+	Name NVARCHAR(255),
+	Description NVARCHAR(MAX),
+	Owner UNIQUEIDENTIFIER references [User](Id)
+)
+
 CREATE TABLE GroupUser(
     Id UNIQUEIDENTIFIER primary key,
     Uid UNIQUEIDENTIFIER references [User](Id),

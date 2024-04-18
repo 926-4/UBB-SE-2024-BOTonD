@@ -43,7 +43,7 @@ namespace Moderation.Repository
 
         public override bool Update(Guid key, PostReport value)
         {
-            ReportEndpoint.UpdatePostReport(value);
+            ReportEndpoint.UpdatePostReport(key, value);
             return true;
         }
     }
