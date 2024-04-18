@@ -1,4 +1,6 @@
 using Moderation.CurrentSessionNamespace;
+using Moderation.DbEndpoints;
+using Moderation.Entities;
 using Moderation.GroupRulesView;
 using Moderation.Model;
 namespace Moderation.GroupEntryForm;
@@ -76,7 +78,13 @@ public partial class GroupEntryForm : ContentPage
 
             responses.Add(questionText, response);
         }
-
+        Role role = new Role(Guid.NewGuid(), "Pending");
+        RoleEndpoints.CreateRole(role);
+        GroupUser groupUser = new GroupUser(CurrentSession.GetInstance().User.Id,CurrentSession.GetInstance().Group.Id,role.Id);
+        CurrentSession.GetInstance().Group.GroupMembers.Add(CurrentSession.GetInstance().User,role);
+        //ApplicationState.Get().GroupUserRepository.Add(groupUser.Id, groupUser);
+        JoinRequest request = new JoinRequest(groupUser.Id);
+        ApplicationState.Get().JoinRequests.Add(request.Id,request);
         string responseString = "{\n" +
                                 $"\tuser: {CurrentSession.GetInstance()?.User?.Username},\n" +
                                 $"\ttime: {DateTime.Now},\n" +

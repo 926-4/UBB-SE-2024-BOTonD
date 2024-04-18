@@ -16,7 +16,9 @@ namespace Moderation.Model
         public AuthenticationModule Authenticator { get; } = new AuthenticationModule();
         public Repository<Group> Groups { get; } = new();
         public UserRepository UserRepository { get; } = new();
+        public GroupUserRepository GroupUserRepository { get; } = new();
         public Repository<IPost> Posts { get; } = new();
+        public Repository<JoinRequest> JoinRequests { get; } = new();
         private ApplicationState InitialiseUsers()
         {
             /// TODO Move to repository/db

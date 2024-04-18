@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Moderation.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Moderation.Entities
 {
-    public class GroupUser
+    public class GroupUser : IHasID
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
@@ -24,6 +25,16 @@ namespace Moderation.Entities
             MarketplaceScore = 1;
             Status = new(UserRestriction.None, DateTime.Now);
             RoleId = Guid.NewGuid();
+        }
+        public GroupUser(Guid userId,Guid groupId, Guid roleId)
+        {
+            Id= Guid.NewGuid();
+            UserId=userId;
+            GroupId = groupId;
+            RoleId = roleId;
+            PostScore = 1;
+            MarketplaceScore = 1;
+            Status = new(UserRestriction.None, DateTime.Now);
         }
         public GroupUser(Guid id,Guid userId, Guid groupId, int postScore, int marketplaceScore, UserStatus userStatus,Guid roleId)
         {
