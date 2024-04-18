@@ -37,7 +37,7 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT Id, Username, Password FROM User";
+                string sql = "SELECT Id, Username, Password FROM [User]";
 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
