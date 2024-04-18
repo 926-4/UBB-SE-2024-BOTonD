@@ -30,7 +30,7 @@ namespace Moderation.DbEndpoints
             command.Parameters.AddWithValue("@StatusRestriction", (int)user.Status.Restriction);
             command.Parameters.AddWithValue("@StatusRestrictionDate", user.Status.RestrictionDate);
             command.Parameters.AddWithValue("@StatusMessage", user.Status.Message);
-
+            command.Parameters.AddWithValue("@RoleId", user.RoleId);
             command.ExecuteNonQuery();
         }
         public static List<GroupUser> ReadAllGroupUsers()
@@ -41,7 +41,7 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT Id, Uid, Groupid, PostScore, MarketplaceScore, StatusRestriction, StatusRestrictionDate, StatusMessage FROM GroupUser";
+                string sql = "SELECT Id, Uid, Groupid, PostScore, MarketplaceScore, StatusRestriction, StatusRestrictionDate, StatusMessage, RoleId FROM GroupUser";
 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
@@ -50,7 +50,7 @@ namespace Moderation.DbEndpoints
                     UserRestriction restriction = (UserRestriction)reader.GetInt32(4);
                     UserStatus status = new(restriction, reader.GetDateTime(5), reader.GetString(6));
 
-                    GroupUser user = new GroupUser(reader.GetGuid(0),reader.GetGuid(1),reader.GetGuid(2),reader.GetInt32(3),reader.GetInt32(4),status);
+                    GroupUser user = new GroupUser(reader.GetGuid(0),reader.GetGuid(1),reader.GetGuid(2),reader.GetInt32(3),reader.GetInt32(4),status,reader.GetGuid(5));
                     users.Add(user);
                 }
             }
@@ -63,7 +63,7 @@ namespace Moderation.DbEndpoints
             connection.Open();
 
             string sql = "UPDATE GroupUser SET Uid = @Uid,GroupId = @GroupId, PostScore = @PostScore, MarketplaceScore = @MarketplaceScore, " +
-                         "StatusRestriction = @StatusRestriction, StatusRestrictionDate = @StatusRestrictionDate, StatusMessage = @StatusMessage " +
+                         "StatusRestriction = @StatusRestriction, StatusRestrictionDate = @StatusRestrictionDate, StatusMessage = @StatusMessage, RoleId=@RoleId " +
                          "WHERE Id = @Id";
 
             using SqlCommand command = new(sql, connection);
@@ -75,6 +75,7 @@ namespace Moderation.DbEndpoints
             command.Parameters.AddWithValue("@StatusRestrictionDate", user.Status.RestrictionDate);
             command.Parameters.AddWithValue("@StatusMessage", user.Status.Message);
             command.Parameters.AddWithValue("@Id", user.Id);
+            command.Parameters.AddWithValue("@RoleId", user.RoleId);
 
             command.ExecuteNonQuery();
         }

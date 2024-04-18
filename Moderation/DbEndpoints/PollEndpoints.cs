@@ -59,7 +59,7 @@ namespace Moderation.DbEndpoints
                 connection.Open();
 
                 string sql = "SELECT pp.PollId, pp.Content, pp.Score, pp.Status, pp.IsDeleted, " +
-                             "u.Id, u.UserId, u.PostScore, u.MarketplaceScore, u.StatusRestriction, u.StatusRestrictionDate, u.StatusMessage, u.GroupId " +
+                             "u.Id, u.UserId, u.PostScore, u.MarketplaceScore, u.StatusRestriction, u.StatusRestrictionDate, u.StatusMessage, u.GroupId , u.RoleId" +
                              "FROM PollPost pp " +
                              "INNER JOIN GroupUser u ON pp.UserId = u.Id";
 
@@ -80,11 +80,11 @@ namespace Moderation.DbEndpoints
                     DateTime statusRestrictionDate = reader.GetDateTime(10);
                     string statusMessage = reader.GetString(11);
                     Guid groupId=reader.GetGuid(12);
-
+                    Guid roleId = reader.GetGuid(13);
                     bool isDeleted = reader.GetBoolean(4);
 
 
-                    GroupUser author = new GroupUser(id,userId, groupId, postScore, marketplaceScore, new UserStatus((UserRestriction)statusRestriction, statusRestrictionDate, statusMessage));
+                    GroupUser author = new GroupUser(id,userId, groupId, postScore, marketplaceScore, new UserStatus((UserRestriction)statusRestriction, statusRestrictionDate, statusMessage),roleId);
 
                     // Fetch options for the poll
                     List<string> options = ReadOptionsForPoll(pollId);

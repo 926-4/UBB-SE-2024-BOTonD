@@ -52,7 +52,7 @@ namespace Moderation.DbEndpoints
                 connection.Open();
 
                 string sql = "SELECT p.PostId, p.Content, p.Score, p.Status, p.IsDeleted, p.GroupId" +
-                             "u.Id, u.UserId, u.GroupId, u.PostScore, u.MarketplaceScore, u.StatusRestriction, u.StatusRestrictionDate, u.StatusMessage " +
+                             "u.Id, u.UserId, u.GroupId, u.PostScore, u.MarketplaceScore, u.StatusRestriction, u.StatusRestrictionDate, u.StatusMessage, u.RoleId " +
                              "FROM Post p " +
                              "INNER JOIN GroupUser u ON p.UserId = u.Id";
 
@@ -75,8 +75,8 @@ namespace Moderation.DbEndpoints
                     int statusrestriction = reader.GetInt32(11);
                     DateTime statusrestrictiondate = reader.GetDateTime(12);
                     string statusmessage = reader.GetString(13);
-
-                    GroupUser author = new(id,userId,groupUserId,postscore,marketplacescore,new UserStatus((UserRestriction)statusrestriction, statusrestrictiondate, statusmessage));
+                    Guid roleId = reader.GetGuid(14);
+                    GroupUser author = new(id,userId,groupUserId,postscore,marketplacescore,new UserStatus((UserRestriction)statusrestriction, statusrestrictiondate, statusmessage), roleId);
 
 
                    List < Award > awards = ReadAwardsForPost(postid);
