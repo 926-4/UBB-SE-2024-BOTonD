@@ -19,5 +19,11 @@ namespace Moderation.GroupRulesView
             this.Text = text;
             this.GroupId = groupId;
         }
+        public Rule(Guid id,Guid groupId,string text)
+        {
+            this.Id = id;
+            this.GroupId = groupId;
+            this.Text = text;
+        }
     }
 }
