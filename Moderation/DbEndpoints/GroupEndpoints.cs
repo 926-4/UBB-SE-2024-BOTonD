@@ -1,25 +1,19 @@
 ﻿using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Model;
-using Moderation.Repository;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Moderation.DbEndpoints
 {
     internal class GroupEndpoints
     {
-        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         public static void CreateGroup(Group group)
         {
             using SqlConnection connection = new(connectionString);
             connection.Open();
 
-            string sql = "INSERT INTO Group (Id, Name, Description, Owner) " +
+            string sql = "INSERT INTO [Group] (Id, Name, Description, Owner) " +
                          "VALUES (@Id, @Name, @Description, @Owner)";
 
             using SqlCommand command = new(sql, connection);
@@ -38,15 +32,15 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT Id, Name, Description, Owner FROM Group";
+                string sql = "SELECT Id, Name, Description, Owner FROM [Group]";
 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    Guid userId = reader.GetGuid(3);
-                    string username = ApplicationState.Get().UserRepository.Get(userId).Username;
+                    var userId = reader.GetGuid(3);
+                    string username = ApplicationState.Get().UserRepository?.Get(userId)?.Username ?? throw new Exception("No username by that id");
                     User user = new User(userId, username);
 
                     Group group = new Group(reader.GetGuid(0), reader.GetString(1), reader.GetString(2), user);

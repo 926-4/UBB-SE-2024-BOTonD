@@ -12,7 +12,7 @@ namespace Moderation.Repository
         public QuestionRepository(Dictionary<Guid, Question> data) : base(data) { }
         public QuestionRepository() : base() { }
 
-        //public IEnumerable<Question> GetQuestionsByGroup(Guid groupId)
+        //public IEnumerable<JoinRequestAnswerToOneQuestion> GetQuestionsByGroup(Guid groupId)
         //{
         //    return data.Values.Where(q => q.GroupId == groupId);
         //}

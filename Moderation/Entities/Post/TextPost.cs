@@ -7,12 +7,13 @@ namespace Moderation.Entities.Post
     {
         public Guid Id { get; set; }
         public string Content { get; set; }
-        public User Author { get; set; }
+        public GroupUser Author { get; set; }
         public int Score { get; set; }
         public string Status { get; set; }
         public List<Award> Awards { get; set; }
         public bool IsDeleted { get; set; }
-        public TextPost(string content, User author)
+        //public Guid GroupId { get; set; }
+        public TextPost(string content, GroupUser author)
         {
             Id = Guid.NewGuid();
             Content = content;
@@ -22,7 +23,7 @@ namespace Moderation.Entities.Post
             Awards = new List<Award>{};
             IsDeleted = false;
         }
-        public TextPost(string content, User author, List<Award> awards, int score = 0, string status = "", bool isDeleted = false)
+        public TextPost(string content, GroupUser author, List<Award> awards, int score = 0, string status = "", bool isDeleted = false)
         {
             Id = Guid.NewGuid();
             Content = content;
@@ -32,7 +33,7 @@ namespace Moderation.Entities.Post
             Awards = awards;
             IsDeleted = isDeleted;
         }
-        public TextPost(Guid id, string content, User author, List<Award> awards, int score = 0, string status = "", bool isDeleted = false)
+        public TextPost(Guid id, string content, GroupUser author, List<Award> awards, int score = 0, string status = "", bool isDeleted = false)
         {
             Id = id;
             Content = content;

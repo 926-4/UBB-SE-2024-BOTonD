@@ -10,14 +10,16 @@ namespace Moderation.DbEndpoints
 {
     public class UserEndpoints
     {
-        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString =
+            "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;" +
+            "MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         public static void CreateUser(User user)
         {
             using SqlConnection connection = new(connectionString);
             connection.Open();
 
-            string sql = "INSERT INTO User (Id, Username, Password) " +
+            string sql = "INSERT INTO [User] (Id, Username, Password) " +
                          "VALUES (@Id, @Username, @Password)";
 
             using SqlCommand command = new(sql, connection);
@@ -35,7 +37,7 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT Id, Username, Password FROM User";
+                string sql = "SELECT Id, Username, Password FROM [User]";
 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();

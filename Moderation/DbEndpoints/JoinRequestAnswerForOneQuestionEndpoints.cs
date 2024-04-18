@@ -8,10 +8,10 @@ using Microsoft.Data.SqlClient;
 
 namespace Moderation.DbEndpoints
 {
-    public class QuestionEndpoints
+    public class JoinRequestAnswerForOneQuestionEndpoints
     {
-        private static string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
-        public static void CreateQuestion(Question question)
+        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        public static void CreateQuestion(JoinRequestAnswerToOneQuestion question)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -20,15 +20,15 @@ namespace Moderation.DbEndpoints
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@JoinRequest", question.RequestId);
-                    command.Parameters.AddWithValue("@[Key]", question.Text);
-                    command.Parameters.AddWithValue("@[Value]", question.Answer);
+                    command.Parameters.AddWithValue("@[Key]", question.QuestionText);
+                    command.Parameters.AddWithValue("@[Value]", question.QuestionAnswer);
                     command.ExecuteNonQuery();
                 }
             }
         }
-        public static List<Question> ReadQuestion()
+        public static List<JoinRequestAnswerToOneQuestion> ReadQuestion()
         {
-            List<Question> questions = new List<Question>();
+            List<JoinRequestAnswerToOneQuestion> questions = new List<JoinRequestAnswerToOneQuestion>();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
@@ -39,7 +39,7 @@ namespace Moderation.DbEndpoints
                     {
                         while (reader.Read())
                         {
-                            Question question = new Question(reader.GetGuid(0), reader.GetString(1), reader.GetString(2));
+                            JoinRequestAnswerToOneQuestion question = new JoinRequestAnswerToOneQuestion(reader.GetGuid(0), reader.GetString(1), reader.GetString(2));
                             questions.Add(question);
                         }
                     }
@@ -47,7 +47,7 @@ namespace Moderation.DbEndpoints
             }
             return questions;
         }
-        public static void UpdateQuestion(Question question)
+        public static void UpdateQuestion(JoinRequestAnswerToOneQuestion question)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -56,13 +56,13 @@ namespace Moderation.DbEndpoints
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@JoinRequest", question.RequestId);
-                    command.Parameters.AddWithValue("@[Key]", question.Text);
-                    command.Parameters.AddWithValue("@[Value]", question.Answer);
+                    command.Parameters.AddWithValue("@[Key]", question.QuestionText);
+                    command.Parameters.AddWithValue("@[Value]", question.QuestionAnswer);
                     command.ExecuteNonQuery();
                 }
             }
         }
-        public static void DeleteQuestion(Question question)
+        public static void DeleteQuestion(JoinRequestAnswerToOneQuestion question)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -71,7 +71,7 @@ namespace Moderation.DbEndpoints
                 using (SqlCommand command = new SqlCommand(sql, connection))
                 {
                     command.Parameters.AddWithValue("@JoinRequest", question.RequestId);
-                    command.Parameters.AddWithValue("@[Key]", question.Text);
+                    command.Parameters.AddWithValue("@[Key]", question.QuestionText);
                     command.ExecuteNonQuery();
                 }
             }

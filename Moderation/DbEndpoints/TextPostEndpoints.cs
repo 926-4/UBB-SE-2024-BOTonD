@@ -28,7 +28,7 @@ namespace Moderation.DbEndpoints
                 command.Parameters.AddWithValue("@Score", textPost.Score);
                 command.Parameters.AddWithValue("@Status", textPost.Status);
                 command.Parameters.AddWithValue("@IsDeleted", textPost.IsDeleted);
-                command.Parameters.AddWithValue("@GroupId", textPost.GroupId);
+                command.Parameters.AddWithValue("@GroupId", textPost.Author.GroupId);
 
                 command.ExecuteNonQuery();
             }
@@ -81,8 +81,17 @@ namespace Moderation.DbEndpoints
 
                    List < Award > awards = ReadAwardsForPost(postid);
 
-                   TextPost textPost = new(postid,content,score,status,isdeleted,groupId);
-                    textPosts.Add(textPost);
+                    TextPost textPost = new(postid, content, author, [], score, status, false); 
+                    //public TextPost(
+                    //Guid id,
+                    //string content,
+                    //GroupUser author,
+                    //List<Award> awards,
+                    //int score = 0,
+                    //string status = "",
+                    //bool isDeleted = false)
+
+                        textPosts.Add(textPost);
                 }
             }
 
