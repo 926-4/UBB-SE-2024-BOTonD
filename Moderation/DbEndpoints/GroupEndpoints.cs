@@ -38,14 +38,14 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT Id, Name, Description, Owner FROM User";
+                string sql = "SELECT Id, Name, Description, Owner FROM Group";
 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
 
                 while (reader.Read())
                 {
-                    var userId = reader.GetGuid(3);
+                    Guid userId = reader.GetGuid(3);
                     string username = ApplicationState.Get().UserRepository.Get(userId).Username;
                     User user = new User(userId, username);
 
