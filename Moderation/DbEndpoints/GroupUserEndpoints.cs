@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace Moderation.DbEndpoints
 {
@@ -18,7 +19,7 @@ namespace Moderation.DbEndpoints
             using SqlConnection connection = new(connectionString);
             connection.Open();
 
-            string sql = "INSERT INTO GroupUser (Id, Uid,GroupId, PostScore, MarketplaceScore, StatusRestriction, StatusRestrictionDate, StatusMessage, RoleId) " +
+            string sql = "INSERT INTO GroupUser (Id, Uid, GroupId, PostScore, MarketplaceScore, StatusRestriction, StatusRestrictionDate, StatusMessage, RoleId) " +
                          "VALUES (@Id, @Uid, @GroupId, @PostScore, @MarketplaceScore, @StatusRestriction, @StatusRestrictionDate, @StatusMessage, @RoleId)";
 
             using SqlCommand command = new(sql, connection);
@@ -47,10 +48,9 @@ namespace Moderation.DbEndpoints
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    UserRestriction restriction = (UserRestriction)reader.GetInt32(4);
-                    UserStatus status = new(restriction, reader.GetDateTime(5), reader.GetString(6));
-
-                    GroupUser user = new GroupUser(reader.GetGuid(0),reader.GetGuid(1),reader.GetGuid(2),reader.GetInt32(3),reader.GetInt32(4),status,reader.GetGuid(5));
+                    UserRestriction restriction = (UserRestriction)reader.GetInt32(5);
+                    UserStatus status = new(restriction, reader.GetDateTime(6), reader.GetString(7));
+                    GroupUser user = new GroupUser(reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetInt32(3), reader.GetInt32(4), status, reader.GetGuid(8));
                     users.Add(user);
                 }
             }
@@ -62,8 +62,11 @@ namespace Moderation.DbEndpoints
             using SqlConnection connection = new(connectionString);
             connection.Open();
 
-            string sql = "UPDATE GroupUser SET Uid = @Uid,GroupId = @GroupId, PostScore = @PostScore, MarketplaceScore = @MarketplaceScore, " +
-                         "StatusRestriction = @StatusRestriction, StatusRestrictionDate = @StatusRestrictionDate, StatusMessage = @StatusMessage, RoleId=@RoleId " +
+            string sql = "UPDATE GroupUser SET" +
+                         "Uid = @Uid, GroupId = @GroupId," +
+                         "PostScore = @PostScore, MarketplaceScore = @MarketplaceScore, " +
+                         "StatusRestriction = @StatusRestriction, StatusRestrictionDate = @StatusRestrictionDate, StatusMessage = @StatusMessage " +
+                         "RoleId = @RoleId" +
                          "WHERE Id = @Id";
 
             using SqlCommand command = new(sql, connection);

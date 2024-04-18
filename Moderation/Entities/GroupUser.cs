@@ -38,12 +38,21 @@ namespace Moderation.Entities
         }
         public GroupUser(Guid id,Guid userId, Guid groupId, int postScore, int marketplaceScore, UserStatus userStatus,Guid roleId)
         {
-            this.Id = id;
-            this.UserId = userId;
-            this.GroupId = groupId;
+            Id = id;
+            UserId = userId;
+            GroupId = groupId;
             PostScore = postScore;
             MarketplaceScore = marketplaceScore;
-            this.Status = userStatus;
+            Status = userStatus;
+        }
+        public GroupUser(Guid id, Guid userId, Guid groupId, int postScore, int marketplaceScore, UserStatus userStatus, Guid roleId)
+        {
+            Id = id;
+            UserId = userId;
+            GroupId = groupId;
+            PostScore = postScore;
+            MarketplaceScore = marketplaceScore;
+            Status = userStatus;
             RoleId = roleId;
         }
     }
