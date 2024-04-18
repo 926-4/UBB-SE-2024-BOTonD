@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Moderation.Entities
+﻿namespace Moderation.Entities
 {
     public class GroupUser
     {
@@ -18,13 +12,13 @@ namespace Moderation.Entities
         public GroupUser(Guid userId, Guid groupId)
         {
             Id = Guid.NewGuid();
-            UserId=userId;
+            UserId = userId;
             GroupId = groupId;
             PostScore = 1;
             MarketplaceScore = 1;
             Status = new(UserRestriction.None, DateTime.Now);
         }
-        public GroupUser(Guid id,Guid userId, Guid groupId, int postScore, int marketplaceScore, UserStatus userStatus)
+        public GroupUser(Guid id, Guid userId, Guid groupId, int postScore, int marketplaceScore, UserStatus userStatus)
         {
             Id = id;
             UserId = userId;
@@ -42,6 +36,13 @@ namespace Moderation.Entities
             MarketplaceScore = marketplaceScore;
             Status = userStatus;
             RoleId = roleId;
+        }
+
+        public GroupUser(Guid id, Guid userId, Guid groupID)
+        {
+            Id = id;
+            UserId = userId;
+            GroupId = groupID;
         }
     }
 }

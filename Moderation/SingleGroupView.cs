@@ -1,5 +1,7 @@
 using Moderation.CurrentSessionNamespace;
+using Moderation.DbEndpoints;
 using Moderation.Entities;
+using Moderation.GroupFeed;
 using Moderation.Model;
 
 namespace Moderation;
@@ -10,7 +12,7 @@ public class SingleGroupView : ContentView
     {
         if (user == null)
             return;
-        var userIsInGroup = ApplicationState.Get().
+        var userIsInGroup = group.Creator.Id == user.Id;// todo change
         var label = new Label
         {
             Margin = 5,
@@ -32,9 +34,8 @@ public class SingleGroupView : ContentView
         {
             if (userIsInGroup)
             {
-                //Navigation.PushAsync(new GroupFeedView(ApplicationState.Get().Posts));
                 CurrentSession.GetInstance().LookIntoGroup(group);
-                Navigation.PopAsync();
+                Navigation.PushAsync(new GroupFeedView(TextPostEndpoints.ReadAllTextPosts().Where(post => post.Author.GroupId == group.Id)));
             }
             else
             {

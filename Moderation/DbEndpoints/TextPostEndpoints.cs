@@ -11,7 +11,7 @@ namespace Moderation.DbEndpoints
 {
     public class TextPostEndpoints
     {
-        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
         public static void CreateTextPost(TextPost textPost)
         {
             using SqlConnection connection = new(connectionString);
@@ -51,8 +51,8 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT p.PostId, p.Content, p.Score, p.Status, p.IsDeleted, p.GroupId" +
-                             "u.Id, u.UserId, u.GroupId, u.PostScore, u.MarketplaceScore, u.StatusRestriction, u.StatusRestrictionDate, u.StatusMessage " +
+                string sql = "SELECT p.PostId, p.Content, p.GroupId, " +
+                             "u.Id, u.Uid , u.GroupId " +
                              "FROM Post p " +
                              "INNER JOIN GroupUser u ON p.UserId = u.Id";
 
@@ -62,26 +62,18 @@ namespace Moderation.DbEndpoints
                 {
                     Guid postid = reader.GetGuid(0);
                     string content = reader.GetString(1);
-                    int score = reader.GetInt32(2);
-                    string status = reader.GetString(3);
-                    bool isdeleted = reader.GetBoolean(4);
-                    Guid groupId = reader.GetGuid(5);
+                    Guid groupId = reader.GetGuid(2);
 
-                    Guid id = reader.GetGuid(6);
-                    Guid userId = reader.GetGuid(7);
-                    Guid groupUserId = reader.GetGuid(8);
-                    int postscore = reader.GetInt32(9);
-                    int marketplacescore = reader.GetInt32(10);
-                    int statusrestriction = reader.GetInt32(11);
-                    DateTime statusrestrictiondate = reader.GetDateTime(12);
-                    string statusmessage = reader.GetString(13);
+                    Guid id = reader.GetGuid(3);
+                    Guid userId = reader.GetGuid(4);
+                    Guid groupUserId = reader.GetGuid(5);
 
-                    GroupUser author = new(id,userId,groupUserId,postscore,marketplacescore,new UserStatus((UserRestriction)statusrestriction, statusrestrictiondate, statusmessage));
+                    GroupUser author = new(id,userId,groupUserId);
 
 
                    List < Award > awards = ReadAwardsForPost(postid);
 
-                    TextPost textPost = new(postid, content, author, [], score, status, false); 
+                    TextPost textPost = new(postid, content, author, []); 
                     //public TextPost(
                     //Guid id,
                     //string content,
@@ -108,7 +100,7 @@ namespace Moderation.DbEndpoints
                 string sql = "SELECT a.AwardId, a.Type " +
                              "FROM Award a " +
                              "INNER JOIN PostAward pa ON a.AwardId = pa.AwardId " +
-                             "WHERE pa.Id = @Id";
+                             "WHERE pa.PostId = @Id";
 
                 using SqlCommand command = new(sql, connection);
                 command.Parameters.AddWithValue("@Id", postId);
