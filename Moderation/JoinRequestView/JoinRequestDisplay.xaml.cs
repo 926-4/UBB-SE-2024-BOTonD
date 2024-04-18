@@ -32,35 +32,35 @@ public partial class JoinRequestDisplay : ContentView
         userIdStackLayout.Children.Add(userIdValueLabel);
         stackLayout.Children.Add(userIdStackLayout);
 
-        foreach( var pair in joinRequest.messageResponse)
-        {
-            var grid = new Grid { Margin = new Thickness(0, 10, 0, 0) };
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+        //foreach( var pair in joinRequest.messageResponse) 
+        //{
+        //    //// Clasa join request are nevoie de asocierea cu raspunsurile pe care momentan nu o are 
+        //    //// ~Victor
+        //    //var grid = new Grid { Margin = new Thickness(0, 10, 0, 0) };
+        //    //grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+        //    //grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
 
-            var keyLabel = new Label { Text = pair.Key, FontSize = 16 };
-            var valueLabel = new Label { Text = pair.Value, FontSize = 16 };
+        //    //var keyLabel = new Label { Text = pair.Key, FontSize = 16 };
+        //    //var valueLabel = new Label { Text = pair.Value, FontSize = 16 };
 
-            Grid.SetColumn(keyLabel, 0);
-            Grid.SetColumn(valueLabel, 1);
+        //    //Grid.SetColumn(keyLabel, 0);
+        //    //Grid.SetColumn(valueLabel, 1);
 
-            grid.Children.Add(keyLabel);
-            grid.Children.Add(valueLabel);
-            grid.Padding = new Thickness(5);
+        //    //grid.Children.Add(keyLabel);
+        //    //grid.Children.Add(valueLabel);
+        //    //grid.Padding = new Thickness(5);
 
-            var frame = new Frame
-            {
-                BorderColor = Color.Parse("Black"),
-                HasShadow = false,
-                Padding = 1,
-                CornerRadius = 5,
-                Content = grid
-            };
+        //    //var frame = new Frame
+        //    //{
+        //    //    BorderColor = Color.Parse("Black"),
+        //    //    HasShadow = false,
+        //    //    Padding = 1,
+        //    //    CornerRadius = 5,
+        //    //    Content = grid
+        //    //};
 
-            stackLayout.Children.Add(frame);
-
-            //stackLayout.Children.Add(grid);
-        }
+        //    //stackLayout.Children.Add(frame);
+        //}
 
 
 

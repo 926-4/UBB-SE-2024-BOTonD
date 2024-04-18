@@ -1,6 +1,14 @@
 ﻿namespace Moderation.Entities.Post
 {
-    public class PollPost(Guid postId, string content, GroupUser author, int score, string status, List<string> options, List<Award> awards, Guid groupId, bool isDeleted = false) : IPost
+    public class PollPost(Guid postId,
+        string content, 
+        GroupUser author, 
+        int score, 
+        string status, 
+        List<string> options, 
+        List<Award> awards, 
+        Guid groupId, 
+        bool isDeleted = false) : IPost
     { 
         public Guid Id { get; set; } = postId;
         public string Content { get; set; } = content;

@@ -116,7 +116,7 @@ public class QuestionDisplayFactory
             TextQuestion textQuestion => new TextQuestionDisplay(textQuestion),
             SliderQuestion sliderQuestion => new SliderQuestionDisplay(sliderQuestion),
             RadioQuestion radioQuestion => new RadioQuestionDisplay(radioQuestion),
-            _ => throw new NotSupportedException("Question type not supported."),
+            _ => throw new NotSupportedException("JoinRequestAnswerToOneQuestion type not supported."),
         };
     }
 }
