@@ -9,16 +9,14 @@ namespace Moderation.DbEndpoints
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         public static void CreateQuestion(JoinRequestAnswerToOneQuestion question)
         {
-            using (SqlConnection connection = new(connectionString))
-            {
-                connection.Open();
-                string sql = "INSERT INTO JoinRequestMessage VALUES (@JoinRequestId,@[Key], @[Value])";
-                using SqlCommand command = new(sql, connection);
-                command.Parameters.AddWithValue("@JoinRequest", question.RequestId);
-                command.Parameters.AddWithValue("@[Key]", question.QuestionText);
-                command.Parameters.AddWithValue("@[Value]", question.QuestionAnswer);
-                command.ExecuteNonQuery();
-            }
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
+            string sql = "INSERT INTO JoinRequestMessage VALUES (@JoinRequestId,@[Key], @[Value])";
+            using SqlCommand command = new(sql, connection);
+            command.Parameters.AddWithValue("@JoinRequest", question.RequestId);
+            command.Parameters.AddWithValue("@[Key]", question.QuestionText);
+            command.Parameters.AddWithValue("@[Value]", question.QuestionAnswer);
+            command.ExecuteNonQuery();
         }
         public static List<JoinRequestAnswerToOneQuestion> ReadQuestion()
         {
@@ -41,7 +39,7 @@ namespace Moderation.DbEndpoints
         {
             using SqlConnection connection = new(connectionString);
             connection.Open();
-            string sql = "UPDATE JoinRequestMessage SET [Value]=@[Value] WHERE JoinRequestId=@JoinRequestId AND [Key]=@[Key], ";
+            string sql = "UPDATE JoinRequestMessage SET [Value]=@[Value] WHERE JoinRequestId=@JoinRequestId AND [Key]=@[Key]";
             using SqlCommand command = new(sql, connection);
             command.Parameters.AddWithValue("@JoinRequest", question.RequestId);
             command.Parameters.AddWithValue("@[Key]", question.QuestionText);
