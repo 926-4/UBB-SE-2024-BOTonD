@@ -1,11 +1,12 @@
 ﻿using Moderation.Entities.Report;
 using Microsoft.Data.SqlClient;
+using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
     public class ReportEndpoint
     {
-        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         public static void CreatePostReport(PostReport postReport)
         {
             using SqlConnection connection = new(connectionString);

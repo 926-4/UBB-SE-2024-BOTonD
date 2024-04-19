@@ -1,24 +1,22 @@
-﻿using Moderation.Entities;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using Moderation.Entities;
+using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
     public class JoinRequestEndpoints
     {
-        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         public static void CreateJoinRequest(JoinRequest joinRequest)
         {
             using SqlConnection connection = new(connectionString);
             connection.Open();
 
-            // Insert JoinRequest entry
             string insertJoinRequestSql = "INSERT INTO JoinRequest (Id, UserId) VALUES (@Id, @UserId)";
-            using (SqlCommand command = new(insertJoinRequestSql, connection))
-            {
-                command.Parameters.AddWithValue("@Id", joinRequest.Id);
-                command.Parameters.AddWithValue("@UserId", joinRequest.userId);
-                command.ExecuteNonQuery();
-            }
+            using SqlCommand command = new(insertJoinRequestSql, connection);
+            command.Parameters.AddWithValue("@Id", joinRequest.Id);
+            command.Parameters.AddWithValue("@UserId", joinRequest.userId);
+            command.ExecuteNonQuery();
         }
         public static List<JoinRequest> ReadAllJoinRequests()
         {
@@ -28,21 +26,19 @@ namespace Moderation.DbEndpoints
             {
                 connection.Open();
 
-                string sql = "SELECT j.Id, j.UserId, m.[Key], m.[Value] " +
-                             "FROM JoinRequest j ";
-
+                string sql = "SELECT Junior.Id, Junior.UserId " +
+                             "FROM JoinRequest Junior "; 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    JoinRequest joinRequest = new JoinRequest
-                    (
+                    JoinRequest joinRequest = new(
                         reader.GetGuid(0),
                         reader.GetGuid(1)
                     );
+                    joinRequests.Add(joinRequest);
                 }
             }
-
             return joinRequests;
         }
 

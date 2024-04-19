@@ -1,19 +1,14 @@
-﻿using Moderation.Entities;
-using System;
-using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
+﻿using Microsoft.Data.SqlClient;
+using Moderation.Entities;
+using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
     public class GroupUserEndpoints
     {
-        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
-    
+
         public static void CreateGroupUser(GroupUser user)
         {
             using SqlConnection connection = new(connectionString);
@@ -52,7 +47,7 @@ namespace Moderation.DbEndpoints
                     UserRestriction restriction = (UserRestriction)reader.GetInt32(5);
                     UserStatus status = new(restriction, reader.GetDateTime(6), reader.GetString(7));
 
-                    GroupUser user = new GroupUser(reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetInt32(3), reader.GetInt32(4), status, reader.GetGuid(8));
+                    GroupUser user = new(reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetInt32(3), reader.GetInt32(4), status, reader.GetGuid(8));
                     users.Add(user);
                 }
             }
@@ -65,9 +60,13 @@ namespace Moderation.DbEndpoints
             connection.Open();
 
             string sql = "UPDATE GroupUser SET" +
-                         "Uid = @Uid, GroupId = @GroupId," +
-                         "PostScore = @PostScore, MarketplaceScore = @MarketplaceScore, " +
-                         "StatusRestriction = @StatusRestriction, StatusRestrictionDate = @StatusRestrictionDate, StatusMessage = @StatusMessage " +
+                         "Uid = @Uid, " +
+                         "GroupId = @GroupId, " +
+                         "PostScore = @PostScore, " +
+                         "MarketplaceScore = @MarketplaceScore, " +
+                         "StatusRestriction = @StatusRestriction, " +
+                         "StatusRestrictionDate = @StatusRestrictionDate, " +
+                         "StatusMessage = @StatusMessage, " +
                          "RoleId = @RoleId" +
                          "WHERE Id = @Id";
 

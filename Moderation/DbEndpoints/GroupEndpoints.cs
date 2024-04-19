@@ -1,12 +1,13 @@
 ﻿using Microsoft.Data.SqlClient;
 using Moderation.Entities;
 using Moderation.Model;
+using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
     internal class GroupEndpoints
     {
-        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         public static void CreateGroup(Group group)
         {
@@ -40,10 +41,13 @@ namespace Moderation.DbEndpoints
                 while (reader.Read())
                 {
                     var userId = reader.GetGuid(3);
-                    string username = ApplicationState.Get().UserRepository?.Get(userId)?.Username ?? throw new Exception("No username by that id");
-                    User user = new User(userId, username);
+                    string username = ApplicationState.Get()
+                        .UserRepository?.Get(userId)?
+                        .Username // if anything is null along the way throw an exception:
+                        ?? throw new Exception("No username by that id");
+                    User user = new(userId, username);
 
-                    Group group = new Group(reader.GetGuid(0), reader.GetString(1), reader.GetString(2), user);
+                    Group group = new(reader.GetGuid(0), reader.GetString(1), reader.GetString(2), user);
                     groups.Add(group);
                 }
             }
