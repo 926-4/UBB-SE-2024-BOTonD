@@ -1,17 +1,18 @@
-﻿using Moderation.Entities;
+﻿using Microsoft.Data.SqlClient;
+using Moderation.Entities;
 using Moderation.Entities.Post;
-using Microsoft.Data.SqlClient;
+using System.Configuration;
 namespace Moderation.DbEndpoints
 {
     public class PollEndpoints
     {
-        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         public static void CreatePollPost(PollPost pollPost)
         {
             using SqlConnection connection = new(connectionString);
             connection.Open();
 
-            string insertPollPostSql = "INSERT INTO PollPost (PollId, Content, UserId, Score, Status, IsDeleted, GroupId) " +
+            string insertPollPostSql = "INSERT INTO PollPost (PollId, [Content], UserId, Score, Status, IsDeleted, GroupId) " +
                                        "VALUES (@PollId, @Content, @UserId, @Score, @Status, @IsDeleted, @GroupId)";
 
             using (SqlCommand command = new(insertPollPostSql, connection))
@@ -27,7 +28,6 @@ namespace Moderation.DbEndpoints
                 command.ExecuteNonQuery();
             }
 
-            // Insert options for the poll into PollOption table
             foreach (string option in pollPost.Options)
             {
                 string insertPollOptionSql = "INSERT INTO PollOption (OptionId, PollId, OptionText)" +
@@ -79,12 +79,12 @@ namespace Moderation.DbEndpoints
                     int statusRestriction = reader.GetInt32(9);
                     DateTime statusRestrictionDate = reader.GetDateTime(10);
                     string statusMessage = reader.GetString(11);
-                    Guid groupId=reader.GetGuid(12);
+                    Guid groupId = reader.GetGuid(12);
 
                     bool isDeleted = reader.GetBoolean(4);
 
 
-                    GroupUser author = new GroupUser(id,userId, groupId, postScore, marketplaceScore, new UserStatus((UserRestriction)statusRestriction, statusRestrictionDate, statusMessage));
+                    GroupUser author = new(id, userId, groupId, postScore, marketplaceScore, new UserStatus((UserRestriction)statusRestriction, statusRestrictionDate, statusMessage));
 
                     // Fetch options for the poll
                     List<string> options = ReadOptionsForPoll(pollId);
@@ -92,7 +92,7 @@ namespace Moderation.DbEndpoints
                     // Fetch awards for the poll
                     List<Award> awards = ReadAwardsForPoll(pollId);
 
-                    PollPost pollPost = new(pollId, content, author, score, status, options, awards, groupId,isDeleted);
+                    PollPost pollPost = new(pollId, content, author, score, status, options, awards, groupId, isDeleted);
                     pollPosts.Add(pollPost);
                 }
             }
