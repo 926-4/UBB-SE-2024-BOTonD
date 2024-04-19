@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
-using Moderation.Entities.Post;
+﻿using Microsoft.Data.SqlClient;
 using Moderation.Entities;
+using Moderation.Entities.Post;
+using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
     public class TextPostEndpoints
     {
-        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         public static void CreateTextPost(TextPost textPost)
         {
             using SqlConnection connection = new(connectionString);
@@ -62,28 +58,21 @@ namespace Moderation.DbEndpoints
                 {
                     Guid postid = reader.GetGuid(0);
                     string content = reader.GetString(1);
-                    Guid groupId = reader.GetGuid(2);
+                    //Guid groupId = reader.GetGuid(2);
 
                     Guid id = reader.GetGuid(3);
                     Guid userId = reader.GetGuid(4);
                     Guid groupUserId = reader.GetGuid(5);
 
-                    GroupUser author = new(id,userId,groupUserId);
+                    GroupUser author = new(id, userId, groupUserId);
 
 
-                   List < Award > awards = ReadAwardsForPost(postid);
+                    List<Award> awards = ReadAwardsForPost(postid);
 
-                    TextPost textPost = new(postid, content, author, []); 
-                    //public TextPost(
-                    //Guid id,
-                    //string content,
-                    //GroupUser author,
-                    //List<Award> awards,
-                    //int score = 0,
-                    //string status = "",
-                    //bool isDeleted = false)
+                    TextPost textPost = new(postid, content, author, awards);
 
-                        textPosts.Add(textPost);
+
+                    textPosts.Add(textPost);
                 }
             }
 

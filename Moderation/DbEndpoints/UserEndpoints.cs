@@ -1,18 +1,12 @@
-﻿using Moderation.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using Moderation.Entities;
+using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
     public class UserEndpoints
     {
-        private static readonly string connectionString =
-            "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password=1234567!a;" +
-            "MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         public static void CreateUser(User user)
         {
@@ -45,7 +39,7 @@ namespace Moderation.DbEndpoints
                 while (reader.Read())
                 {
 
-                    User user = new User(reader.GetGuid(0), reader.GetString(1), reader.GetString(2));
+                    User user = new(reader.GetGuid(0), reader.GetString(1), reader.GetString(2));
                     users.Add(user);
                 }
             }
