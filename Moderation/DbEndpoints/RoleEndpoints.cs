@@ -1,28 +1,29 @@
 ﻿using Microsoft.Data.SqlClient;
 using Moderation.Entities;
+using System.Configuration;
 
 namespace Moderation.DbEndpoints
 {
     public class RoleEndpoints
     {
-        private static readonly string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         public static void CreateRole(Role role)
         {
             using SqlConnection connection = new(connectionString);
             connection.Open();
-            string sql = "INSERT INTO UserRole VALUES (@Id,@N)";
+            string sql = "INSERT INTO UserRole VALUES (@RoleId,@Name)";
             using (SqlCommand command = new(sql, connection))
             {
-                command.Parameters.AddWithValue("@Id", role.Id);
-                command.Parameters.AddWithValue("@N", role.Name);
+                command.Parameters.AddWithValue("@RoleId", role.Id);
+                command.Parameters.AddWithValue("@Name", role.Name);
                 command.ExecuteNonQuery();
             }
             foreach (var permission in role.Permissions)
             {
-                sql = "Insert into RolePermission Values (@id,@p)";
+                sql = "INSERT INTO RolePermission VALUES (@RoleId,@Permission)";
                 using SqlCommand command = new(sql, connection);
-                command.Parameters.AddWithValue("@Id", role.Id);
-                command.Parameters.AddWithValue("@p", permission.ToString());
+                command.Parameters.AddWithValue("@RoleId", role.Id);
+                command.Parameters.AddWithValue("@Permission", permission.ToString());
                 command.ExecuteNonQuery();
             }
         }
@@ -32,7 +33,7 @@ namespace Moderation.DbEndpoints
             using (SqlConnection connection = new(connectionString))
             {
                 connection.Open();
-                string sql = "SELECT * FROM UserRole r";
+                string sql = "SELECT RoleId, Name FROM UserRole";
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
@@ -75,6 +76,7 @@ namespace Moderation.DbEndpoints
 
             command.ExecuteNonQuery();
         }
+        // De ce nu e update aici?
         public static void UpdateRolePermissions(Guid roleId, List<Permission> newPermissions)
         {
             using SqlConnection connection = new(connectionString);
