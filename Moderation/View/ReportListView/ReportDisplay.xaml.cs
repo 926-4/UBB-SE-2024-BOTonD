@@ -34,7 +34,7 @@ public partial class ReportDisplay : ContentView
         //stackLayout.Children.Add(new PostDisplay(TextPostEndpoints.ReadAllTextPosts().Where(post => post.Id == report.PostId).ToArray()[0]));
 
         var reportedUserNameStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
-        var reportedUserNameLabel = new Label { Text = "Reported User Name:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
+        var reportedUserNameLabel = new Label { Text = "Reported User Name: ", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
         TextPost post = TextPostEndpoints.ReadAllTextPosts().Where(post => post.Id == report.PostId).ToArray()[0];
         GroupUser reportedGroupUser = GroupUserEndpoints.ReadAllGroupUsers().Where(guser => guser.Id==post.Author.Id).ToArray()[0];
         User reportedUser = UserEndpoints.ReadAllUsers().Where(user => user.Id == reportedGroupUser.UserId).ToArray()[0];
@@ -44,6 +44,12 @@ public partial class ReportDisplay : ContentView
         reportedUserNameStackLayout.Children.Add(reportedUserNameValue);
         stackLayout.Children.Add(reportedUserNameStackLayout);
 
+        var reportedPostTextStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
+        var reportedPostLabel = new Label { Text = "Post content: ", FontSize = 16, Margin = new Thickness(0, 4, 16, 0) };
+        var reportedPostText = new Label { Text = post.Content, FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
+        reportedPostTextStackLayout.Children.Add(reportedPostLabel);
+        reportedPostTextStackLayout.Children.Add(reportedPostText);
+        stackLayout.Children.Add(reportedPostTextStackLayout);
         var messageEntry = new Entry { Text = report.Message, Margin = new Thickness(0, 4, 0, 0), IsReadOnly=true };
         stackLayout.Children.Add(messageEntry);
         
