@@ -1,13 +1,13 @@
 ﻿using Microsoft.Data.SqlClient;
-using Moderation.Entities;
 using System.Configuration;
-
+using Moderation.Entities;
 namespace Moderation.DbEndpoints
 {
     public class GroupUserEndpoints
     {
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
+        //private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         public static void CreateGroupUser(GroupUser user)
         {
@@ -44,10 +44,10 @@ namespace Moderation.DbEndpoints
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {
-                    UserRestriction restriction = (UserRestriction)reader.GetInt32(5);
-                    UserStatus status = new(restriction, reader.GetDateTime(6), reader.GetString(7));
+                    //UserRestriction restriction = (UserRestriction)reader.GetInt32(5);
+                    //UserStatus status = new(restriction, reader.GetDateTime(6), reader.GetString(7));
 
-                    GroupUser user = new(reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetInt32(3), reader.GetInt32(4), status, reader.GetGuid(8));
+                    GroupUser user = new(reader.GetGuid(0), reader.GetGuid(1), reader.GetGuid(2), reader.GetInt32(3), reader.GetInt32(4), new UserStatus(UserRestriction.None,DateTime.Now), reader.GetGuid(8));
                     users.Add(user);
                 }
             }
