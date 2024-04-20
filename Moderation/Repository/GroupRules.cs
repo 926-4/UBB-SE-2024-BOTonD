@@ -1,5 +1,4 @@
-﻿using Moderation.GroupRulesView;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -8,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Moderation.Repository
 {
-    public class GroupRules : Repository<GroupRulesView.Rule>
+    public class GroupRules : Repository<Model.Rule>
     {
-        public GroupRules(Dictionary<Guid, GroupRulesView.Rule> data) : base(data) { }
+        public GroupRules(Dictionary<Guid, Model.Rule> data) : base(data) { }
         public GroupRules() : base() { }
 
         //public IEnumerable<GroupRules> GetGroupRulesByGroup(Guid groupId)

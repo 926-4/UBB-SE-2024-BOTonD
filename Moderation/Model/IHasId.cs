@@ -1,4 +1,4 @@
-﻿namespace Moderation.Model
+﻿namespace Moderation.Entities
 {
     public interface IHasID
     {

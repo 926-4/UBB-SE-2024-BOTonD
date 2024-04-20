@@ -63,71 +63,67 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="GroupEntryForm\GroupEntryForm.xaml.cs">
+	  <Compile Update="View\GroupEntryForm\GroupEntryForm.xaml.cs">
 	    <DependentUpon>GroupEntryForm.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="GroupFeed\GroupFeedView.xaml.cs">
+	  <Compile Update="View\GroupFeed\GroupFeedView.xaml.cs">
 	    <DependentUpon>GroupFeedView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="GroupFeed\CommentsFeedView.xaml.cs">
+	  <Compile Update="View\GroupFeed\CommentsFeedView.xaml.cs">
 	    <DependentUpon>CommentsFeedView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="GroupRulesView\GroupRulesView.xaml.cs">
+	  <Compile Update="View\GroupRulesView\GroupRulesView.xaml.cs">
 	    <DependentUpon>GroupRulesView.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="GroupRulesView\RuleDisplay.xaml.cs">
+	  <Compile Update="View\GroupRulesView\RuleDisplay.xaml.cs">
 	    <DependentUpon>RuleDisplay.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="LoginPage.xaml.cs">
+	  <Compile Update="View\LoginPage.xaml.cs">
 	    <DependentUpon>LoginPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="GroupEntryForm\GroupEntryForm.xaml">
+	  <MauiXaml Update="View\GroupEntryForm\GroupEntryForm.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="GroupEntryForm\QuestionDisplay.xaml">
+	  <MauiXaml Update="View\GroupEntryForm\QuestionDisplay.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="GroupFeed\GroupFeedView.xaml">
+	  <MauiXaml Update="View\GroupFeed\GroupFeedView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="GroupFeed\CommentsFeedView.xaml">
+	  <MauiXaml Update="View\GroupFeed\CommentsFeedView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="GroupRulesView\GroupRulesView.xaml">
+	  <MauiXaml Update="View\GroupRulesView\GroupRulesView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="GroupRulesView\RuleDisplay.xaml">
+	  <MauiXaml Update="View\GroupRulesView\RuleDisplay.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="GroupsView.xaml">
+	  <MauiXaml Update="View\GroupsView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="JoinRequestView\JoinRequestDisplay.xaml">
+	  <MauiXaml Update="View\JoinRequestView\JoinRequestDisplay.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="JoinRequestView\JoinRequestListView.xaml">
+	  <MauiXaml Update="View\JoinRequestView\JoinRequestListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="LoginPage.xaml">
+	  <MauiXaml Update="View\LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ReportListView\ReportDisplay.xaml">
+	  <MauiXaml Update="View\ReportListView\ReportDisplay.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="ReportListView\ReportListView.xaml">
+	  <MauiXaml Update="View\ReportListView\ReportListView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Resources\Images\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Images\" />
 	</ItemGroup>
 
 </Project>
