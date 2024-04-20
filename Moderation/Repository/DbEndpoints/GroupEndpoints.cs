@@ -3,6 +3,7 @@ using Moderation.Entities;
 using Moderation.Model;
 using Moderation.Serivce;
 using System.Configuration;
+using ApplicationState = Moderation.Serivce.ApplicationState;
 
 namespace Moderation.DbEndpoints
 {

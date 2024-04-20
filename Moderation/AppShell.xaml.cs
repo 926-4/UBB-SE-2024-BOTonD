@@ -7,7 +7,6 @@ namespace Moderation
         public AppShell()
         {
             InitializeComponent();
-        }
-      
+        }     
     }
 }

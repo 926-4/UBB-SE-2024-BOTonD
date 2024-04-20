@@ -5,6 +5,7 @@ using Moderation.Entities.Report;
 using Moderation.GroupFeed;
 using Moderation.Model;
 using Moderation.Serivce;
+using ApplicationState = Moderation.Serivce.ApplicationState;
 
 namespace Moderation
 {

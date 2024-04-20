@@ -1,5 +1,6 @@
 using Moderation.CurrentSessionNamespace;
 using Moderation.GroupRulesView;
+using Moderation.Model;
 namespace Moderation.GroupEntryForm;
 
 public partial class GroupEntryForm : ContentPage

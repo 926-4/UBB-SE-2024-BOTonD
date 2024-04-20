@@ -33,11 +33,13 @@ namespace Moderation.Serivce
             /// Read data from DB
             return this;
         }
+
         private ApplicationState InitialiseGroups()
         {
             /// Read data from db
             return this;
         }
+
         static public ApplicationState Get()
         {
             instance ??= new ApplicationState()
@@ -45,6 +47,5 @@ namespace Moderation.Serivce
                 .InitialiseGroups();
             return instance;
         }
-
     }
 }
