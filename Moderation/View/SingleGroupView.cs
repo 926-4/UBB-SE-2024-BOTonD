@@ -27,7 +27,7 @@ public class SingleGroupView : ContentView
         {
             Margin = 5,
             Padding = 5,
-            HorizontalOptions = LayoutOptions.End,
+            HorizontalOptions = LayoutOptions.Center,
             VerticalOptions = LayoutOptions.Center,
             Text = userIsInGroup ? "View" : "Join",
         };
@@ -48,15 +48,46 @@ public class SingleGroupView : ContentView
                     ]));
             }
         };
-        Content = new HorizontalStackLayout
+            var reportButton = new Button
+            {
+                Margin = 5,
+                Padding = 5,
+                HorizontalOptions = LayoutOptions.End,
+                VerticalOptions = LayoutOptions.Center,
+                Text = "reports",
+            };
+        reportButton.Clicked += (s, e) =>
         {
-            Margin = 5,
-            Padding = 5,
-            HorizontalOptions = LayoutOptions.Fill,
-            Children = {
-                label,
-                button
-            }
+           CurrentSession.GetInstance().LookIntoGroup(group);
+           Navigation.PushAsync(new ReportListView.ReportListView(ReportEndpoint.ReadAllPostReports().Where(report => report.GroupId == group.Id)));
         };
+        if (userIsInGroup)
+        {
+            Content = new HorizontalStackLayout
+            {
+                Margin = 5,
+                Padding = 5,
+                HorizontalOptions = LayoutOptions.Fill,
+                Children = {
+                label,
+                button,
+                reportButton
+            }
+            };
+        }
+        else
+        {
+            Content = new HorizontalStackLayout
+            {
+                Margin = 5,
+                Padding = 5,
+                HorizontalOptions = LayoutOptions.Fill,
+                Children = {
+                label,
+                button,
+            }
+            };
+        }
+        
     }
 }
