@@ -17,7 +17,7 @@ namespace Moderation.DbEndpoints
                                    "VALUES (@VoteId, @UserId, @PollId, @Option)";
 
             using SqlCommand command = new(insertVoteSql, connection);
-            command.Parameters.AddWithValue("@VoteId", vote.voteId);
+            command.Parameters.AddWithValue("@VoteId", vote.Id);
             command.Parameters.AddWithValue("@UserId", vote.userId);
             command.Parameters.AddWithValue("@PollId", vote.pollId);
             command.Parameters.AddWithValue("@Option", vote.option);
@@ -57,7 +57,7 @@ namespace Moderation.DbEndpoints
             string sql = "UPDATE Vote SET Options=@Options WHERE VoteId=@VoteId ";
             using SqlCommand command = new(sql, connection);
             command.Parameters.AddWithValue("@Options", vote.option);
-            command.Parameters.AddWithValue("@VoteId", vote.voteId);
+            command.Parameters.AddWithValue("@VoteId", vote.Id);
             command.ExecuteNonQuery();
         }
         public static void DeleteVote(Guid voteId)
