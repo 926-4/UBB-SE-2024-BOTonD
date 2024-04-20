@@ -1,6 +1,6 @@
 ﻿namespace Moderation.Entities
 {
-    public class GroupUser
+    public class GroupUser : IHasID
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }

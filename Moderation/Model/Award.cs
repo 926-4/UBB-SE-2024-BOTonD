@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Moderation.Entities
 {
-    public class Award
+    public class Award : IHasID
     {
-        public Guid awardId { get; set; }
+        public Guid Id { get; set; }
         public enum AwardType
         {
             Bronze,
