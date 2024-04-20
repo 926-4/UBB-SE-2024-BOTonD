@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Moderation.Entities
 {
-    public class Vote
+    public class Vote : IHasID
     {
-        public Guid voteId { get; set; }
+        public Guid Id { get; set; }
         public Guid userId { get; set; }
         public Guid pollId { get; set; }
         public string option { get; set; }
 
         public Vote(Guid voteId, Guid userId, Guid pollId, string option)
         {
-            this.voteId = voteId;
+            this.Id = voteId;
             this.userId = userId;
             this.pollId = pollId;
             this.option = option;

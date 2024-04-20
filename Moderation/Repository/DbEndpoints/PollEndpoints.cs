@@ -45,7 +45,7 @@ namespace Moderation.DbEndpoints
             {
                 string insertPollAwardSql = "INSERT INTO PollAward (AwardId, PollId) VALUES (@AwardId, @PollId)";
                 using SqlCommand awardCommand = new(insertPollAwardSql, connection);
-                awardCommand.Parameters.AddWithValue("@AwardId", award.awardId);
+                awardCommand.Parameters.AddWithValue("@AwardId", award.Id);
                 awardCommand.Parameters.AddWithValue("@PollId", pollPost.Id);
                 awardCommand.ExecuteNonQuery();
             }
@@ -121,7 +121,7 @@ namespace Moderation.DbEndpoints
                     Guid awardId = reader.GetGuid(0);
                     _ = reader.GetString(1);
 
-                    Award award = new() { awardId = awardId, awardType = (Award.AwardType)Enum.Parse(typeof(Award.AwardType), reader.GetString(1)) };
+                    Award award = new() { Id = awardId, awardType = (Award.AwardType)Enum.Parse(typeof(Award.AwardType), reader.GetString(1)) };
                     awards.Add(award);
                 }
             }
