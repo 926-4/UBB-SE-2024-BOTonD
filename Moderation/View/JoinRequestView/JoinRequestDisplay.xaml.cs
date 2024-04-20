@@ -1,4 +1,6 @@
+using Moderation.DbEndpoints;
 using Moderation.Entities;
+using Moderation.Serivce;
 
 namespace Moderation.JoinRequestView;
 
@@ -24,9 +26,12 @@ public partial class JoinRequestDisplay : ContentView
         requestIdStackLayout.Children.Add(requestIdValueLabel);
         stackLayout.Children.Add(requestIdStackLayout);
 
+        GroupUser? groupUser = ApplicationState.Get().GroupUsers.Get(joinRequest.userId);
+        User? user = ApplicationState.Get().UserRepository.Get(groupUser.UserId);
+
         var userIdStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
-        var userIdLabel = new Label { Text = "User ID:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
-        var userIdValueLabel = new Label { Text = joinRequest.userId.ToString(), FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
+        var userIdLabel = new Label { Text = "User Name:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
+        var userIdValueLabel = new Label { Text = user?.Username, FontSize = 16, Margin = new Thickness(0, 4, 0, 0) };
 
         userIdStackLayout.Children.Add(userIdLabel);
         userIdStackLayout.Children.Add(userIdValueLabel);
