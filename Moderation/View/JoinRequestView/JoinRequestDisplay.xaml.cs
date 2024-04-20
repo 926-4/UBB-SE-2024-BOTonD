@@ -27,7 +27,9 @@ public partial class JoinRequestDisplay : ContentView
         stackLayout.Children.Add(requestIdStackLayout);
 
         GroupUser? groupUser = ApplicationState.Get().GroupUsers.Get(joinRequest.userId);
+#pragma warning disable CS8602 // Dereference of a possibly null reference.
         User? user = ApplicationState.Get().UserRepository.Get(groupUser.UserId);
+#pragma warning restore CS8602 // Dereference of a possibly null reference.
 
         var userIdStackLayout = new StackLayout { Orientation = StackOrientation.Horizontal };
         var userIdLabel = new Label { Text = "User Name:", FontSize = 16, Margin = new Thickness(0, 4, 10, 0) };
@@ -36,36 +38,37 @@ public partial class JoinRequestDisplay : ContentView
         userIdStackLayout.Children.Add(userIdLabel);
         userIdStackLayout.Children.Add(userIdValueLabel);
         stackLayout.Children.Add(userIdStackLayout);
+        IEnumerable<JoinRequestAnswerToOneQuestion> answers = ApplicationState.Get().JoinRequestForOneQuestionAnswers.GetAll().Where(answer => answer.RequestId==joinRequest.Id);
 
-        //foreach( var pair in joinRequest.messageResponse) 
-        //{
-        //    //// Clasa join request are nevoie de asocierea cu raspunsurile pe care momentan nu o are 
-        //    //// ~Victor
-        //    //var grid = new Grid { Margin = new Thickness(0, 10, 0, 0) };
-        //    //grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
-        //    //grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+        foreach (var answer in answers)
+        {
+            //// Clasa join request are nevoie de asocierea cu raspunsurile pe care momentan nu o are 
+            //// ~Victor
+            var grid = new Grid { Margin = new Thickness(0, 10, 0, 0) };
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
 
-        //    //var keyLabel = new Label { Text = pair.Key, FontSize = 16 };
-        //    //var valueLabel = new Label { Text = pair.Value, FontSize = 16 };
+            var keyLabel = new Label { Text = answer.QuestionText, FontSize = 16 };
+            var valueLabel = new Label { Text = answer.QuestionAnswer, FontSize = 16 };
 
-        //    //Grid.SetColumn(keyLabel, 0);
-        //    //Grid.SetColumn(valueLabel, 1);
+            Grid.SetColumn(keyLabel, 0);
+            Grid.SetColumn(valueLabel, 1);
 
-        //    //grid.Children.Add(keyLabel);
-        //    //grid.Children.Add(valueLabel);
-        //    //grid.Padding = new Thickness(5);
+            grid.Children.Add(keyLabel);
+            grid.Children.Add(valueLabel);
+            grid.Padding = new Thickness(5);
 
-        //    //var frame = new Frame
-        //    //{
-        //    //    BorderColor = Color.Parse("Black"),
-        //    //    HasShadow = false,
-        //    //    Padding = 1,
-        //    //    CornerRadius = 5,
-        //    //    Content = grid
-        //    //};
+            var frame = new Frame
+            {
+                BorderColor = Color.Parse("Black"),
+                HasShadow = false,
+                Padding = 1,
+                CornerRadius = 5,
+                Content = grid
+            };
 
-        //    //stackLayout.Children.Add(frame);
-        //}
+            stackLayout.Children.Add(frame);
+        }
 
 
 
