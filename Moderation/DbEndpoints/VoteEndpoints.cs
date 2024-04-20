@@ -1,61 +1,50 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
 using Moderation.Entities;
+using System.Configuration;
 namespace Moderation.DbEndpoints
 {
+    // Probably should be deleted
     public class VoteEndpoints
     {
-        private static string connectionString = "Server=tcp:iss.database.windows.net,1433;Initial Catalog=iss;Persist Security Info=False;User ID=iss;Password={your_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
         public static void CreateVote(Vote vote)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
 
-                string insertVoteSql = "INSERT INTO Vote (VoteId, UserPost, PollId, Options) " +
-                                       "VALUES (@VoteId, @UserId, @PollId, @Option)";
+            string insertVoteSql = "INSERT INTO Vote (VoteId, UserPost, PollId, Options) " +
+                                   "VALUES (@VoteId, @UserId, @PollId, @Option)";
 
-                using (SqlCommand command = new SqlCommand(insertVoteSql, connection))
-                {
-                    command.Parameters.AddWithValue("@VoteId", vote.voteId);
-                    command.Parameters.AddWithValue("@UserId", vote.userId);
-                    command.Parameters.AddWithValue("@PollId", vote.pollId);
-                    command.Parameters.AddWithValue("@Option", vote.option);
+            using SqlCommand command = new(insertVoteSql, connection);
+            command.Parameters.AddWithValue("@VoteId", vote.voteId);
+            command.Parameters.AddWithValue("@UserId", vote.userId);
+            command.Parameters.AddWithValue("@PollId", vote.pollId);
+            command.Parameters.AddWithValue("@Option", vote.option);
 
-                    command.ExecuteNonQuery();
-                }
-            }
+            command.ExecuteNonQuery();
         }
         public static List<Vote> ReadAllVotes()
         {
-            List<Vote> votes = new List<Vote>();
+            List<Vote> votes = [];
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlConnection connection = new(connectionString))
             {
                 connection.Open();
 
                 string sql = "SELECT VoteId, UserPost, PollId, Options FROM Vote";
 
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                using SqlCommand command = new(sql, connection);
+                using SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
                 {
-                    using (SqlDataReader reader = command.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            Guid voteId = reader.GetGuid(0);
-                            Guid userId = reader.GetGuid(1);
-                            Guid pollId = reader.GetGuid(2);
-                            string option = reader.GetString(3);
+                    Guid voteId = reader.GetGuid(0);
+                    Guid userId = reader.GetGuid(1);
+                    Guid pollId = reader.GetGuid(2);
+                    string option = reader.GetString(3);
 
-                            Vote vote = new Vote(voteId, userId, pollId, option);
-                            votes.Add(vote);
-                        }
-                    }
+                    Vote vote = new(voteId, userId, pollId, option);
+                    votes.Add(vote);
                 }
             }
 
@@ -63,32 +52,24 @@ namespace Moderation.DbEndpoints
         }
         public static void UpdateVote(Vote vote)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                string sql = "UPDATE Vote SET Options=@Options WHERE VoteId=@VoteId ";
-                using (SqlCommand command = new SqlCommand(sql, connection))
-                {
-                    command.Parameters.AddWithValue("@Options", vote.option);
-                    command.Parameters.AddWithValue("@VoteId", vote.voteId);
-                    command.ExecuteNonQuery();
-                }
-            }
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
+            string sql = "UPDATE Vote SET Options=@Options WHERE VoteId=@VoteId ";
+            using SqlCommand command = new(sql, connection);
+            command.Parameters.AddWithValue("@Options", vote.option);
+            command.Parameters.AddWithValue("@VoteId", vote.voteId);
+            command.ExecuteNonQuery();
         }
         public static void DeleteVote(Guid voteId)
         {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
 
-                string deleteVoteSql = "DELETE FROM Vote WHERE VoteId = @VoteId";
+            string deleteVoteSql = "DELETE FROM Vote WHERE VoteId = @VoteId";
 
-                using (SqlCommand command = new SqlCommand(deleteVoteSql, connection))
-                {
-                    command.Parameters.AddWithValue("@VoteId", voteId);
-                    command.ExecuteNonQuery();
-                }
-            }
+            using SqlCommand command = new(deleteVoteSql, connection);
+            command.Parameters.AddWithValue("@VoteId", voteId);
+            command.ExecuteNonQuery();
         }
 
 
