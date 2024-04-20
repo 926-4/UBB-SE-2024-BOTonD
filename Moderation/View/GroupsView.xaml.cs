@@ -1,6 +1,7 @@
 
 using Moderation.CurrentSessionNamespace;
 using Moderation.Model;
+using Moderation.Serivce;
 
 namespace Moderation;
 
@@ -16,7 +17,7 @@ public partial class GroupsView : ContentPage
     {
         foreach (Group group in ApplicationState.Get().Groups.GetAll())
         {
-            ((StackLayout)Content).Children.Add(new SingleGroupView(group, CurrentSession.GetInstance().User));
+            ((StackLayout)Content).Children.Add(new View.SingleGroupView(group, CurrentSession.GetInstance().User));
         }
         Button backButton = new()
         {

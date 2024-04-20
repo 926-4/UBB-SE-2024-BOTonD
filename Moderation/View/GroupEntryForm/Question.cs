@@ -1,4 +1,4 @@
-﻿using Moderation.Model;
+﻿using Moderation.Entities;
 using Moderation.Repository;
 
 namespace Moderation.GroupEntryForm

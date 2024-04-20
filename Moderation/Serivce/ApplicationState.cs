@@ -7,7 +7,7 @@ using Moderation.Repository;
 using Question = Moderation.GroupEntryForm.Question;
 //using System.Data;
 
-namespace Moderation.Model
+namespace Moderation.Serivce
 {
     class ApplicationState
     {

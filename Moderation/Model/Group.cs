@@ -1,7 +1,6 @@
 ﻿using Moderation.Entities;
 using Moderation.Entities.Report;
 using Moderation.GroupEntryForm;
-using Moderation.GroupRulesView;
 using Moderation.Repository;
 
 namespace Moderation.Model

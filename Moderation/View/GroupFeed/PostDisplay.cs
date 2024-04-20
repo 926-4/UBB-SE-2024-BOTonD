@@ -1,8 +1,9 @@
 using Microsoft.Maui.Controls.Shapes;
 using Moderation.Entities.Post;
-using Moderation.Model;
+using Moderation.GroupFeed;
+using Moderation.Serivce;
 
-namespace Moderation.GroupFeed;
+namespace Moderation.View.GroupFeed;
 
 public class PostDisplay : ContentView
 {

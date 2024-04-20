@@ -1,6 +1,4 @@
-﻿using Moderation.Model;
-
-namespace Moderation.Entities.Post
+﻿namespace Moderation.Entities.Post
 {
     public interface IPost : IHasID
     {

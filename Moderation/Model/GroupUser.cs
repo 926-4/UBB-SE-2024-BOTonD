@@ -43,6 +43,7 @@
             Id = id;
             UserId = userId;
             GroupId = groupID;
+            Status = new(UserRestriction.None, DateTime.Now);
         }
     }
 }

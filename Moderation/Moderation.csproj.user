@@ -11,63 +11,48 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <MauiXaml Update="GroupEntryForm\GroupEntryForm.xaml">
+    <MauiXaml Update="View\GroupEntryForm\GroupEntryForm.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="GroupEntryForm\QuestionDisplay.xaml">
+    <MauiXaml Update="View\GroupEntryForm\QuestionDisplay.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="GroupFeed\GroupFeedView.xaml">
+    <MauiXaml Update="View\GroupFeed\GroupFeedView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="GroupFeed\CommentsFeedView.xaml">
+    <MauiXaml Update="View\GroupFeed\CommentsFeedView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="GroupRulesView\GroupRulesView.xaml">
+    <MauiXaml Update="View\GroupRulesView\GroupRulesView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="GroupRulesView\RuleDisplay.xaml">
+    <MauiXaml Update="View\GroupRulesView\RuleDisplay.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="GroupsView.xaml">
+    <MauiXaml Update="View\GroupsView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="JoinRequestView\JoinRequestDisplay.xaml">
+    <MauiXaml Update="View\JoinRequestView\JoinRequestDisplay.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="JoinRequestView\JoinRequestListView.xaml">
+    <MauiXaml Update="View\JoinRequestView\JoinRequestListView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="LoginPage.xaml">
+    <MauiXaml Update="View\LoginPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="ReportListView\ReportDisplay.xaml">
+    <MauiXaml Update="View\ReportListView\ReportDisplay.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
-    <MauiXaml Update="ReportListView\ReportListView.xaml">
+    <MauiXaml Update="View\ReportListView\ReportListView.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
   </ItemGroup>
   <ItemGroup>
-    <None Update="App.xaml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="AppShell.xaml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="MainPage.xaml">
-      <SubType>Designer</SubType>
-    </None>
     <None Update="Platforms\Windows\App.xaml">
       <SubType>Designer</SubType>
     </None>
     <None Update="Platforms\Windows\Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="Resources\Styles\Colors.xaml">
-      <SubType>Designer</SubType>
-    </None>
-    <None Update="Resources\Styles\Styles.xaml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

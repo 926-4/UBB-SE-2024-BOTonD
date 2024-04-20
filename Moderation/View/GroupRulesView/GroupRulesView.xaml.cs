@@ -1,3 +1,5 @@
+using Moderation.Model;
+
 namespace Moderation.GroupRulesView;
 
 public partial class GroupRulesView : ContentPage

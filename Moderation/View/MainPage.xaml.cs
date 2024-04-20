@@ -4,6 +4,7 @@ using Moderation.Entities.Post;
 using Moderation.Entities.Report;
 using Moderation.GroupFeed;
 using Moderation.Model;
+using Moderation.Serivce;
 
 namespace Moderation
 {

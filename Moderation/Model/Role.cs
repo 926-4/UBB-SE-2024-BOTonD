@@ -1,6 +1,4 @@
-﻿using Moderation.Model;
-
-namespace Moderation.Entities
+﻿namespace Moderation.Entities
 {
     public class Role : IHasID
     {

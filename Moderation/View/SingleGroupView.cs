@@ -5,7 +5,7 @@ using Moderation.GroupEntryForm;
 using Moderation.GroupFeed;
 using Moderation.Model;
 
-namespace Moderation;
+namespace Moderation.View;
 
 public class SingleGroupView : ContentView
 {

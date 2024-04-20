@@ -1,7 +1,7 @@
-﻿using Moderation.Model;
+﻿using Moderation.Entities;
 using Moderation.Repository;
 
-namespace Moderation.GroupRulesView
+namespace Moderation.Model
 {
     public class Rule : IHasID
     {
@@ -11,13 +11,13 @@ namespace Moderation.GroupRulesView
 
         public Rule(string text)
         {
-            this.Text = text;
+            Text = text;
         }
-        
+
         public Rule(string text, Guid groupId)
-        { 
-            this.Text = text;
-            this.GroupId = groupId;
+        {
+            Text = text;
+            GroupId = groupId;
         }
     }
 }

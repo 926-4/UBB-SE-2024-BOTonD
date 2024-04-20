@@ -22,7 +22,7 @@ public partial class GroupFeedView : ContentPage
 
 		foreach (var post in _posts)
 		{
-			layout.Children.Add(new PostDisplay(post));
+			layout.Children.Add(new View.GroupFeed.PostDisplay(post));
 		}
 
 		Content = new ScrollView {

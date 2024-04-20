@@ -33,7 +33,7 @@ public partial class CommentsFeedView : ContentPage
 
         foreach (var comment in _comments)
         {
-            layout.Children.Add(new PostDisplay(comment));
+            layout.Children.Add(new View.GroupFeed.PostDisplay(comment));
         }
 
         Content = new ScrollView
