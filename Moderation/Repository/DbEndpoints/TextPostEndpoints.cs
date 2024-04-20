@@ -34,7 +34,7 @@ namespace Moderation.DbEndpoints
             {
                 string insertPostAwardSql = "INSERT INTO PostAward (AwardId, Id) VALUES (@AwardId, @Id)";
                 using SqlCommand awardCommand = new(insertPostAwardSql, connection);
-                awardCommand.Parameters.AddWithValue("@AwardId", award.awardId);
+                awardCommand.Parameters.AddWithValue("@AwardId", award.Id);
                 awardCommand.Parameters.AddWithValue("@Id", textPost.Id);
                 awardCommand.ExecuteNonQuery();
             }
@@ -98,7 +98,7 @@ namespace Moderation.DbEndpoints
                 while (reader.Read())
                 {
                     Guid awardId = reader.GetGuid(0);
-                    Award award = new() { awardId = awardId, awardType = (Award.AwardType)Enum.Parse(typeof(Award.AwardType), reader.GetString(1)) };
+                    Award award = new() { Id = awardId, awardType = (Award.AwardType)Enum.Parse(typeof(Award.AwardType), reader.GetString(1)) };
                     awards.Add(award);
                 }
             }
@@ -123,6 +123,33 @@ namespace Moderation.DbEndpoints
             using (SqlCommand command = new(deletePostSql, connection))
             {
                 command.Parameters.AddWithValue("@Id", postId);
+                command.ExecuteNonQuery();
+            }
+        }
+        public static void UpdateTextPost(TextPost textPost)
+        {
+            using SqlConnection connection = new(connectionString);
+            connection.Open();
+
+            string updatePostSql = "UPDATE Post SET " +
+                                   "Content = @Content, " +
+                                   "UserId = @UserId, " +
+                                   "Score = @Score, " +
+                                   "Status = @Status, " +
+                                   "IsDeleted = @IsDeleted, " +
+                                   "GroupId = @GroupId " +
+                                   "WHERE PostId = @Id";
+
+            using (SqlCommand command = new(updatePostSql, connection))
+            {
+                command.Parameters.AddWithValue("@Id", textPost.Id);
+                command.Parameters.AddWithValue("@Content", textPost.Content);
+                command.Parameters.AddWithValue("@UserId", textPost.Author.Id);
+                command.Parameters.AddWithValue("@Score", textPost.Score);
+                command.Parameters.AddWithValue("@Status", textPost.Status);
+                command.Parameters.AddWithValue("@IsDeleted", textPost.IsDeleted);
+                command.Parameters.AddWithValue("@GroupId", textPost.Author.GroupId);
+
                 command.ExecuteNonQuery();
             }
         }

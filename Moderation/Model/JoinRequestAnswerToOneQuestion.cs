@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Moderation.Entities
 {
-    public class JoinRequestAnswerToOneQuestion
+    public class JoinRequestAnswerToOneQuestion : IHasID
 
     {
+        public Guid Id { get; set; }
         public Guid RequestId { get; set; }
         public string QuestionText { get; set; }
 
@@ -16,6 +17,7 @@ namespace Moderation.Entities
 
         public JoinRequestAnswerToOneQuestion(Guid requestId, string text, string answer)
         {
+            Id = Guid.NewGuid();
             RequestId = requestId;
             QuestionText = text;
             QuestionAnswer = answer;
