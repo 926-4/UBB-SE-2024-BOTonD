@@ -36,7 +36,11 @@ namespace Moderation.Repository
 
         public override bool Remove(Guid key)
         {
-            JoinRequestAnswerForOneQuestionEndpoints.DeleteQuestion(key);
+            throw new Exception("Remove needs more than just the id");
+        }
+        public bool Remove(JoinRequestAnswerToOneQuestion question)
+        {
+            JoinRequestAnswerForOneQuestionEndpoints.DeleteQuestion(question);
             return true;
         }
 
