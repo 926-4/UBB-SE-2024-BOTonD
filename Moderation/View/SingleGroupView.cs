@@ -73,7 +73,7 @@ public class SingleGroupView : ContentView
         joinRequestButton.Clicked += (s, e) =>
         {
             CurrentSession.GetInstance().LookIntoGroup(group);
-            Navigation.PushAsync(new JoinRequestView.JoinRequestListView(ApplicationState.Get().JoinRequests.GetAll().Where(request=>ApplicationState.Get().GroupUsers.Get(request.userId)?.GroupId==group.Id)));
+            Navigation.PushAsync(new JoinRequestView.JoinRequestListView(ApplicationState.Get().JoinRequests.GetAll().Where(request=>ApplicationState.Get().GroupUsers.Get(request.UserId)?.GroupId==group.Id)));
         };
         if (userIsInGroup)
         {

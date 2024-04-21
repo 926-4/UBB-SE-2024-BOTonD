@@ -23,6 +23,12 @@ namespace Moderation.DbEndpoints
                     "Member",
                    [Permission.CreatePost, Permission.ReportPost, Permission.EditOwnPost, Permission.React, Permission.CreateEvent, Permission.EditOwnComment,
                     Permission.InviteFriends, Permission.RemoveOwnComment, Permission.RemoveOwnPost, Permission.RemoveOwnReaction, Permission.UpdateOwnReaction])
+            },{
+                Guid.Parse("5DEEE3BF-C6A2-4FD2-8E8E-BCA475F4BD44"),
+                new Role(
+                    Guid.Parse("5DEEE3BF-C6A2-4FD2-8E8E-BCA475F4BD44"),
+                    "Pending Approval",
+                   [])
             }
         };
         public static void CreateRole(Role role)

@@ -26,7 +26,7 @@ public partial class JoinRequestDisplay : ContentView
         requestIdStackLayout.Children.Add(requestIdValueLabel);
         stackLayout.Children.Add(requestIdStackLayout);
 
-        GroupUser? groupUser = ApplicationState.Get().GroupUsers.Get(joinRequest.userId);
+        GroupUser? groupUser = ApplicationState.Get().GroupUsers.Get(joinRequest.UserId);
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
         User? user = ApplicationState.Get().UserRepository.Get(groupUser.UserId);
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
