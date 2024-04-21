@@ -1,5 +1,5 @@
 ﻿using Moderation.CurrentSessionNamespace;
-using Moderation.Entities.Post;
+using Moderation.Model;
 using Moderation.Repository;
 
 namespace Moderation.Serivce

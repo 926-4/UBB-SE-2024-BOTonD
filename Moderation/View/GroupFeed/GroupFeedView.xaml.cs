@@ -1,6 +1,5 @@
-using Moderation.Entities.Post;
+using Moderation.Model;
 using Moderation.View.GroupFeed;
-using ScrollView = Microsoft.Maui.Controls.ScrollView;
 
 namespace Moderation.GroupFeed;
 

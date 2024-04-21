@@ -1,7 +1,6 @@
 using Moderation.DbEndpoints;
 using Moderation.Entities;
-using Moderation.Entities.Post;
-using Moderation.Entities.Report;
+using Moderation.Model;
 using Moderation.Serivce;
 using Moderation.View.GroupFeed;
 

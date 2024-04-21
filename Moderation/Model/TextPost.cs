@@ -1,6 +1,7 @@
-﻿using Moderation.Serivce;
+﻿using Moderation.Entities;
+using Moderation.Serivce;
 
-namespace Moderation.Entities.Post
+namespace Moderation.Model
 {
     public class TextPost : IPost
     {
@@ -46,7 +47,7 @@ namespace Moderation.Entities.Post
         {
             Id = id;
             Content = content;
-            Author = ApplicationState.Get().GroupUsers.Get(authorID)?? throw new Exception("No author by that id");
+            Author = ApplicationState.Get().GroupUsers.Get(authorID) ?? throw new Exception("No author by that id");
             Score = 0;
             Status = "";
             Awards = [];

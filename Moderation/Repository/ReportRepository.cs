@@ -1,6 +1,6 @@
 ﻿using Moderation.DbEndpoints;
 using Moderation.Entities;
-using Moderation.Entities.Report;
+using Moderation.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

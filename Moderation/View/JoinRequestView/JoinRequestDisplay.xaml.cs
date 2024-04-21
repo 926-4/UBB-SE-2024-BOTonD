@@ -5,7 +5,7 @@ namespace Moderation.JoinRequestView;
 
 public partial class JoinRequestDisplay : ContentView
 {
-    private JoinRequest joinRequest;
+    private readonly JoinRequest joinRequest;
     public JoinRequestDisplay(JoinRequest joinRequest)
     {
         this.joinRequest = joinRequest;

@@ -1,4 +1,4 @@
-﻿using Moderation.Model;
+using Moderation.Model;
 
 namespace Moderation.Entities
 {
