@@ -82,5 +82,4 @@ public partial class GroupEntryForm : ContentPage
                                 "}";
         DisplayAlert("Thanks for applying! We'll get back to you soon",$"Form Responses : {responseString}", "OK");
     }
-
 }

@@ -1,6 +1,8 @@
 using Microsoft.Maui.Controls.Shapes;
+using Moderation.Entities;
 using Moderation.Entities.Post;
 using Moderation.GroupFeed;
+using Moderation.Repository;
 using Moderation.Serivce;
 
 namespace Moderation.View.GroupFeed;
@@ -36,6 +38,12 @@ public class PostDisplay : ContentView
         };
         _awardsPicker.SelectedIndexChanged += OnAwardsPicker_SelectedIndexChanged;
 
+        FlexLayout buttonsLayout = new()
+        {
+            JustifyContent = Microsoft.Maui.Layouts.FlexJustify.SpaceBetween,
+
+        };
+
         reactButton = new Button
         {
             Text = "React"
@@ -43,21 +51,28 @@ public class PostDisplay : ContentView
 
         reactButton.Command = new Command(() =>
         {
-            // Change the button text when clicked
             reactButton.Text = "Reacted";
-
-            // Action to perform when React button is clicked
-            // Example: Display react options or perform specific action
         });
 
-        commentButton = new Button
+        if (reactButton != null)
         {
-            Text = "Comment",
-            Command = new Command(() =>
+            buttonsLayout.Children.Add(reactButton);
+        }
+
+        if (userHasPostCommentPermission(post))
+        {
+            commentButton = new Button
             {
-                Navigation.PushAsync(new CommentsFeedView(_post.Id));
-            })
-        };
+                Text = "Comment",
+                Command = new Command(() =>
+                {
+                    Navigation.PushAsync(new CommentsFeedView(_post.Id));
+                })
+            };
+
+            buttonsLayout.Children.Add(commentButton);
+        }
+
         shareButton = new Button
         {
             Text = "Share"
@@ -67,6 +82,11 @@ public class PostDisplay : ContentView
         {
             shareButton.Text = "Shared";
         });
+
+        if (shareButton != null)
+        {
+            buttonsLayout.Children.Add(shareButton);
+        }
 
         awardButton = new Button
         {
@@ -78,19 +98,10 @@ public class PostDisplay : ContentView
             awardButton.Text = "Awarded";
         });
 
-        // Adding buttons to the layout
-        FlexLayout buttonsLayout = new()
+        if (awardButton != null)
         {
-            JustifyContent = Microsoft.Maui.Layouts.FlexJustify.SpaceBetween,
-
-            Children =
-            {
-               _reactionsPicker,
-               commentButton,
-               shareButton,
-               _awardsPicker
-            }
-        };
+            buttonsLayout.Children.Add(awardButton);
+        }
 
         StackLayout mainLayout = new()
         {
@@ -180,6 +191,19 @@ public class PostDisplay : ContentView
         };
 
         Content = border;
+    }
+
+    private bool userHasPostCommentPermission(IPost post)
+    {
+        if (post == null)
+            return false;
+
+        Role? role = ApplicationState.Get().Roles.Get(post.Author.RoleId);
+
+        if (role == null)
+            return false;
+
+        return role.Permissions.Contains(Permission.PostComment);
     }
 
     private void OnReactionsPicker_SelectedIndexChanged(object? sender, EventArgs e)

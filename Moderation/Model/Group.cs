@@ -2,6 +2,7 @@
 using Moderation.Entities.Report;
 using Moderation.GroupEntryForm;
 using Moderation.Repository;
+using Question = Moderation.GroupEntryForm.Question;
 
 namespace Moderation.Model
 {

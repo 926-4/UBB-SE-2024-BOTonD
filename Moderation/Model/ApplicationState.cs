@@ -8,30 +8,30 @@ using Moderation.Repository;
 using Question = Moderation.GroupEntryForm.Question;
 //using System.Data;
 
-namespace Moderation.Serivce
+namespace Moderation.Model
 {
     class ApplicationState
     {
         static private ApplicationState? instance;
         public CurrentSession CurrentSession { get; } = CurrentSession.GetInstance();
         public AuthenticationModule Authenticator { get; } = new AuthenticationModule();
-        public GroupRepository Groups { get; } = new();
+        public Repository<Group> Groups { get; } = new();
         public UserRepository UserRepository { get; } = new();
         public Repository<IPost> Posts { get; } = new();
-        public AwardRepository Awards { get; } = new();
-        public GroupRules Rules { get; } = new();
-        public GroupUserRepository GroupUsers { get; } = new();
-        public JoinRequestAnswerForOneQuestionRepository JoinRequestForOneQuestionAnswers { get; } = new();
-        public JoinRequestRepository JoinRequests { get; } = new();
-        public QuestionRepository Questions { get; } = new();
-        public ReportRepository Reports { get; } = new();
-        public RoleRepository Roles { get; } = new();
-        public TextPostRepository TextPosts { get; } = new();
-        public VoteRepository Votes { get; } = new();
+        private ApplicationState InitialiseUsers()
+        {
+            return this;
+        }
+        private ApplicationState InitialiseGroups(List<User> users)
+        {
+            return this;
+        }
         static public ApplicationState Get()
         {
-            instance ??= new ApplicationState();
+            instance ??= new ApplicationState()
+                .InitialiseUsers();
             return instance;
         }
+
     }
 }
