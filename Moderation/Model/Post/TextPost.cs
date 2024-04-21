@@ -1,5 +1,4 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using Moderation.Model;
+﻿using Moderation.Serivce;
 
 namespace Moderation.Entities.Post
 {
@@ -20,7 +19,7 @@ namespace Moderation.Entities.Post
             Author = author;
             Score = 0;
             Status = string.Empty;
-            Awards = new List<Award>{};
+            Awards = [];
             IsDeleted = false;
         }
         public TextPost(string content, GroupUser author, List<Award> awards, int score = 0, string status = "", bool isDeleted = false)
@@ -42,6 +41,16 @@ namespace Moderation.Entities.Post
             Status = status;
             Awards = awards;
             IsDeleted = isDeleted;
+        }
+        public TextPost(Guid id, string content, Guid authorID)
+        {
+            Id = id;
+            Content = content;
+            Author = ApplicationState.Get().GroupUsers.Get(authorID)?? throw new Exception("No author by that id");
+            Score = 0;
+            Status = "";
+            Awards = [];
+            IsDeleted = false;
         }
     }
 }
