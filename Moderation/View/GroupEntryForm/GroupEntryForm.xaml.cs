@@ -1,6 +1,5 @@
 using Moderation.CurrentSessionNamespace;
 using Moderation.GroupRulesView;
-using Moderation.Model;
 namespace Moderation.GroupEntryForm;
 
 public partial class GroupEntryForm : ContentPage
@@ -44,9 +43,9 @@ public partial class GroupEntryForm : ContentPage
     private void HandleRules()
     {
         Navigation.PushAsync(new GroupRulesView.GroupRulesView([
-                    new Rule(Guid.NewGuid(), "rule a", "rule a text"),
-                    new Rule(Guid.NewGuid(), "rule b", "rule b text"),
-                    new Rule(Guid.NewGuid(), "rule c", "rule c text"),
+                    new Model.Rule("I will be nice"),
+                    new Model.Rule("I will not spill stuff on the carpet"),
+                    new Model.Rule("I will bring some food")
                 ]));
     }
     private Button SubmitButton()
