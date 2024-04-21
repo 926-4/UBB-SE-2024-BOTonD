@@ -29,7 +29,7 @@ namespace Moderation.DbEndpoints
                 command.ExecuteNonQuery();
             }
 
-            // Insert awards for the post into PostAward table
+            // Insert hardcodedAwards for the post into PostAward table
             foreach (Award award in textPost.Awards)
             {
                 string insertPostAwardSql = "INSERT INTO PostAward (AwardId, Id) VALUES (@AwardId, @Id)";

@@ -7,7 +7,50 @@ namespace Moderation.DbEndpoints
     {
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
 
-        //private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly Dictionary<Guid, GroupUser> hardcodedGroupUsers = new()
+        {
+            { Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"),
+                new GroupUser(
+                    Guid.Parse("B05ABC1A-8952-41FB-A503-BFAD23CA9092"),
+                /*User*/Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"),   //victor 
+                /*Group*/Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"), //victor's study group
+                /*Post score*/          1,
+                /*Marketplace Score*/   1,
+                new UserStatus(UserRestriction.None, DateTime.Now),
+                /*Role*/Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177")) // creator
+            },
+            { Guid.Parse("4CCA015B-D068-43B1-8839-08D767391769"),
+                new GroupUser(
+                    Guid.Parse("4CCA015B-D068-43B1-8839-08D767391769"),
+                /*User*/Guid.Parse("0825D1FD-C40B-4926-A128-2D924D564B3E"),  //boti
+                /*Group*/Guid.Parse("3E0F1ED0-8EAF-4D71-AFC7-07D62FFEF973"),//victor's study group
+                /*Post score*/          1,
+                /*Marketplace Score*/   1,
+                new UserStatus(UserRestriction.None, DateTime.Now),
+                /*Role*/Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3"))//member
+            },
+            { Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"),
+                new GroupUser(
+                    Guid.Parse("3E7EF48E-2C84-4104-A9B1-3FC60209F692"),
+                /*User*/Guid.Parse("9EBE3762-1CD6-45BD-AF9F-0D221CB078D1"),  //izabella
+                /*Group*/Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"),//izabella's bd party
+                /*Post score*/          1,
+                /*Marketplace Score*/   1,
+                new UserStatus(UserRestriction.None, DateTime.Now),
+                /*Role*/Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177")) //creator
+            },
+            { Guid.Parse("18282CBC-4225-498D-AB48-8E8B31466759"),
+                new GroupUser(
+                    Guid.Parse("18282CBC-4225-498D-AB48-8E8B31466759"),
+                /*User*/Guid.Parse("B7CCB450-EE32-4BFF-8383-E0A0F36CAC06"),  //victor
+                /*Group*/Guid.Parse("BC5F8CED-50D2-4EF3-B3FD-18217D3F9F3A"),//izabella's bd party
+                /*Post score*/          1,
+                /*Marketplace Score*/   1,
+                new UserStatus(UserRestriction.None, DateTime.Now),
+                /*Role*/Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3"))//member
+            }
+
+        };
 
         public static void CreateGroupUser(GroupUser user)
         {

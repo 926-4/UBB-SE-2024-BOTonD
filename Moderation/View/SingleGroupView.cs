@@ -61,7 +61,6 @@ public class SingleGroupView : ContentView
         {
            CurrentSession.GetInstance().LookIntoGroup(group);
             Navigation.PushAsync(new ReportListView.ReportListView(ApplicationState.Get().Reports.GetAll().Where(report => report.GroupId == group.Id)));
-           //Navigation.PushAsync(new ReportListView.ReportListView(ReportEndpoint.ReadAllPostReports().Where(report => report.GroupId == group.Id)));
         };
         var joinRequestButton = new Button
         {

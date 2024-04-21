@@ -28,6 +28,7 @@ namespace Moderation.Serivce
         public RoleRepository Roles { get; } = new();
         public TextPostRepository TextPosts { get; } = new();
         public VoteRepository Votes { get; } = new();
+        public bool DbConnectionIsAvailable { get; set; } = true;
         static public ApplicationState Get()
         {
             instance ??= new ApplicationState();

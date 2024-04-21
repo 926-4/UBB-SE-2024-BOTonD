@@ -39,7 +39,7 @@ namespace Moderation.DbEndpoints
                 optionCommand.ExecuteNonQuery();
             }
 
-            // Insert awards for the poll into PollAward table
+            // Insert hardcodedAwards for the poll into PollAward table
             foreach (Award award in pollPost.Awards)
             {
                 string insertPollAwardSql = "INSERT INTO PollAward (AwardId, PollId) VALUES (@AwardId, @PollId)";
@@ -88,7 +88,7 @@ namespace Moderation.DbEndpoints
                     // Fetch options for the poll
                     List<string> options = ReadOptionsForPoll(pollId);
 
-                    // Fetch awards for the poll
+                    // Fetch hardcodedAwards for the poll
                     List<Award> awards = ReadAwardsForPoll(pollId);
 
                     PollPost pollPost = new(pollId, content, author, score, status, options, awards, groupId, isDeleted);

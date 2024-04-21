@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Moderation.Entities;
+using Moderation.Serivce;
 using System.Configuration;
 
 namespace Moderation.DbEndpoints
@@ -7,7 +8,7 @@ namespace Moderation.DbEndpoints
     public class UserEndpoints
     {
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static bool dbConnectionIsAvailable = true;
+
         /// <summary>
         ///  Azure has a monthly free limit that we went over. The db will be once again available starting May 1st 2024, but in the meantime, 
         ///  use these hardcoded values:
@@ -20,7 +21,7 @@ namespace Moderation.DbEndpoints
                                                      new User(Guid.Parse("9EBE3762-1CD6-45BD-AF9F-0D221CB078D1"), "izabella", "yup")];
         public static void CreateUser(User user)
         {
-            if (!dbConnectionIsAvailable)
+            if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
                 hardcodedUsers.Add(user);
                 return;
@@ -33,7 +34,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                dbConnectionIsAvailable = false;
+                ApplicationState.Get().DbConnectionIsAvailable = false;
                 hardcodedUsers.Add(user);
                 return;
             }
@@ -50,7 +51,7 @@ namespace Moderation.DbEndpoints
 
         public static List<User> ReadAllUsers()
         {
-            if (!dbConnectionIsAvailable)
+            if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
                 return hardcodedUsers;
             }
@@ -63,7 +64,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                dbConnectionIsAvailable = false;
+                ApplicationState.Get().DbConnectionIsAvailable = false;
                 return hardcodedUsers;
             }
             string sql = "SELECT Id, Username, Password FROM [User]";
@@ -89,7 +90,7 @@ namespace Moderation.DbEndpoints
         }
         public static void UpdateUser(User newValues)
         {
-            if (!dbConnectionIsAvailable)
+            if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
                 UpdateUserIfDBUnavailable(newValues);
             }
@@ -101,7 +102,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                dbConnectionIsAvailable = false;
+                ApplicationState.Get().DbConnectionIsAvailable = false;
                 UpdateUserIfDBUnavailable(newValues);
                 return;
             }
@@ -126,7 +127,7 @@ namespace Moderation.DbEndpoints
         }
         public static void DeleteUser(Guid id)
         {
-            if (!dbConnectionIsAvailable)
+            if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
                 DeleteUserIfDBUnavailable(id);
             }
@@ -138,7 +139,7 @@ namespace Moderation.DbEndpoints
             catch (SqlException azureTrialExpired)
             {
                 Console.WriteLine(azureTrialExpired.Message);
-                dbConnectionIsAvailable = false;
+                ApplicationState.Get().DbConnectionIsAvailable = false;
                 DeleteUserIfDBUnavailable(id);
                 return;
             }
