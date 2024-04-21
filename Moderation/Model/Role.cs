@@ -17,6 +17,12 @@
             Name = name;
             Permissions = [];
         }
+        public Role(Guid id, string name, List<Permission> permissions)
+        {
+            Id = id;
+            Name = name;
+            Permissions = permissions;
+        }
     }
 
     public enum Permission

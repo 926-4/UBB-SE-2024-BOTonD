@@ -1,5 +1,4 @@
 ﻿using Moderation.Entities;
-using Moderation.Repository;
 
 namespace Moderation.Model
 {
@@ -7,7 +6,7 @@ namespace Moderation.Model
     {
         public Guid Id { get; }
         public Guid GroupId { get; set; }
-        public string Title {  get; set; }
+        public string Title { get; set; }
         public string Text { get; }
 
         public Rule(string text)

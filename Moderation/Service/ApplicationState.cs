@@ -1,12 +1,7 @@
 ﻿using Moderation.Authentication;
 using Moderation.CurrentSessionNamespace;
-using Moderation.Entities;
 using Moderation.Entities.Post;
-using Moderation.GroupEntryForm;
-using Moderation.GroupRulesView;
 using Moderation.Repository;
-using Question = Moderation.GroupEntryForm.Question;
-//using System.Data;
 
 namespace Moderation.Serivce
 {
@@ -27,7 +22,7 @@ namespace Moderation.Serivce
         public ReportRepository Reports { get; } = new();
         public RoleRepository Roles { get; } = new();
         public TextPostRepository TextPosts { get; } = new();
-        public VoteRepository Votes { get; } = new();
+        public bool DbConnectionIsAvailable { get; set; } = true;
         static public ApplicationState Get()
         {
             instance ??= new ApplicationState();

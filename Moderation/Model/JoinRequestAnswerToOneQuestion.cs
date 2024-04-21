@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Moderation.Entities
+﻿namespace Moderation.Entities
 {
     public class JoinRequestAnswerToOneQuestion : IHasID
 
@@ -13,11 +7,18 @@ namespace Moderation.Entities
         public Guid RequestId { get; set; }
         public string QuestionText { get; set; }
 
-        public string QuestionAnswer {  get; set; }
+        public string QuestionAnswer { get; set; }
 
         public JoinRequestAnswerToOneQuestion(Guid requestId, string text, string answer)
         {
             Id = Guid.NewGuid();
+            RequestId = requestId;
+            QuestionText = text;
+            QuestionAnswer = answer;
+        }
+        public JoinRequestAnswerToOneQuestion(Guid id, Guid requestId, string text, string answer)
+        {
+            Id = id;
             RequestId = requestId;
             QuestionText = text;
             QuestionAnswer = answer;

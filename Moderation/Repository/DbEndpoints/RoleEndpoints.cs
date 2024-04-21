@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Moderation.Entities;
+using Moderation.Serivce;
 using System.Configuration;
 
 namespace Moderation.DbEndpoints
@@ -7,10 +8,49 @@ namespace Moderation.DbEndpoints
     public class RoleEndpoints
     {
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        private static readonly Dictionary<Guid, Role> hardcodedRoles = new()
+        {
+            {
+                Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177"),
+                new Role(
+                    Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177"),
+                    "Creator",
+                    Enum.GetValues(typeof(Permission)).Cast<Permission>().ToList())
+            },{
+                Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3"),
+                new Role(
+                    Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3"),
+                    "Member",
+                   [Permission.CreatePost, Permission.ReportPost, Permission.EditOwnPost, Permission.React, Permission.CreateEvent, Permission.EditOwnComment,
+                    Permission.InviteFriends, Permission.RemoveOwnComment, Permission.RemoveOwnPost, Permission.RemoveOwnReaction, Permission.UpdateOwnReaction])
+            },{
+                Guid.Parse("5DEEE3BF-C6A2-4FD2-8E8E-BCA475F4BD44"),
+                new Role(
+                    Guid.Parse("5DEEE3BF-C6A2-4FD2-8E8E-BCA475F4BD44"),
+                    "Pending Approval",
+                   [])
+            }
+        };
         public static void CreateRole(Role role)
         {
+            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            {
+                hardcodedRoles.Add(role.Id, role);
+                return;
+            }
             using SqlConnection connection = new(connectionString);
-            connection.Open();
+            try
+            {
+                connection.Open();
+            }
+            catch (SqlException azureTrialExpired)
+            {
+                Console.WriteLine(azureTrialExpired.Message);
+                ApplicationState.Get().DbConnectionIsAvailable = false;
+                hardcodedRoles.Add(role.Id, role);
+                return;
+            }
+
             string sql = "INSERT INTO UserRole VALUES (@RoleId,@Name)";
             using (SqlCommand command = new(sql, connection))
             {
@@ -29,43 +69,75 @@ namespace Moderation.DbEndpoints
         }
         public static List<Role> ReadRole()
         {
-            List<Role> roles = [];
-            using (SqlConnection connection = new(connectionString))
+            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            {
+                return [.. hardcodedRoles.Values];
+            }
+            using SqlConnection connection = new(connectionString);
+            try
             {
                 connection.Open();
-                string sql = "SELECT RoleId, Name FROM UserRole";
-                using SqlCommand command = new(sql, connection);
-                using SqlDataReader reader = command.ExecuteReader();
-                while (reader.Read())
+            }
+            catch (SqlException azureTrialExpired)
+            {
+                Console.WriteLine(azureTrialExpired.Message);
+                ApplicationState.Get().DbConnectionIsAvailable = false;
+                return [.. hardcodedRoles.Values];
+            }
+            List<Role> roles = [];
+            connection.Open();
+            string sql = "SELECT RoleId, Name FROM UserRole";
+            using SqlCommand command = new(sql, connection);
+            using SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                Role role = new(
+                    reader.GetGuid(0),
+                    reader.GetString(1)
+                );
+
+                // Fetch permissions for the current role from RolePermission table
+                string rolePermissionSql = "SELECT Permission FROM RolePermission WHERE RoleId = @RoleId";
+                using (SqlCommand rolePermissionCommand = new(rolePermissionSql, connection))
                 {
-                    Role role = new(
-                        reader.GetGuid(0),
-                        reader.GetString(1)
-                    );
+                    rolePermissionCommand.Parameters.AddWithValue("@RoleId", role.Id);
 
-                    // Fetch permissions for the current role from RolePermission table
-                    string rolePermissionSql = "SELECT Permission FROM RolePermission WHERE RoleId = @RoleId";
-                    using (SqlCommand rolePermissionCommand = new(rolePermissionSql, connection))
+                    using SqlDataReader rolePermissionReader = rolePermissionCommand.ExecuteReader();
+                    while (rolePermissionReader.Read())
                     {
-                        rolePermissionCommand.Parameters.AddWithValue("@RoleId", role.Id);
-
-                        using SqlDataReader rolePermissionReader = rolePermissionCommand.ExecuteReader();
-                        while (rolePermissionReader.Read())
-                        {
-                            // Map the permission string to the Permission enum
-                            string permissionString = rolePermissionReader.GetString(0);
-                            Permission permission = (Permission)Enum.Parse(typeof(Permission), permissionString);
-                            role.Permissions.Add(permission);
-                        }
+                        // Map the permission string to the Permission enum
+                        string permissionString = rolePermissionReader.GetString(0);
+                        Permission permission = (Permission)Enum.Parse(typeof(Permission), permissionString);
+                        role.Permissions.Add(permission);
                     }
-                    roles.Add(role);
                 }
+                roles.Add(role);
             }
             return roles;
         }
         public static void UpdateRoleName(Guid roleId, string newName)
         {
+            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            {
+                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                    return;
+                toUpdate.Name = newName;
+                return;
+            }
             using SqlConnection connection = new(connectionString);
+            try
+            {
+                connection.Open();
+            }
+            catch (SqlException azureTrialExpired)
+            {
+                Console.WriteLine(azureTrialExpired.Message);
+                ApplicationState.Get().DbConnectionIsAvailable = false;
+                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                    return;
+                toUpdate.Name = newName;
+                return;
+            }
             connection.Open();
 
             string sql = "UPDATE UserRole SET Name = @NewName WHERE RoleId = @RoleId";
@@ -76,12 +148,29 @@ namespace Moderation.DbEndpoints
 
             command.ExecuteNonQuery();
         }
-        // De ce nu e update aici?
         public static void UpdateRolePermissions(Guid roleId, List<Permission> newPermissions)
         {
+            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            {
+                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                    return;
+                toUpdate.Permissions = newPermissions;
+                return;
+            }
             using SqlConnection connection = new(connectionString);
-            connection.Open();
-
+            try
+            {
+                connection.Open();
+            }
+            catch (SqlException azureTrialExpired)
+            {
+                Console.WriteLine(azureTrialExpired.Message);
+                ApplicationState.Get().DbConnectionIsAvailable = false;
+                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                    return;
+                toUpdate.Permissions = newPermissions;
+                return;
+            }
             // Delete existing permissions for the role
             string deleteSql = "DELETE FROM RolePermission WHERE RoleId = @RoleId";
             using (SqlCommand deleteCommand = new(deleteSql, connection))
@@ -103,9 +192,23 @@ namespace Moderation.DbEndpoints
 
         public static void DeleteRole(Guid roleId)
         {
+            if (!ApplicationState.Get().DbConnectionIsAvailable)
+            {
+                hardcodedRoles.Remove(roleId);
+                return;
+            }
             using SqlConnection connection = new(connectionString);
-            connection.Open();
-
+            try
+            {
+                connection.Open();
+            }
+            catch (SqlException azureTrialExpired)
+            {
+                Console.WriteLine(azureTrialExpired.Message);
+                ApplicationState.Get().DbConnectionIsAvailable = false;
+                hardcodedRoles.Remove(roleId);
+                return;
+            }
             // Delete associated permissions from RolePermission table first
             string deletePermissionSql = "DELETE FROM RolePermission WHERE RoleId = @RoleId";
             using (SqlCommand deletePermissionCommand = new(deletePermissionSql, connection))
