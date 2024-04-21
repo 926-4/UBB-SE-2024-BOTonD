@@ -16,13 +16,13 @@ namespace Moderation.Entities
         {
             Id = Guid.NewGuid();
             Username = username;
-            Password = GetRandomlyGeneratedPassword();
+            Password = User.GetRandomlyGeneratedPassword();
         }
         public User(Guid id, string username)
         {
             Id = id;
             Username = username;
-            Password = GetRandomlyGeneratedPassword();
+            Password = User.GetRandomlyGeneratedPassword();
         }
         public User(string username, string password)
         {
@@ -36,9 +36,9 @@ namespace Moderation.Entities
             Username = username;
             Password = password;
         }
-        private string GetRandomlyGeneratedPassword()
+        private static string GetRandomlyGeneratedPassword()
         {
-            Random random = new Random();
+            Random random = new();
 
             string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
 

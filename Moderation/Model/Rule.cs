@@ -13,13 +13,14 @@ namespace Moderation.Model
         public Rule(string text)
         {
             Id = Guid.NewGuid();
-
+            Title = "Question";
             Text = text;
         }
 
         public Rule(Guid groupId, string text)
         {
             Id = Guid.NewGuid();
+            Title = "Question";
             GroupId = groupId;
             Text = text;
         }
