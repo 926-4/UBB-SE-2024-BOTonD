@@ -1,4 +1,6 @@
-﻿namespace Moderation.Entities
+﻿using Moderation.Model;
+
+namespace Moderation.Entities
 {
     public class GroupUser : IHasID
     {

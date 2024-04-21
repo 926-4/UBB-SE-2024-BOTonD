@@ -2,7 +2,6 @@ using Microsoft.Maui.Controls.Shapes;
 using Moderation.Entities;
 using Moderation.GroupFeed;
 using Moderation.Model;
-using Moderation.Repository;
 using Moderation.Serivce;
 
 namespace Moderation.View.GroupFeed;
@@ -59,7 +58,7 @@ public class PostDisplay : ContentView
             buttonsLayout.Children.Add(reactButton);
         }
 
-        if (userHasPostCommentPermission(post))
+        if (PostDisplay.UserHasPostCommentPermission(post))
         {
             commentButton = new Button
             {
@@ -193,12 +192,12 @@ public class PostDisplay : ContentView
         Content = border;
     }
 
-    private bool userHasPostCommentPermission(IPost post)
+    private static bool UserHasPostCommentPermission(IPost post)
     {
         if (post == null)
             return false;
 
-        RoleAndPermission? role = ApplicationState.Get().Roles.Get(post.Author.RoleId);
+        Role? role = ApplicationState.Get().Roles.Get(post.Author.RoleId);
 
         if (role == null)
             return false;

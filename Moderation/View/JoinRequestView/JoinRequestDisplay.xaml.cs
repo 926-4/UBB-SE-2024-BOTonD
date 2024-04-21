@@ -1,4 +1,3 @@
-using Moderation.DbEndpoints;
 using Moderation.Entities;
 using Moderation.Serivce;
 
@@ -7,14 +6,14 @@ namespace Moderation.JoinRequestView;
 public partial class JoinRequestDisplay : ContentView
 {
     private readonly JoinRequest joinRequest;
-	public JoinRequestDisplay(JoinRequest joinRequest)
-	{
-		this.joinRequest = joinRequest;
-		//InitializeComponent();
-		CreateView();
-	}
-	public void CreateView()
-	{
+    public JoinRequestDisplay(JoinRequest joinRequest)
+    {
+        this.joinRequest = joinRequest;
+        //InitializeComponent();
+        CreateView();
+    }
+    public void CreateView()
+    {
         var stackLayout = new StackLayout { Margin = new Thickness(20) };
         var requestLabel = new Label { Text = "Request", FontSize = 20, FontAttributes = FontAttributes.Bold };
         stackLayout.Children.Add(requestLabel);
@@ -38,12 +37,10 @@ public partial class JoinRequestDisplay : ContentView
         userIdStackLayout.Children.Add(userIdLabel);
         userIdStackLayout.Children.Add(userIdValueLabel);
         stackLayout.Children.Add(userIdStackLayout);
-        IEnumerable<JoinRequestAnswerToOneQuestion> answers = ApplicationState.Get().JoinRequestForOneQuestionAnswers.GetAll().Where(answer => answer.RequestId==joinRequest.Id);
+        IEnumerable<JoinRequestAnswerToOneQuestion> answers = ApplicationState.Get().JoinRequestForOneQuestionAnswers.GetAll().Where(answer => answer.RequestId == joinRequest.Id);
 
         foreach (var answer in answers)
         {
-            //// Clasa join request are nevoie de asocierea cu raspunsurile pe care momentan nu o are 
-            //// ~Victor
             var grid = new Grid { Margin = new Thickness(0, 10, 0, 0) };
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
             grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });

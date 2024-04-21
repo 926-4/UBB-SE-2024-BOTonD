@@ -27,6 +27,11 @@ namespace Moderation.Repository
             return GroupUserEndpoints.ReadAllGroupUsers().Find(u => u.Id == key);
         }
 
+        public GroupUser? GetByUserIdAndGroupId(Guid userId, Guid groupId)
+        {
+            return GroupUserEndpoints.ReadAllGroupUsers().Find(u => u.UserId == userId && u.GroupId == groupId);
+        }
+
         public override IEnumerable<GroupUser> GetAll()
         {
             return GroupUserEndpoints.ReadAllGroupUsers();

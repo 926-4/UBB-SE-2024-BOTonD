@@ -6,10 +6,10 @@ namespace Moderation.GroupRoleView;
 
 public partial class GroupRoleDisplay : ContentPage
 {
-    private RoleAndPermission role;
+    private Role role;
     private CurrentSession CurrentSession = CurrentSession.GetInstance();
 
-    public GroupRoleDisplay(RoleAndPermission role)
+    public GroupRoleDisplay(Role role)
 	{
 		this.role = role;
 		InitializeComponent();

@@ -1,9 +1,9 @@
 using Moderation.CurrentSessionNamespace;
-using Moderation.DbEndpoints;
 using Moderation.Entities;
 using Moderation.GroupEntryForm;
 using Moderation.GroupFeed;
 using Moderation.Model;
+using Moderation.Repository;
 using Moderation.Serivce;
 
 namespace Moderation.View;
@@ -14,7 +14,7 @@ public class SingleGroupView : ContentView
     {
         if (user == null)
             return;
-        var userIsInGroup = group.Creator.Id == user.Id;// todo change
+        var userIsInGroup = group.Creator.Id == user.Id;
         var label = new Label
         {
             Margin = 5,
@@ -24,7 +24,7 @@ public class SingleGroupView : ContentView
             VerticalOptions = LayoutOptions.Center,
             Text = group.Name
         };
-        var button = new Button
+        var viewOrJoinButton = new Button
         {
             Margin = 5,
             Padding = 5,
@@ -32,12 +32,15 @@ public class SingleGroupView : ContentView
             VerticalOptions = LayoutOptions.Center,
             Text = userIsInGroup ? "View" : "Join",
         };
-        button.Clicked += (s, e) =>
+        viewOrJoinButton.Clicked += (s, e) =>
         {
             if (userIsInGroup)
             {
                 CurrentSession.GetInstance().LookIntoGroup(group);
-                Navigation.PushAsync(new GroupFeedView(TextPostEndpoints.ReadAllTextPosts().Where(post => post.Author.GroupId == group.Id)));
+                TextPostRepository repo = ApplicationState.Get().TextPosts;
+                List<TextPost> posts = repo.GetAll().Where(post => post.Author.GroupId == group.Id).ToList();
+                GroupFeedView nextPage = new(posts);
+                Navigation.PushAsync(nextPage);
             }
             else
             {
@@ -49,17 +52,17 @@ public class SingleGroupView : ContentView
                     ]));
             }
         };
-            var reportButton = new Button
-            {
-                Margin = 5,
-                Padding = 5,
-                HorizontalOptions = LayoutOptions.End,
-                VerticalOptions = LayoutOptions.Center,
-                Text = "reports",
-            };
+        var reportButton = new Button
+        {
+            Margin = 5,
+            Padding = 5,
+            HorizontalOptions = LayoutOptions.End,
+            VerticalOptions = LayoutOptions.Center,
+            Text = "reports",
+        };
         reportButton.Clicked += (s, e) =>
         {
-           CurrentSession.GetInstance().LookIntoGroup(group);
+            CurrentSession.GetInstance().LookIntoGroup(group);
             Navigation.PushAsync(new ReportListView.ReportListView(ApplicationState.Get().Reports.GetAll().Where(report => report.GroupId == group.Id)));
         };
         var joinRequestButton = new Button
@@ -73,7 +76,7 @@ public class SingleGroupView : ContentView
         joinRequestButton.Clicked += (s, e) =>
         {
             CurrentSession.GetInstance().LookIntoGroup(group);
-            Navigation.PushAsync(new JoinRequestView.JoinRequestListView(ApplicationState.Get().JoinRequests.GetAll().Where(request=>ApplicationState.Get().GroupUsers.Get(request.UserId)?.GroupId==group.Id)));
+            Navigation.PushAsync(new JoinRequestView.JoinRequestListView(ApplicationState.Get().JoinRequests.GetAll().Where(request => ApplicationState.Get().GroupUsers.Get(request.UserId)?.GroupId == group.Id)));
         };
         if (userIsInGroup)
         {
@@ -84,7 +87,7 @@ public class SingleGroupView : ContentView
                 HorizontalOptions = LayoutOptions.Fill,
                 Children = {
                 label,
-                button,
+                viewOrJoinButton,
                 reportButton,
                 joinRequestButton
             }
@@ -99,10 +102,10 @@ public class SingleGroupView : ContentView
                 HorizontalOptions = LayoutOptions.Fill,
                 Children = {
                 label,
-                button,
+                viewOrJoinButton,
             }
             };
         }
-        
+
     }
 }
