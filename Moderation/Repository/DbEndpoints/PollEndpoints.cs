@@ -24,7 +24,6 @@ namespace Moderation.DbEndpoints
                 command.Parameters.AddWithValue("@Status", pollPost.Status);
                 command.Parameters.AddWithValue("@IsDeleted", pollPost.IsDeleted);
                 command.Parameters.AddWithValue("@GroupId", pollPost.GroupId);
-
                 command.ExecuteNonQuery();
             }
 
@@ -65,6 +64,7 @@ namespace Moderation.DbEndpoints
 
                 using SqlCommand command = new(sql, connection);
                 using SqlDataReader reader = command.ExecuteReader();
+
                 while (reader.Read())
                 {
                     Guid pollId = reader.GetGuid(0);
@@ -83,8 +83,7 @@ namespace Moderation.DbEndpoints
 
                     bool isDeleted = reader.GetBoolean(4);
 
-
-                    GroupUser author = new(id, userId, groupId, postScore, marketplaceScore, new UserStatus((UserRestriction)statusRestriction, statusRestrictionDate, statusMessage));
+                    GroupUser author = new(userId, groupId);
 
                     // Fetch options for the poll
                     List<string> options = ReadOptionsForPoll(pollId);
@@ -114,7 +113,6 @@ namespace Moderation.DbEndpoints
 
                 using SqlCommand command = new(sql, connection);
                 command.Parameters.AddWithValue("@PollId", pollId);
-
                 using SqlDataReader reader = command.ExecuteReader();
                 while (reader.Read())
                 {

@@ -2,6 +2,7 @@
 using Moderation.CurrentSessionNamespace;
 using Moderation.Model;
 using Moderation.Serivce;
+using ApplicationState = Moderation.Serivce.ApplicationState;
 
 namespace Moderation;
 
