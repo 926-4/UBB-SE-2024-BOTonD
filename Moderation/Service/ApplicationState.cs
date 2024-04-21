@@ -28,21 +28,9 @@ namespace Moderation.Serivce
         public RoleRepository Roles { get; } = new();
         public TextPostRepository TextPosts { get; } = new();
         public VoteRepository Votes { get; } = new();
-        private ApplicationState InitialiseUsers()
-        {
-            /// Read data from DB
-            return this;
-        }
-        private ApplicationState InitialiseGroups()
-        {
-            /// Read data from db
-            return this;
-        }
         static public ApplicationState Get()
         {
-            instance ??= new ApplicationState()
-                .InitialiseUsers()
-                .InitialiseGroups();
+            instance ??= new ApplicationState();
             return instance;
         }
 
