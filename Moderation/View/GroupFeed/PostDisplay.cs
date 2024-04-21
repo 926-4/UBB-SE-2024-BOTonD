@@ -47,18 +47,23 @@ public class PostDisplay : ContentView
 
         };
 
-        reactButton = new Button
+        if (userHasReactPermission(post))
         {
-            Text = "React"
-        };
+            reactButton = new Button
+            {
+                Text = "React"
+            };
 
-        reactButton.Command = new Command(() =>
-        {
-            reactButton.Text = "Reacted";
-        });
+            reactButton.Command = new Command(() =>
+            {
+                reactButton.Text = "Reacted";
+            });
 
-        if (reactButton != null)
-        {
+            if (reactButton != null)
+            {
+                buttonsLayout.Children.Add(reactButton);
+            }
+
             buttonsLayout.Children.Add(reactButton);
         }
 
@@ -194,6 +199,21 @@ public class PostDisplay : ContentView
         };
 
         Content = border;
+    }
+
+    private bool userHasReactPermission(IPost post)
+    {
+        if (post == null)
+            return false;
+
+        GroupUser? currentUser = ApplicationState.Get().GroupUsers.GetByUserIdAndGroupId(CurrentSession.GetInstance().User.Id, post.Author.GroupId);
+
+        Role? role = ApplicationState.Get().Roles.Get(currentUser.RoleId);
+
+        if (role == null)
+            return false;
+
+        return role.Permissions.Contains(Permission.React);
     }
 
     private bool userHasPostCommentPermission(IPost post)
