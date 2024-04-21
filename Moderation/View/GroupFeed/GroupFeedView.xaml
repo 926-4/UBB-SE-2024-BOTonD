@@ -8,5 +8,9 @@
             Text="Feed"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <VerticalStackLayout
+            x:Name="PostsView">
+            
+        </VerticalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

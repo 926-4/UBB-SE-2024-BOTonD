@@ -1,5 +1,4 @@
 using Microsoft.Maui.Controls.Shapes;
-using Moderation.CurrentSessionNamespace;
 using Moderation.Entities;
 using Moderation.Entities.Post;
 using Moderation.GroupFeed;
@@ -10,74 +9,66 @@ namespace Moderation.View.GroupFeed;
 
 public class PostDisplay : ContentView
 {
-    private readonly IPost _post;
-    private readonly Picker _reactionsPicker;
-    private readonly Picker _awardsPicker;
+    private readonly IPost post;
+    private readonly Picker reactionsPicker;
+    private readonly Picker awardsPicker;
 
     public PostDisplay(IPost post)
     {
-        // TODO get the User from the CurrentSession and check if it has permissions
-        // TODO modify the userHasPostCommentPermission
-        _post = post;
+        this.post = post;
 
-        Button reactButton, commentButton, shareButton, awardButton;
+        Button? reactButton;
+        Button? commentButton;
+        Button? shareButton;
+        Button? awardButton;
 
-        var reactions = new List<string> { "Like", "Dislike" };
-
-        _reactionsPicker = new Picker
+        List<string> options = ["Like", "Dislike"];
+        reactionsPicker = new Picker
         {
             Title = "React",
             MinimumWidthRequest = 100,
-            ItemsSource = reactions
+            ItemsSource = options
         };
-        _reactionsPicker.SelectedIndexChanged += OnReactionsPicker_SelectedIndexChanged;
+        reactionsPicker.SelectedIndexChanged += OnReactionsPicker_SelectedIndexChanged;
 
-        var awards = new List<string> { "Bronze", "Silver", "Gold" };
+        List<string> awards = ["Bronze", "Silver", "Gold"];
 
-        _awardsPicker = new Picker
+        awardsPicker = new Picker
         {
             Title = "Award",
             ItemsSource = awards
         };
-        _awardsPicker.SelectedIndexChanged += OnAwardsPicker_SelectedIndexChanged;
+        awardsPicker.SelectedIndexChanged += OnAwardsPicker_SelectedIndexChanged;
 
         FlexLayout buttonsLayout = new()
         {
             JustifyContent = Microsoft.Maui.Layouts.FlexJustify.SpaceBetween,
-
         };
 
-        if (PostDisplay.UserHasReactPermission(post))
+        if (CurrentUserHasPermission(Permission.React))
         {
             reactButton = new Button
             {
                 Text = "React"
             };
-
-            reactButton.Command = new Command(() =>
+            reactButton.Clicked += (s, e) =>
             {
-                reactButton.Text = "Reacted";
-            });
-
-            if (reactButton != null)
-            {
-                buttonsLayout.Children.Add(reactButton);
-            }
-
+                reactButton.Text = (reactButton.Text == "React") ? "Remove reaction" : "React";
+            };
             buttonsLayout.Children.Add(reactButton);
         }
 
-        if (PostDisplay.UserHasPostCommentPermission(post))
+        if (CurrentUserHasPermission(Permission.PostComment))
         {
             commentButton = new Button
             {
-                Text = "Comment",
-                Command = new Command(() =>
-                {
-                    Navigation.PushAsync(new CommentsFeedView(_post.Id));
-                })
+                Text = "Comment"
             };
 
+            commentButton.Clicked += (s, e) =>
+            {
+                Navigation.PushAsync(new CommentsFeedView(this.post.Id));
+            };
             buttonsLayout.Children.Add(commentButton);
         }
 
@@ -86,40 +77,46 @@ public class PostDisplay : ContentView
             Text = "Share"
         };
 
-        shareButton.Command = new Command(() =>
+        shareButton.Clicked += (s, e) =>
         {
-            shareButton.Text = "Shared";
-        });
+            shareButton.Text = (shareButton.Text == "Shared") ? "Remove share" : "Shared";
+        };
 
-        if (shareButton != null)
-        {
-            buttonsLayout.Children.Add(shareButton);
-        }
+        buttonsLayout.Children.Add(shareButton);
 
         awardButton = new Button
         {
             Text = "Award",
         };
 
-        awardButton.Command = new Command(() =>
+        awardButton.Clicked += (s, e) =>
         {
-            awardButton.Text = "Awarded";
-        });
+            awardButton.Text = (awardButton.Text == "Awarded") ? "Remove award" : "Awarded";
+        };
 
-        if (awardButton != null)
-        {
-            buttonsLayout.Children.Add(awardButton);
-        }
+        buttonsLayout.Children.Add(awardButton);
 
         StackLayout mainLayout = new()
         {
             Padding = 25,
-            Margin = new Thickness(25, 25, 25, 25),
+            Margin = 25,
 
             Children =
             {
                 new Border
                 {
+                    HorizontalOptions = LayoutOptions.Start,
+                    MinimumWidthRequest = 250,
+
+                    Padding = 25,
+                    Margin = new Thickness(0, 0, 0, 50),
+
+                    Stroke = Color.FromArgb("#0060ff"),
+                    StrokeThickness = 5,
+                    StrokeShape = new RoundRectangle
+                    {
+                        CornerRadius = new CornerRadius(15, 15, 15, 15)
+                    },
                     Content = new Label
                     {
                             HorizontalOptions = LayoutOptions.Center,
@@ -131,117 +128,91 @@ public class PostDisplay : ContentView
 
                             FontSize = 25,
                             FontAttributes = FontAttributes.Bold
-                        },
+                    }
+                },
+                new Border
+                {
+                    HorizontalOptions = LayoutOptions.Fill,
 
+                    Padding = 25,
+                    Margin = new Thickness(0, 0, 0, 50),
+
+					// Border Options
+					Stroke = Color.FromArgb("#0060ff"),
+                    StrokeThickness = 5,
+                    StrokeShape = new RoundRectangle
+                    {
+                        CornerRadius = new CornerRadius(15, 15, 15, 15)
+                    },
+                    Content = new Label
+                    {
                         HorizontalOptions = LayoutOptions.Start,
-                        MinimumWidthRequest = 250,
+                        VerticalOptions = LayoutOptions.Start,
+                        VerticalTextAlignment = TextAlignment.Start,
+                        HorizontalTextAlignment = TextAlignment.Start,
+                        Text = post.Content,
+                        TextColor = Colors.White,
 
-                        Padding = 25,
-                        Margin = new Thickness(0, 0, 0, 50),
-
-						// Border Options
-						Stroke = Color.FromArgb("#1e2124"),
-                        StrokeThickness = 5,
-                        StrokeShape = new RoundRectangle
-                        {
-                            CornerRadius = new CornerRadius(15, 15, 15, 15)
-                        }
-                    },
-
-                new Border {
-
-                        Content = new Label
-                        {
-                            HorizontalOptions = LayoutOptions.Start,
-                            VerticalOptions = LayoutOptions.Start,
-                            VerticalTextAlignment = TextAlignment.Start,
-                            HorizontalTextAlignment = TextAlignment.Start,
-
-                            Text = post.Content,
-                            TextColor = Colors.White,
-
-                            FontSize = 25,
-                            FontAttributes = FontAttributes.Bold
-                        },
-
-                        HorizontalOptions = LayoutOptions.Fill,
-
-                        Padding = 25,
-                        Margin = new Thickness(0, 0, 0, 50),
-
-						// Border Options
-						Stroke = Color.FromArgb("#1e2124"),
-                        StrokeThickness = 5,
-                        StrokeShape = new RoundRectangle
-                        {
-                            CornerRadius = new CornerRadius(15, 15, 15, 15)
-                        }
-                    },
-
+                        FontSize = 25,
+                        FontAttributes = FontAttributes.Bold
+                    }
+                },
                 buttonsLayout
             }
         };
 
         Border border = new()
         {
-            Content = mainLayout,
-
-            BackgroundColor = Color.FromArgb("#36393e"),
+            BackgroundColor = Color.FromArgb("#0060ff"),
             Margin = new Thickness(50, 50, 50, 50),
 
             // Border Options
-            Stroke = Color.FromArgb("#1e2124"),
+            Stroke = Color.FromArgb("#0060ff"),
             StrokeThickness = 5,
             StrokeShape = new RoundRectangle
             {
                 CornerRadius = new CornerRadius(15, 15, 15, 15)
-            }
+            },
+            Content = mainLayout
         };
+        Content = new VerticalStackLayout();
+        ((VerticalStackLayout)Content).Children.Add(border);
 
-        Content = border;
     }
 
-    private static bool UserHasReactPermission(IPost post)
+    private static bool CurrentUserHasPermission(Permission permission)
     {
-        if (post == null)
+        User? currentUserMaybe = ApplicationState.Get().CurrentSession.User;
+        if (currentUserMaybe == null)
+        {
             return false;
-
-        Guid currentUserID = CurrentSession.GetInstance().User?.Id
-            ?? throw new Exception("Current user is null"); ;
-        GroupUser currentUser = ApplicationState.Get().GroupUsers.GetByUserIdAndGroupId(currentUserID, post.Author.GroupId)
-                        ?? throw new Exception("Current user is null");
-
-        Role role = ApplicationState.Get().Roles.Get(currentUser.RoleId)
-            ?? throw new Exception("Role of current user is null");
-
-        if (role == null)
+        }
+        User currentUser = currentUserMaybe;
+        Group? currentGroupMaybe = ApplicationState.Get().CurrentSession.Group;
+        if (currentGroupMaybe == null)
+        {
             return false;
-
-        return role.Permissions.Contains(Permission.React);
+        }
+        Group currentGroup = currentGroupMaybe;
+        GroupUser? currentGroupUserMaybe = ApplicationState.Get().GroupUsers.GetAll().Where(gu => gu.GroupId == currentGroup.Id && gu.UserId == currentUser.Id).First();
+        if (currentGroupUserMaybe == null)
+        {
+            return false;
+        }
+        GroupUser currentGroupUser = currentGroupUserMaybe;
+        Role? roleMaybe = ApplicationState.Get().Roles.GetAll().Where(r => r.Id == currentGroupUser.RoleId).First();
+        if (roleMaybe == null)
+        {
+            return false;
+        }
+        Role role = roleMaybe;
+        return role.Permissions.Contains(permission);
     }
 
-    private static bool UserHasPostCommentPermission(IPost post)
-    {
-        if (post == null)
-            return false;
-        Guid currentUserID = CurrentSession.GetInstance().User?.Id
-            ?? throw new Exception("Current user is null"); ;
-        GroupUser currentUser = ApplicationState.Get().GroupUsers.GetByUserIdAndGroupId(currentUserID, post.Author.GroupId)
-                        ?? throw new Exception("Current user is null");
-
-
-        Role role = ApplicationState.Get().Roles.Get(currentUser.RoleId)
-            ?? throw new Exception("Role of current user is null");
-
-        if (role == null)
-            return false;
-
-        return role.Permissions.Contains(Permission.PostComment);
-    }
 
     private void OnReactionsPicker_SelectedIndexChanged(object? sender, EventArgs e)
     {
-        var selectedReaction = _reactionsPicker.SelectedItem.ToString();
+        var selectedReaction = reactionsPicker.SelectedItem.ToString();
 
         switch (selectedReaction)
         {
@@ -262,7 +233,7 @@ public class PostDisplay : ContentView
 
     private void OnAwardsPicker_SelectedIndexChanged(object? sender, EventArgs e)
     {
-        var selectedAward = _awardsPicker.SelectedItem.ToString();
+        var selectedAward = awardsPicker.SelectedItem.ToString();
 
         switch (selectedAward)
         {
