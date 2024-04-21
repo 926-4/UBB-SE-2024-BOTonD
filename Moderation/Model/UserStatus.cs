@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Moderation.Model;
 
 namespace Moderation.Entities
 {
-    public enum UserRestriction
-    {
-        None,
-        Muted,
-        Banned
-    }
 
     public class UserStatus(UserRestriction restriction, DateTime restrictionDate, string message = "")
     {

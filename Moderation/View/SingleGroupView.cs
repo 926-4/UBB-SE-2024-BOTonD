@@ -4,6 +4,7 @@ using Moderation.Entities;
 using Moderation.GroupEntryForm;
 using Moderation.GroupFeed;
 using Moderation.Model;
+using Moderation.Repository;
 using Moderation.Serivce;
 
 namespace Moderation.View;
@@ -14,7 +15,7 @@ public class SingleGroupView : ContentView
     {
         if (user == null)
             return;
-        var userIsInGroup = group.Creator.Id == user.Id;// todo change
+        var userIsInGroup = group.Creator.Id == user.Id; 
         var label = new Label
         {
             Margin = 5,
@@ -24,7 +25,7 @@ public class SingleGroupView : ContentView
             VerticalOptions = LayoutOptions.Center,
             Text = group.Name
         };
-        var button = new Button
+        var viewOrJoinButton = new Button
         {
             Margin = 5,
             Padding = 5,
@@ -32,12 +33,15 @@ public class SingleGroupView : ContentView
             VerticalOptions = LayoutOptions.Center,
             Text = userIsInGroup ? "View" : "Join",
         };
-        button.Clicked += (s, e) =>
+        viewOrJoinButton.Clicked += (s, e) =>
         {
             if (userIsInGroup)
             {
                 CurrentSession.GetInstance().LookIntoGroup(group);
-                Navigation.PushAsync(new GroupFeedView(TextPostEndpoints.ReadAllTextPosts().Where(post => post.Author.GroupId == group.Id)));
+                TextPostRepository repo = ApplicationState.Get().TextPosts;
+                List<Entities.Post.TextPost> posts = repo.GetAll().Where(post => post.Author.GroupId == group.Id).ToList();
+                GroupFeedView nextPage = new(posts);
+                Navigation.PushAsync(nextPage);
             }
             else
             {
@@ -84,7 +88,7 @@ public class SingleGroupView : ContentView
                 HorizontalOptions = LayoutOptions.Fill,
                 Children = {
                 label,
-                button,
+                viewOrJoinButton,
                 reportButton,
                 joinRequestButton
             }
@@ -99,7 +103,7 @@ public class SingleGroupView : ContentView
                 HorizontalOptions = LayoutOptions.Fill,
                 Children = {
                 label,
-                button,
+                viewOrJoinButton,
             }
             };
         }

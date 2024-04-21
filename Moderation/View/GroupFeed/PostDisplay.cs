@@ -3,7 +3,7 @@ using Moderation.CurrentSessionNamespace;
 using Moderation.Entities;
 using Moderation.Entities.Post;
 using Moderation.GroupFeed;
-using Moderation.Repository;
+using Moderation.Model;
 using Moderation.Serivce;
 
 namespace Moderation.View.GroupFeed;
@@ -47,7 +47,7 @@ public class PostDisplay : ContentView
 
         };
 
-        if (userHasReactPermission(post))
+        if (PostDisplay.UserHasReactPermission(post))
         {
             reactButton = new Button
             {
@@ -67,7 +67,7 @@ public class PostDisplay : ContentView
             buttonsLayout.Children.Add(reactButton);
         }
 
-        if (userHasPostCommentPermission(post))
+        if (PostDisplay.UserHasPostCommentPermission(post))
         {
             commentButton = new Button
             {
@@ -201,14 +201,18 @@ public class PostDisplay : ContentView
         Content = border;
     }
 
-    private bool userHasReactPermission(IPost post)
+    private static bool UserHasReactPermission(IPost post)
     {
         if (post == null)
             return false;
 
-        GroupUser? currentUser = ApplicationState.Get().GroupUsers.GetByUserIdAndGroupId(CurrentSession.GetInstance().User.Id, post.Author.GroupId);
+        Guid currentUserID = CurrentSession.GetInstance().User?.Id
+            ?? throw new Exception("Current user is null"); ;
+        GroupUser currentUser = ApplicationState.Get().GroupUsers.GetByUserIdAndGroupId(currentUserID, post.Author.GroupId)
+                        ?? throw new Exception("Current user is null");
 
-        Role? role = ApplicationState.Get().Roles.Get(currentUser.RoleId);
+        Role role = ApplicationState.Get().Roles.Get(currentUser.RoleId)
+            ?? throw new Exception("Role of current user is null");
 
         if (role == null)
             return false;
@@ -216,14 +220,18 @@ public class PostDisplay : ContentView
         return role.Permissions.Contains(Permission.React);
     }
 
-    private bool userHasPostCommentPermission(IPost post)
+    private static bool UserHasPostCommentPermission(IPost post)
     {
         if (post == null)
             return false;
+        Guid currentUserID = CurrentSession.GetInstance().User?.Id
+            ?? throw new Exception("Current user is null"); ;
+        GroupUser currentUser = ApplicationState.Get().GroupUsers.GetByUserIdAndGroupId(currentUserID, post.Author.GroupId)
+                        ?? throw new Exception("Current user is null");
 
-        GroupUser? currentUser = ApplicationState.Get().GroupUsers.GetByUserIdAndGroupId(CurrentSession.GetInstance().User.Id, post.Author.GroupId);
 
-        Role? role = ApplicationState.Get().Roles.Get(currentUser.RoleId);
+        Role role = ApplicationState.Get().Roles.Get(currentUser.RoleId)
+            ?? throw new Exception("Role of current user is null");
 
         if (role == null)
             return false;
