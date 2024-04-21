@@ -1,5 +1,5 @@
 ﻿using Moderation.DbEndpoints;
-using Moderation.Entities.Post;
+using Moderation.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,7 +1,7 @@
 using Microsoft.Maui.Controls.Shapes;
 using Moderation.Entities;
-using Moderation.Entities.Post;
 using Moderation.GroupFeed;
+using Moderation.Model;
 using Moderation.Repository;
 using Moderation.Serivce;
 
@@ -198,7 +198,7 @@ public class PostDisplay : ContentView
         if (post == null)
             return false;
 
-        Role? role = ApplicationState.Get().Roles.Get(post.Author.RoleId);
+        RoleAndPermission? role = ApplicationState.Get().Roles.Get(post.Author.RoleId);
 
         if (role == null)
             return false;

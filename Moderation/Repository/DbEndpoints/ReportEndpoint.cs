@@ -1,5 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
-using Moderation.Entities.Report;
+using Moderation.Model;
 using Moderation.Serivce;
 using System.Configuration;
 

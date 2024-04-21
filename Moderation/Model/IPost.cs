@@ -1,4 +1,6 @@
-﻿namespace Moderation.Entities.Post
+﻿using Moderation.Entities;
+
+namespace Moderation.Model
 {
     public interface IPost : IHasID
     {

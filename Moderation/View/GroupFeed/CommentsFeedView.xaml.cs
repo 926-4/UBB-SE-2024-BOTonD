@@ -1,6 +1,5 @@
 using Moderation.CurrentSessionNamespace;
 using Moderation.Entities;
-using Moderation.Entities.Post;
 using Moderation.Model;
 
 namespace Moderation.GroupFeed;

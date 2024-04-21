@@ -1,4 +1,6 @@
-﻿namespace Moderation.Entities.Report
+﻿using Moderation.Entities;
+
+namespace Moderation.Model
 {
     public class PostReport : IHasID
     {

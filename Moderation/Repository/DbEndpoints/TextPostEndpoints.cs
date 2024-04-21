@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using Moderation.Entities;
-using Moderation.Entities.Post;
+using Moderation.Model;
 using Moderation.Serivce;
 using System.Configuration;
 

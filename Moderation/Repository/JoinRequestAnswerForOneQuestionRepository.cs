@@ -38,7 +38,7 @@ namespace Moderation.Repository
         {
             throw new Exception("Remove needs more than just the id");
         }
-        public bool Remove(JoinRequestAnswerToOneQuestion question)
+        public static bool Remove(JoinRequestAnswerToOneQuestion question)
         {
             JoinRequestAnswerForOneQuestionEndpoints.DeleteQuestion(question);
             return true;

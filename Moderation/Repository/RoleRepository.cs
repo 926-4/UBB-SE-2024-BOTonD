@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Moderation.Repository
 {
-    internal class RoleRepository: Repository<Role>
+    internal class RoleRepository: Repository<RoleAndPermission>
     {
-        public RoleRepository(Dictionary<Guid, Role> data) : base(data) { }
+        public RoleRepository(Dictionary<Guid, RoleAndPermission> data) : base(data) { }
 
         public RoleRepository() : base() { }
 
-        public override bool Add(Guid key, Role role)
+        public override bool Add(Guid key, RoleAndPermission role)
         {
             RoleEndpoints.CreateRole(role);
             return true;
@@ -26,12 +26,12 @@ namespace Moderation.Repository
             return true;
         }
 
-        public override Role? Get(Guid key)
+        public override RoleAndPermission? Get(Guid key)
         {
             return RoleEndpoints.ReadRole().Find((role) => role.Id == key);
         }
 
-        public override IEnumerable<Role> GetAll()
+        public override IEnumerable<RoleAndPermission> GetAll()
         {
             return RoleEndpoints.ReadRole();
         }
@@ -41,7 +41,7 @@ namespace Moderation.Repository
             return RoleEndpoints.ReadRole().Exists((role) => role.Id == key);
         }
 
-        public override bool Update(Guid key, Role value)
+        public override bool Update(Guid key, RoleAndPermission value)
         {
             RoleEndpoints.UpdateRoleName(key, value.Name);
             RoleEndpoints.UpdateRolePermissions(key, value.Permissions);

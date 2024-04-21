@@ -1,4 +1,4 @@
-using Moderation.Entities.Report;
+using Moderation.Model;
 
 namespace Moderation.ReportListView;
 

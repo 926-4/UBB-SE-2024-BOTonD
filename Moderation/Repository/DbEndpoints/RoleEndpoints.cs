@@ -8,30 +8,30 @@ namespace Moderation.DbEndpoints
     public class RoleEndpoints
     {
         private static readonly string connectionString = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        private static readonly Dictionary<Guid, Role> hardcodedRoles = new()
+        private static readonly Dictionary<Guid, RoleAndPermission> hardcodedRoles = new()
         {
             {
                 Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177"),
-                new Role(
+                new RoleAndPermission(
                     Guid.Parse("00E25F4D-6C60-456B-92CF-D37751176177"),
                     "Creator",
                     Enum.GetValues(typeof(Permission)).Cast<Permission>().ToList())
             },{
                 Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3"),
-                new Role(
+                new RoleAndPermission(
                     Guid.Parse("5B4432BD-7A3C-463C-8A4B-34E4BF452AC3"),
                     "Member",
                    [Permission.CreatePost, Permission.ReportPost, Permission.EditOwnPost, Permission.React, Permission.CreateEvent, Permission.EditOwnComment,
                     Permission.InviteFriends, Permission.RemoveOwnComment, Permission.RemoveOwnPost, Permission.RemoveOwnReaction, Permission.UpdateOwnReaction])
             },{
                 Guid.Parse("5DEEE3BF-C6A2-4FD2-8E8E-BCA475F4BD44"),
-                new Role(
+                new RoleAndPermission(
                     Guid.Parse("5DEEE3BF-C6A2-4FD2-8E8E-BCA475F4BD44"),
                     "Pending Approval",
                    [])
             }
         };
-        public static void CreateRole(Role role)
+        public static void CreateRole(RoleAndPermission role)
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
@@ -67,7 +67,7 @@ namespace Moderation.DbEndpoints
                 command.ExecuteNonQuery();
             }
         }
-        public static List<Role> ReadRole()
+        public static List<RoleAndPermission> ReadRole()
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
@@ -84,14 +84,14 @@ namespace Moderation.DbEndpoints
                 ApplicationState.Get().DbConnectionIsAvailable = false;
                 return [.. hardcodedRoles.Values];
             }
-            List<Role> roles = [];
+            List<RoleAndPermission> roles = [];
             connection.Open();
             string sql = "SELECT RoleId, Name FROM UserRole";
             using SqlCommand command = new(sql, connection);
             using SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                Role role = new(
+                RoleAndPermission role = new(
                     reader.GetGuid(0),
                     reader.GetString(1)
                 );
@@ -119,7 +119,7 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                if (!hardcodedRoles.TryGetValue(roleId, out RoleAndPermission? toUpdate))
                     return;
                 toUpdate.Name = newName;
                 return;
@@ -133,7 +133,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                if (!hardcodedRoles.TryGetValue(roleId, out RoleAndPermission? toUpdate))
                     return;
                 toUpdate.Name = newName;
                 return;
@@ -152,7 +152,7 @@ namespace Moderation.DbEndpoints
         {
             if (!ApplicationState.Get().DbConnectionIsAvailable)
             {
-                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                if (!hardcodedRoles.TryGetValue(roleId, out RoleAndPermission? toUpdate))
                     return;
                 toUpdate.Permissions = newPermissions;
                 return;
@@ -166,7 +166,7 @@ namespace Moderation.DbEndpoints
             {
                 Console.WriteLine(azureTrialExpired.Message);
                 ApplicationState.Get().DbConnectionIsAvailable = false;
-                if (!hardcodedRoles.TryGetValue(roleId, out Role? toUpdate))
+                if (!hardcodedRoles.TryGetValue(roleId, out RoleAndPermission? toUpdate))
                     return;
                 toUpdate.Permissions = newPermissions;
                 return;
