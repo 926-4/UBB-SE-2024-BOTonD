@@ -1,4 +1,5 @@
 using Microsoft.Maui.Controls.Shapes;
+using Moderation.CurrentSessionNamespace;
 using Moderation.Entities;
 using Moderation.Entities.Post;
 using Moderation.GroupFeed;
@@ -15,6 +16,8 @@ public class PostDisplay : ContentView
 
     public PostDisplay(IPost post)
     {
+        // TODO get the User from the CurrentSession and check if it has permissions
+        // TODO modify the userHasPostCommentPermission
         _post = post;
 
         Button reactButton, commentButton, shareButton, awardButton;
@@ -198,7 +201,9 @@ public class PostDisplay : ContentView
         if (post == null)
             return false;
 
-        Role? role = ApplicationState.Get().Roles.Get(post.Author.RoleId);
+        GroupUser? currentUser = ApplicationState.Get().GroupUsers.GetByUserIdAndGroupId(CurrentSession.GetInstance().User.Id, post.Author.GroupId);
+
+        Role? role = ApplicationState.Get().Roles.Get(currentUser.RoleId);
 
         if (role == null)
             return false;
